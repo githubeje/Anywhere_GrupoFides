@@ -1,0 +1,70 @@
+<!DOCTYPE html> 
+<html lang="es">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="iso-8859-1"/>
+		<title>Anywhere Mobile Solutions</title>
+		<link rel="stylesheet" type="text/css" href="jquery-mobile/jquery.mobile-1.2.1.min.css"/>
+        <link rel="stylesheet" type="text/css" href="jquery-mobile/jquery.mobile.simpledialog.min.css"/>
+		<link rel="stylesheet" type="text/css" href="jquery-mobile/jquery.mobile.datebox-1.0.1.min.css">
+		<link rel="stylesheet" type="text/css" href="jquery-mobile/app.css">
+		
+		
+		<script type="text/javascript" src="jquery-mobile/jquery-1.8.3.min.js"></script>
+		<script type="text/javascript" src="jquery-mobile/jquery.mobile-1.2.1.min.js"></script>
+		<script type="text/javascript" src="jquery-mobile/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="jquery-mobile/jquery.cookie.js"></script>
+        <script type="text/javascript" src="jquery-mobile/jquery.mobile.simpledialog2.min.js"></script>
+	
+		<script type="text/javascript" src="jquery-mobile/jquery.Rut.js" ></script>
+		<script type="text/javascript" src="jquery-mobile/moment.min.js"></script>
+		<script type="text/javascript" src="jquery-mobile/jquery.chained.js"></script>
+		<script type="text/javascript" src="jquery-mobile/jquery.mobile.datebox-1.0.1.min.js"></script>		
+		<script type="text/javascript" src="jquery-mobile/messages_es.js"></script>	
+
+		<script type="text/javascript" src="js/notificaciones.js"></script>				
+		<script type="text/javascript" src="js/globalcontext.js"></script>
+		<script type="text/javascript" src="js/serverCaller.js"></script>
+		<script type="text/javascript" src="js/generales.js"></script>
+		<script type="text/javascript" src="js/initCache.js"></script>
+		<script type="text/javascript" src="js/initCachePlus.js"></script>
+		<script type="text/javascript" src="js/login.js"></script>
+		<script type="text/javascript" src="js/camera.js"></script>
+		<script src="phonegap.js"></script>
+		<script type="text/javascript" src="js/serverSQL.js"></script>
+		<script type="text/javascript">
+		
+			function print() {
+				var map = new MapSQL();
+				map.clear(function (value) {
+					console.log("HA TERMINADO EL CLEAR");
+				});
+			}
+			
+			function addValues() {
+				var map = new MapSQL();
+				map.add("HOLA", Math.random());
+			}
+			
+			function borra() {
+				var serverSQL = new ServerSQL();	
+				serverSQL.borra("DEMO");
+			}
+			
+		</script>
+	</head> 
+	<body>
+	   
+	
+		<div data-role="page" id="login">
+			Prueba<br/>
+			
+			
+			<input  type="button" value="Delete all" onclick="borra();" />
+			<input  type="button" value="add 1 Rnd value" onclick="addValues();" />
+			<input  type="button" value="console.log" onclick="print();" />
+		</div>
+	
+		
+	</body>
+</html>

@@ -1,0 +1,77 @@
+/* CSS Document redefine label de error */
+label.error { 
+	float:inherit; 
+	color: red; 
+	padding-top: .5em; 
+	vertical-align: top; 
+	font-weight:bold
+}
+
+.center {
+	margin:auto;
+	width:70%;
+}
+
+#divparam {
+	margin:0% 0% 0% 0%;
+	border:2px solid #a1a1a1;
+	background:#eeeeee;
+	padding:5px 5px;
+	border-radius:5px;
+	moz-border-radius:5px;
+}
+
+#divparam #barra #be {
+	padding:5px 5px;
+}
+
+#divlogin {
+	margin:3% 2% 5% 2%;
+	border:2px solid #a1a1a1;
+	padding:1px 5px;
+	background:#dddddd;
+	border-radius:10px;-
+	moz-border-radius:10px;
+}
+.inline-form { }
+			
+.inline-form .wrapper {
+	float: left;
+	width: 100%;
+}
+			
+.inline-form .wrapper .content {
+	margin: 0 75px 0 290px;
+}
+			
+.inline-form .left {
+	float: left;
+	width: 92px;
+	margin-left: -100%;
+}
+			
+.inline-form .text {
+  padding-top: 0.7em;
+  padding-bottom: 0.7em;
+  display: block;
+  font-size: 17px;
+}
+			
+.inline-form .right {
+	float: left;
+	width: 75px;
+	margin-left: -75px; 
+}
+			
+.inline-form .footer{
+	clear: left;
+}
+
+.captura {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+	text-align:center;
+}
