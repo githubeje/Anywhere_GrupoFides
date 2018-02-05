@@ -97,7 +97,7 @@
 	<access origin="*"  subdomains="true"/>
     <access uri="*"/>
 		
-	<preference name="phonegap-version" value="cli-6.1.0" />
+	<preference name="phonegap-version" value="cli-7.1.0" />
 	<preference name="orientation"      value="portrait" />
 	<preference name="target-device"    value="universal" />
 	<preference name="fullscreen"       value="true" />
