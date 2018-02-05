@@ -1,0 +1,131 @@
+<!DOCTYPE html> 
+<html lang="es">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>	
+		<meta charset="utf-8"/>
+		<title class="titleTag"></title>
+		<link rel="stylesheet" type="text/css" href="../../jquery-mobile/jquery.mobile-1.2.1.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../../jquery-mobile/jquery.mobile.datebox-1.0.1.min.css">
+        <link rel="stylesheet" type="text/css" href="../../jquery-mobile/jquery.mobile.simpledialog.min.css">
+		<link rel="stylesheet" type="text/css" href="../../jquery-mobile/app.css">        
+		
+	</head> 
+	<body>
+		<div data-role="page" id="quiebrestock_principal">
+		    <script src="../../js/serverSQL.js"></script>
+			<script  src="../js/ObjAnyWhereCCL_CP_ComboOculto.js"></script>
+			<script src="js/A-002-CACHED.js"></script>
+        		
+        
+			<div data-role="header" data-theme="e">
+				<a href="../menu.html"	data-transition="flip" data-direction="reverse" data-icon="back" data-iconpos="notext">Atrás</a>
+				<h1 title="Ipos - Procesos - Facing" class="titleTag"></h1>
+				<a href="../menu.html"  data-transition="flip" data-direction="reverse" data-icon="home" data-iconpos="notext">Home</a>
+			</div>	
+			<div data-role="content" data-theme="c">
+				<form method="post" id="formSend">
+					<div data-role="fieldcontain" id="combos">
+			        </div>
+					<div data-role="fieldcontain">
+			        	<label for="causa">Tipo</label>
+			         	<select name="tipo" id="tipo"  class="required">
+							<option value="Competencia - Lanzamientos" >Competencia - Lanzamientos</option>
+							<option value="Competencia - Campañas" >Competencia - Campañas</option>
+							<option value="Competencia - Promotoras" >Competencia - Promotoras</option>
+							<option value="Competencia - Bandeos" >Competencia - Bandeos</option>
+							<option value="Competencia - Promociones" >Competencia - Promociones</option>
+							<option value="Asistencia - Ingreso" >Asistencia - Ingreso</option>
+							<option value="Asistencia - Salida" >Asistencia - Salida</option>
+							<option value="Exhibicion Adicional" >Exhibicion Adicional</option>
+		            	
+						</select>
+					</div>					
+					<div class="ui-field-contain ui-body ui-br">
+						 <label for="name">Comentario:</label>
+						 <textarea rows="2" cols="2" style="resize:none;" id="comentario" maxlength="300"></textarea>
+					</div>
+			
+			
+					<div data-role="fieldcontain">
+								<!-- FOTO 1  -->
+								<div data-role="navbar" id="navBarFotoUno">			
+									<ul>
+										<li>
+											<a href="#"			    onclick="capturePhoto(onPhotoDataSuccess_Uno);" id="botonFotoUno"></a>
+											<input type="text" id="hiddenFotoUno" name="hiddenFotoUno" style="visibility: hidden" />
+										</li>
+										<li><a href="#fotografiaUno" 	data-rel="popup" >Ver foto</a></li>
+										<!--  <li><a href="#mapa"		  	data-rel="popup" >Mapa</a></li> -->
+									</ul>
+									
+									<div data-role="popup" id="fotografiaUno" data-overlay-theme="b" data-theme="b" data-corners="false">
+									 	<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+										<img class="captura" id="fotoUno" />
+									</div>	
+								</div>
+								
+								<!-- FOTO 2  -->
+								<div data-role="navbar" id="navBarFotoDos">			
+									<ul>
+										<li><a href="#"			    onclick="capturePhoto(onPhotoDataSuccess_Dos);" id="botonFotoDos"></a>
+											<input type="text" id="hiddenFotoDos" name="hiddenFotoDos" style="visibility: hidden" />
+											</li>
+										<li><a href="#fotografiaDos" 	data-rel="popup" >Ver foto</a></li>
+										<!--  <li><a href="#mapa"		  	data-rel="popup" >Mapa</a></li> -->
+									</ul>
+									
+									<div data-role="popup" id="fotografiaDos" data-overlay-theme="b" data-theme="b" data-corners="false">
+									 	<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+										<img class="captura" id="fotoDos" />
+									</div>	
+								</div>
+								
+								<!-- FOTO 3 -->
+								<div data-role="navbar"  id="navBarFotoTres">					
+									<ul>
+										<li><a href="#"			    onclick="capturePhoto(onPhotoDataSuccess_Tres);" id="botonFotoTres"></a>
+											<input type="text" id="hiddenFotoTres" name="hiddenFotoTres" style="visibility: hidden" />
+											</li>
+										<li><a href="#fotografiaTres" 	data-rel="popup" >Ver foto</a></li>
+									</ul>
+									
+									<div data-role="popup" id="fotografiaTres" data-overlay-theme="b" data-theme="b" data-corners="false">
+									 	<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+										<img class="captura" id="fotoTres" />
+									</div>	
+								</div>
+								
+								
+								<!-- FOTO 4 -->
+								<div data-role="navbar" id="navBarFotoCuatro" >					
+									<ul>
+										<li><a href="#"			    onclick="capturePhoto(onPhotoDataSuccess_Cuatro);" id="botonFotoCuatro"></a>
+											<input type="text" id="hiddenFotoCuatro" name="hiddenFotoCuatro" style="visibility: hidden" />
+											</li>
+										<li><a href="#fotografiaCuatro" 	data-rel="popup" >Ver foto</a></li>
+									</ul>
+									
+									<div data-role="popup" id="fotografiaCuatro" data-overlay-theme="b" data-theme="b" data-corners="false">
+									 	<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+										<img class="captura" id="fotoCuatro" />
+									</div>	
+								</div>
+					</div>
+				</form>
+			</div>
+			
+			<div data-role="fieldcontain" id="espaciofinal"><br><br><br><br><br></div>
+			
+			<div data-role="footer" data-position="fixed" data-theme="e">
+				<div data-role="navbar">			
+					<ul>
+						<li><a href="javascript:;saveQuiebre();" id="save" data-icon="save" data-iconpos="notext" >Grabar</a></li>
+					</ul>
+				</div>			
+			</div>
+		</div>		
+    
+	</body>
+</html>
+
+

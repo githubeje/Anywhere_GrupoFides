@@ -1,0 +1,112 @@
+<!DOCTYPE html> 
+<html lang="es">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>	
+		<meta charset="utf-8"/>
+		<title>InOut</title>
+		
+		<link rel="stylesheet" type="text/css" href="../../jquery-mobile/jquery.mobile-1.2.1.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../../jquery-mobile/jquery.mobile.datebox-1.0.1.min.css">
+        <link rel="stylesheet" type="text/css" href="../../jquery-mobile/jquery.mobile.simpledialog.min.css">
+		<link rel="stylesheet" type="text/css" href="../../jquery-mobile/app.css"/>
+		
+	</head>
+	<body>
+	  <div data-role="page" id="principal">
+	    <script  src="../../js/ObjAnyWhereCCL_CP_ComboOculto.js" ></script>
+	    <script src="js/control_presencia.js"></script>
+	    
+	    <div data-role="header" data-theme="e">
+		  <h1 title="Ipos - Procesos - Cierre">InOut - Procesos</h1>
+		    <a href="../../menu.html" rel="external" data-icon="back" data-iconpos="notext">Atr&aacute;s</a>
+			<a href="../../menu.html" rel="external" data-icon="home" data-iconpos="notext">Home</a>
+		</div>
+		<div data-role="content" data-theme="c">
+		  <form method="post" id="formulario">
+		    <ul data-role="listview">
+		      <!-- 
+			  <li><a href="#" id="in"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Registro Ingreso</a></li>
+			  <li><a href="#" id="out"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Registro Salida</a></li>
+			  -->
+			  <!-- <li><a href="#" id="in"  onclick="clickIn();" class="ui-disabled"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Registro Ingreso <b id="regHoraIncio"></b></a></li> -->
+			  <li><a href="#" id="out" onclick="clickOut();" class="ui-disabled"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Tomar imagen de salida</a></li>
+			  <!--  <li><a href="#filtro_presencia" id="presencia" class="ui-disabled"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Informe de Presencias</a></li> -->						
+			</ul>
+			<div data-role="fieldcontain" id="combos">
+			</div>
+			<input type="hidden" id="direccion" name="direccion" value=""/>
+		  </form>
+		  <div id="tablaprotocolo2" align="center"></div>
+		</div>
+		
+		<div data-role="popup" id="fotografiaFacing">
+		  <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Cerrar</a>
+		  <img  class="captura" id="captureFacing" alt="Foto Promocion Abierta"/>	
+	    </div>
+		
+	    <div data-role="footer" data-position="fixed" data-theme="e">
+		  <div data-role="navbar">			
+		    <ul><li><a href="#" id="save" data-icon="save" data-iconpos="notext" class="ui-disabled">Registrar</a></li></ul>
+		  </div>
+		</div>
+      </div>
+      
+	  <div data-role="page" id="filtro_presencia">
+	    <div data-role="header" data-theme="e">
+		  <a href="#principal" data-icon="back" data-iconpos="notext">Atr&aacute;s</a>
+		  <h1 title="Ipos - Procesos - Control de Presencia - Filtro">InOut - Procesos - Control de Presencia - Filtro</h1>
+		  <a href="../index.html" rel="external" data-icon="home" data-iconpos="notext">Home</a>
+		</div>
+		<div data-role="content" data-theme="c">
+		  <form method="post" id="formulario">
+		    <div data-role="fieldcontain">
+			  <label for="fecha_inicio">Inicio:</label>
+			  <input name="fecha_inicio" id="fecha_inicio" type="date" data-role="datebox"   data-options='{"mode": "calbox"}' class="required ui-disabled" >
+			</div>
+			<div data-role="fieldcontain">
+			  <label for="fecha_termino">Término:</label>
+			  <input name="fecha_termino" id="fecha_termino" type="date" data-role="datebox" data-options='{"mode": "calbox"}' class="required ui-disabled">
+			</div>				
+		  </form>
+		</div>
+		
+		<div data-role="footer" data-position="fixed" data-theme="e" class="ui-disabled"> 
+		  <div data-role="navbar">			
+		    <ul><li class="ui-disabled"><a href="#" id="search" data-icon="search" data-iconpos="notext">Buscar</a></li></ul>
+		  </div>
+		</div>
+	  </div>
+	  
+	  <div data-role="page" id="informe">
+	    <div data-role="header" data-theme="e">
+		  <a href="#filtro_presencia" data-icon="back" data-iconpos="notext">Atr&aacute;s</a>
+		  <h1 title="Ipos - Procesos - Control de Presencia - Filtro">InOut - Procesos - Control de Presencia - Informe</h1>
+		  <a href="../index.html" rel="external" data-icon="home" data-iconpos="notext">Home</a>
+		</div>
+	    <div data-role="content" data-theme="c">
+	      <div class="ui-grid-d" ></div>
+	    </div>
+	    <div data-role="footer" data-position="fixed" data-theme="e"></div>
+      </div>
+
+
+<!--       
+	  <div data-role="page" id="fotografia">
+	    <div data-role="header" data-theme="e">
+		  <a href="#principal" rel="external" data-icon="back" data-iconpos="notext">Atr&aacute;s</a>
+		  <h1 title="Ipos - Procesos - Control de Presencia - Fotograf&iacute;a">InOut - Procesos - Control de Presencia - Fotograf&iacute;a</h1>
+		</div>
+		<div data-role="content"  style="text-align:center" data-theme="c">
+		  <div data-role="fieldcontain">
+		    <div class="ui-bar-c ui-corner-all ui-shadow center" style="padding:1em;width:400px;height:300px" >
+			  <img style="position:relative;width:100%;height:96%" id="capturefacing" src="#" alt="foto instantanea"/>						
+			</div>
+		  </div>
+		</div>				
+		<div data-role="footer" data-position="fixed" data-theme="e"><h4>&nbsp;</h4></div>
+	  </div>
+ -->	  
+	  
+	  
+	</body>
+</html>
