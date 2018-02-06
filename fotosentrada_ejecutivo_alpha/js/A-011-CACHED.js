@@ -63,6 +63,14 @@ $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 	console.log("[pageshow] quiebrestock_promocion.js");
 	objAnywhere.loadClients();
+	var geo = new GeoGlobal();
+	geo.refreshGeo(function(lat, lo) {
+		posLatitud = lat;
+		posLongitud = lo;
+
+	}, function(point) {
+		pointAddress = point;
+	});
 	var any = new Anywhere();
 	$.ajax({ 
 		type: "GET",
@@ -184,8 +192,8 @@ function internalSave3() {
 			a100: varFotoDos,
 			a1000: varFotoTres,
 			a10000: varFotoCuatro,
-			a11: "0", 
-			a12: "0", 
+			a11: posLatitud,  
+			a12: posLongitud,
 			a13: "0",
 			desc_val1: $("#tipo").val(),
 			tipoAlerta: 11,
