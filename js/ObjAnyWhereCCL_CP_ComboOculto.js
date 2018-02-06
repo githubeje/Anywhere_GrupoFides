@@ -301,10 +301,11 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 	this.setProductosQuebrados = function(idUsuario) {
 		/*$("#selectProductoQuebrado_1000").append("<option value='2' selected>Prueba 2</option>");
 		$("#selectProductoQuebrado_1000").append("<option value='3' selected>Prueba 3</option>");*/
+		var any = new Anywhere();
 		$.ajax({ 
 			type: "GET",
 			dataType:"json",
-			url: "http://www.anywhere.cl/wsprogestionchilebi/services/p2s/querys/infoultimavisita/" + idUsuario ,
+			url: any.getWSAnywhere_context() + "services/p2s/querys/infoultimavisita/" + idUsuario ,
 			dataType:"json",
 			crossDomain : true,
 			success: function(data,status,jqXHR) {
@@ -319,7 +320,7 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 				$.ajax({ 
 					type: "GET",
 					dataType:"json",
-					url: "http://www.anywhere.cl/wsprogestionchilebi/services/p2s/querys/productosquebrados/" + idUsuario + "/" + idCorr[0] + "/" + idCliente[0] + "/" + idCadena[0] + "/" + idLocal[0] ,
+					url: any.getWSAnywhere_context() + "services/p2s/querys/productosquebrados/" + idUsuario + "/" + idCorr[0] + "/" + idCliente[0] + "/" + idCadena[0] + "/" + idLocal[0] ,
 					dataType:"json",
 					crossDomain : true,
 					success: function(data,status,jqXHR) {
