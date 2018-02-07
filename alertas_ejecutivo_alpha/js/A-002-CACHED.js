@@ -167,11 +167,6 @@ function internalSave3() {
 	 fecha = moment().format("YYYYMMDD");
 	 hora = moment().format("HHmmss");
 	 
-	 var save = new AnySave();
-	 save.save(nombreModulo, codigoModulo);
-	 
-	
-
 	 anySave.save(vUrl,  { a1: idUsuario,
 			a2: objAnywhere.getCliente(),
 			a3: objAnywhere.getCadena(),
@@ -192,6 +187,28 @@ function internalSave3() {
 			tipoAlerta:2,
 			num_val1:6,
 		},
+		
+	 var saveUtil = new SaveUtils();
+		var params = saveUtil.serializePage("formSend", objAnywhere);
+		params["formulario_id"]    = formularioID;
+		params["formulario_alias"] = nombreModulo;
+		params["latitud"]     = posCapLatitud;
+		params["longitud"]    = posCapLongitud;
+		params["point"]   	  = pointAddress;
+		params["fotoUno"] = $("#hiddenFotoUno").val();
+		params["fotoDos"] = $("#hiddenFotoDos").val();
+		params["fotoTres"] = $("#hiddenFotoTres").val();
+		params["fotoCuatro"] = $("#hiddenFotoCuatro").val();
+		
+		var success = function(data,status,jqXHR) { 
+			if(data != null) {
+				any.setLastData(JSON.stringify(data));
+			}
+		}
+		quiebreSaveInit = false;
+		anySave.saveClaseWeb(true, "anywhere_movil_restanywhere", "AnySave", "add", params, success);
+		
+		
 		function(data,status,jqXHR) {
 			guardaProtocolo();
 			var mensajeSave = "Alerta enviada correctamente";
