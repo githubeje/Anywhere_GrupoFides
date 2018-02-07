@@ -21,6 +21,7 @@ var idCorr = [];
 var idCorrSesion = 0;
 
 var nombreModulo = "Seguimiento de Quiebres";
+var codigoModulo = "PROT-7";
 
 $(".titleTag").each(function() {
 	$(this).html(nombreModulo);
@@ -58,6 +59,14 @@ $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 	console.log("[pageshow] quiebrestock_promocion.js");
 	objAnywhere.loadClients();
+	var geo = new GeoGlobal();
+	geo.refreshGeo(function(lat, lo) {
+		posLatitud = lat;
+		posLongitud = lo;
+
+	}, function(point) {
+		pointAddress = point;
+	});
 	var any = new Anywhere();
 	$.ajax({ 
 		type: "GET",
@@ -106,7 +115,7 @@ function guardaProtocolo() {
 			a6: objAnywhere.getProducto(),
 			num_val1:6,
 		},
-		function(data,status,jqXHR) { 
+		/*function(data,status,jqXHR) { 
 			var mensajeSave = "Registro de seguimiento de quiebre enviado correctamente";
 			if(data != null) {
 				if(data.dataFalsa == "dataFalsa") {
@@ -117,7 +126,9 @@ function guardaProtocolo() {
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
 			    $.mobile.changePage( "index.html", { transition: "flip"} );
 			}});
-		});
+		}
+		*/
+		);
 }
 
 function actualizaEstadoProductoQuebrado() {
@@ -214,8 +225,8 @@ function internalSave3() {
 			a100: varFotoDos,
 			a1000: varFotoTres,
 			a10000: varFotoCuatro,
-			a11: "0", 
-			a12: "0", 
+			a11: posLatitud, 
+			a12: posLongitud, 
 			a13: "0",
 			desc_val1: $("#tipo").val(),
 			tipoAlerta:2,
@@ -224,7 +235,7 @@ function internalSave3() {
 		function(data,status,jqXHR) {
 			guardaProtocolo();
 			actualizaEstadoProductoQuebrado();
-			var mensajeSave = "Alerta enviada correctamente";
+			var mensajeSave = "Seguimiento de quiebre registrado correctamente";
 			if(data != null) {
 				if(data.dataFalsa == "dataFalsa") {
 					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";

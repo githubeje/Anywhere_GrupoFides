@@ -1,10 +1,7 @@
 /**
- * 2015-05-11
- * (A-003) Tipo, Categoría, Comentario, FOTO (máx. 3)
- * VERSIÓN 2
- * 
+ * 2018-01
+ * GM
  * */
-
 
 
 var stockImage = 'Sin Imagen';
@@ -20,6 +17,7 @@ var objAnywhere = null;
 var quiebreSaveInit = false;
 
 var nombreModulo = "Flejes";
+var codigoModulo = "PROT-5";
 
 $(".titleTag").each(function() {
 	$(this).html(nombreModulo);
@@ -143,18 +141,18 @@ function internalSave_ModoSimple() {
 		
 		var saveUtil = new SaveUtils();
 		var params = saveUtil.serializePage("formSend", objAnywhere);
-		params["formulario_id"]    = "A-003";
+		params["formulario_id"]    = codigoModulo;
 		params["formulario_alias"] = nombreModulo;
 		params["latitud"]     = posLatitud;
 		params["longitud"]    = posLongitud;
 		params["point"]   	  = pointAddress;
-		params["fotoUno"] = varFotoUno;
-		params["fotoDos"] = varFotoDos;
-		params["fotoTres"] = varFotoTres;
+		params["fotoUno"]    = varFotoUno;
+		params["fotoDos"]    = varFotoDos;
+		params["fotoTres"]   = varFotoTres;
 		params["fotoCuatro"] = varFotoCuatro;
 		
 		var success = function(data,status,jqXHR) { 
-			var mensajeSave = "Información enviada correctamente";
+			var mensajeSave = "Información de flejes enviada correctamente";
 			if(data != null) {
 				if(data.dataFalsa == "dataFalsa") {
 					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
@@ -169,6 +167,9 @@ function internalSave_ModoSimple() {
 		var anySave = new AnywhereManager();
 		anySave.saveClaseWeb(true, "anywhere_movil_restanywhere", "AnySave", "	", params, success);
 		guardaProtocolo();
+		
+		var save = new AnySave();
+		save.save(nombreModulo, codigoModulo);
 	
  
 }
@@ -191,6 +192,7 @@ function guardaProtocolo() {
 			a6: objAnywhere.getProducto(),
 			num_val1:5,
 		},
+		/*
 		function(data,status,jqXHR) { 
 			var mensajeSave = "Registro de fleje enviado correctamente";
 			if(data != null) {
@@ -202,7 +204,9 @@ function guardaProtocolo() {
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
 			    $.mobile.changePage( "planilla_por_sala.html", { transition: "flip"} );
 			}});
-		});
+		}
+		*/
+		);
 }
 
 

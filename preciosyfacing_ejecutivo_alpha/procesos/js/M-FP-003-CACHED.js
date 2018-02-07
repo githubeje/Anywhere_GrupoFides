@@ -9,6 +9,7 @@ var posLongitud = null;
 var pointAddress = null;
 var shareofShelfSaveInit = false;
 var nombreModulo = "Precios y facing";
+var codigoModulo = "PROT-3";
 
 var idCliente = [];
 var idCadena = [];
@@ -53,6 +54,14 @@ function restartCombosShareOfShelf() {
 $('#shareofshelf_principal').bind( 'pageshow',function(event) {
 	console.log("[pageshow] shareofshelf.js");
 	objAnywhere.loadClients();
+	var geo = new GeoGlobal();
+	geo.refreshGeo(function(lat, lo) {
+		posLatitud = lat;
+		posLongitud = lo;
+
+	}, function(point) {
+		pointAddress = point;
+	});
 	var any = new Anywhere();
 	$.ajax({ 
 		type: "GET",
@@ -103,6 +112,7 @@ function guardaProtocolo() {
 			a6: objAnywhere.getProducto(),
 			num_val1:3,
 		},
+		/*
 		function(data,status,jqXHR) { 
 			var mensajeSave = "Registro de ingreso enviado correctamente";
 			if(data != null) {
@@ -114,7 +124,9 @@ function guardaProtocolo() {
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
 			    $.mobile.changePage( "../../menu.html", { transition: "flip"} );
 			}});
-		});
+		}
+		*/
+		);
 }
 
 function saveShareOfShelf() {
@@ -216,9 +228,11 @@ function saveShareOfShelf() {
 										console.log(cantTotal + " = "+ (cantOk + cantError ) );
 										if(cantTotal == (cantOk + cantError ) ) {
 											guardaProtocolo();
+											var save = new AnySave();
+											save.save(nombreModulo, codigoModulo);
 											var popup = new MasterPopup();
-											popup.alertPopup("Facing & Precios", "Datos guardados correctamente", {"funcYes":  function() {
-											    $.mobile.changePage("index.html", { transition: "flip"} );
+											popup.alertPopup("Facing & Precios", "Datos de precios y facing guardados correctamente", {"funcYes":  function() {
+											    $.mobile.changePage("../menu.html", { transition: "flip"} );
 											
 											}});
 										}

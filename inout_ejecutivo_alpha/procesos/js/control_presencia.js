@@ -1,8 +1,8 @@
 /**
- * Versión 2.0.1
- * Fecha: 2016-04-26
- * Francisco
+ * 2018-01
+ * GM
  * */
+
 
 var evento = "-1";
 var fecha_inicio = [];
@@ -196,13 +196,11 @@ $("#save").live("click",function() {
 				+   "   </tr> "
 				+   "</table> "
 			);
-			/*console.table(data);
-			console.table(val);
-			console.table(NombreTarea);*/
+			/*
 			if (data != null){
 				popup("Mensaje", "Resultados","#lista_protocolo");
-				/*$(location).attr("href","#informe");*/
 			}
+			*/
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 	       alert("error : " + textStatus + "," + errorThrown);
@@ -231,7 +229,7 @@ function guardaProtocolo() {
 			a6: objAnywhere.getProducto(),
 			num_val1:0,
 		},
-		
+		/*
 		function(data,status,jqXHR) { 
 			var mensajeSave = "Registro de ingreso enviado correctamente";
 			if(data != null) {
@@ -244,7 +242,9 @@ function guardaProtocolo() {
 			    $.mobile.changePage( "index.html", { transition: "flip"} );
 			
 			}});
-		});
+		}
+		*/
+		);
 }
 
 $("#filtro_presencia").live("pageshow",function() {

@@ -1,10 +1,7 @@
 /**
- * 2015-05-11
- * (A-002) Tipo, Categoría, Comentario, FOTO (máx. 3)
- * 
- * 
+ * 2018-01
+ * GM
  * */
-
 
 var pointAddress = 'No definido';
 var stockImage = 'Sin Imagen';
@@ -18,6 +15,7 @@ var idCadena = [];
 var idLocal = [];
 
 var nombreModulo = "Alertas";
+var codigoModulo = "PROT-6";
 
 $(".titleTag").each(function() {
 	$(this).html(nombreModulo);
@@ -81,6 +79,14 @@ $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 	       alert("error : " + textStatus + "," + errorThrown);
 	    }
 	});
+	var geo = new GeoGlobal();
+	geo.refreshGeo(function(lat, lo) {
+		posLatitud = lat;
+		posLongitud = lo;
+
+	}, function(point) {
+		pointAddress = point;
+	});
 });
 
 function guardaProtocolo() {
@@ -101,8 +107,9 @@ function guardaProtocolo() {
 			a6: objAnywhere.getProducto(),
 			num_val1:6,
 		},
+		/*
 		function(data,status,jqXHR) { 
-			var mensajeSave = "Registro de fleje enviado correctamente";
+			var mensajeSave = "Registro de alerta enviado correctamente";
 			if(data != null) {
 				if(data.dataFalsa == "dataFalsa") {
 					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
@@ -112,7 +119,9 @@ function guardaProtocolo() {
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
 			    $.mobile.changePage( "../menu.html", { transition: "flip"} );
 			}});
-		});
+		}
+		*/
+		);
 }
 
 function saveQuiebre() {
@@ -158,6 +167,9 @@ function internalSave3() {
 	 fecha = moment().format("YYYYMMDD");
 	 hora = moment().format("HHmmss");
 	 
+	 var save = new AnySave();
+	 save.save(nombreModulo, codigoModulo);
+	 
 	 anySave.save(vUrl,  { a1: idUsuario,
 			a2: objAnywhere.getCliente(),
 			a3: objAnywhere.getCadena(),
@@ -171,8 +183,8 @@ function internalSave3() {
 			a100: varFotoDos,
 			a1000: varFotoTres,
 			a10000: varFotoCuatro,
-			a11: "0", 
-			a12: "0", 
+			a11: posLatitud, 
+			a12: posLongitud, 
 			a13: "0",
 			desc_val1: $("#tipo").val(),
 			tipoAlerta:2,
@@ -181,6 +193,7 @@ function internalSave3() {
 		function(data,status,jqXHR) {
 			guardaProtocolo();
 			var mensajeSave = "Alerta enviada correctamente";
+			
 			if(data != null) {
 				if(data.dataFalsa == "dataFalsa") {
 					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
@@ -188,7 +201,7 @@ function internalSave3() {
 			}
 			var popup = new MasterPopup();
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			    $.mobile.changePage( "index.html", { transition: "flip"} );
+			    $.mobile.changePage( "../menu.html", { transition: "flip"} );
 			}});
 		});
 }

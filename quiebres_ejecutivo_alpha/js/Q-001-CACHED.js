@@ -6,7 +6,11 @@ var idCadena = [];
 var idLocal = [];
 var idCorr = [];
 
+var posLatitud = null;
+var posLongitud = null;
+
 var nombreModulo = "Quiebres";
+var codigoModulo = "PROT-4";
 
 $(".titleTag").each(function() {
 	$(this).html(nombreModulo);
@@ -52,6 +56,14 @@ $('#precio_principal').bind( 'pagebeforecreate',function(event) {
 $('#precio_principal').bind( 'pageshow',function(event) {
 	console.log("[pageshow] precios.js");
 	objAnywhere.loadClients();
+	var geo = new GeoGlobal();
+	geo.refreshGeo(function(lat, lo) {
+		posLatitud = lat;
+		posLongitud = lo;
+
+	}, function(point) {
+		pointAddress = point;
+	});
 	var any = new Anywhere();
 	$.ajax({ 
 		type: "GET",
@@ -103,6 +115,7 @@ function guardaProtocolo() {
 			a6: objAnywhere.getProducto(),
 			num_val1:4,
 		},
+		/*
 		function(data,status,jqXHR) { 
 			var mensajeSave = "Registro de ingreso enviado correctamente";
 			if(data != null) {
@@ -114,7 +127,8 @@ function guardaProtocolo() {
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
 			    $.mobile.changePage( "../menu.html", { transition: "flip"} );
 			}});
-		});
+		}
+		*/);
 }
 
 		function savePrecio() {
@@ -224,10 +238,12 @@ function guardaProtocolo() {
 						
 						if(cantTotal == (cantOk + cantError ) ) {
 							guardaProtocolo();
+							var save = new AnySave();
+							save.save(nombreModulo, codigoModulo);
 							
 							var popup = new MasterPopup();
-							popup.alertPopup(nombreModulo, "Datos guardados correctamente", {"funcYes":  function() {
-							    $.mobile.changePage( "index.html", { transition: "flip"} );
+							popup.alertPopup(nombreModulo, "Datos de estado de quiebre guardados correctamente", {"funcYes":  function() {
+							    $.mobile.changePage( "../menu.html", { transition: "flip"} );
 							}});
 						}
 					});
