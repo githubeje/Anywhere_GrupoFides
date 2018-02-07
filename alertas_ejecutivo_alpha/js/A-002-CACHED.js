@@ -201,18 +201,17 @@ function internalSave3() {
 			    /*$.mobile.changePage("menu.html", { transition: "flip"} );*/
 			}});
 		});
-		
 		var saveUtil = new SaveUtils();
 		var params = saveUtil.serializePage("formSend", objAnywhere);
-		params["formulario_id"]    = formularioID;
+		params["formulario_id"]    = codigoModulo;
 		params["formulario_alias"] = nombreModulo;
 		params["latitud"]     = posLatitud;
 		params["longitud"]    = posLongitud;
 		params["point"]   	  = pointAddress;
-		params["fotoUno"] = $("#hiddenFotoUno").val();
-		params["fotoDos"] = $("#hiddenFotoDos").val();
-		params["fotoTres"] = $("#hiddenFotoTres").val();
-		params["fotoCuatro"] = $("#hiddenFotoCuatro").val();
+		params["fotoUno"] 		= varFotoUno;
+		params["fotoDos"] 		= varFotoDos;
+		params["fotoTres"] 		= varFotoTres;
+		params["fotoCuatro"] 	= varFotoCuatro;
 		
 		var success = function(data,status,jqXHR) { 
 			if(data != null) {
