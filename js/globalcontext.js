@@ -1542,8 +1542,8 @@ function AnySave() {
 
 	var pointAddress = 'No definido';
 	var stockImage = 'Sin Imagen';
-	var posLatitud = 1;
-	var posLongitud = 1;
+	var posLatitud = null;
+	var posLongitud = null;
 	var quiebreSaveInit = false;
 	var nombreModulo = "nn"
 	var formularioID = null;
@@ -1563,15 +1563,6 @@ function AnySave() {
 		nombreModulo = nM;
 		formularioID = fID;
 		
-		var geo = new GeoGlobal();
-		geo.refreshGeo(function(lat, lo) {
-			posLatitud = lat;
-			posLongitud = lo;
-
-		}, function(point) {
-			pointAddress = point;
-		});
-	
 		if(!quiebreSaveInit) {
 			quiebreSaveInit = true;
 			internalSave(fJava);
@@ -1614,6 +1605,16 @@ function AnySave() {
 			quiebreSaveInit = false;
 			return;
 		}
+		
+		
+		var geo = new GeoGlobal();
+		geo.refreshGeo(function(lat, lo) {
+			posLatitud = lat;
+			posLongitud = lo;
+
+		}, function(point) {
+			pointAddress = point;
+		});
 		
 		var saveUtil = new SaveUtils();
 		var params = saveUtil.serializePage("formSend", objAnywhere);
