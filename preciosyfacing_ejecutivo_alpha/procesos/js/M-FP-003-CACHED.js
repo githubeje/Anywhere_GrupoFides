@@ -232,7 +232,7 @@ function saveShareOfShelf() {
 											save.save(nombreModulo, codigoModulo);
 											var popup = new MasterPopup();
 											popup.alertPopup("Facing & Precios", "Datos de precios y facing guardados correctamente", {"funcYes":  function() {
-											    $.mobile.changePage("../menu.html", { transition: "flip"} );
+											    $.mobile.changePage("menu.html", { transition: "flip"} );
 											
 											}});
 										}
