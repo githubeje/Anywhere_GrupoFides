@@ -13,7 +13,7 @@ var idCorr = [];
 
 var posLatitud = null;
 var posLongitud = null;
-
+var pointAddress = null;
 var nombreModulo = "Quiebres";
 var codigoModulo = "PROT-4";
 
@@ -243,12 +243,30 @@ function guardaProtocolo() {
 						
 						if(cantTotal == (cantOk + cantError ) ) {
 							guardaProtocolo();
-							var save = new AnySave();
-							save.save(nombreModulo, codigoModulo);
+							
+							var saveUtil = new SaveUtils();
+							var params = saveUtil.serializePage("formSend", objAnywhere);
+							params["formulario_id"]    	= codigoModulo;
+							params["formulario_alias"] 	= nombreModulo;
+							params["latitud"]     		= posLatitud;
+							params["longitud"]    		= posLongitud;
+							params["point"]   	  		= pointAddress;
+							params["fotoUno"] 			= varFotoUno;
+							params["fotoDos"] 			= varFotoDos;
+							params["fotoTres"] 			= varFotoTres;
+							params["fotoCuatro"] 		= varFotoCuatro;
+							
+							var success = function(data,status,jqXHR) { 
+								if(data != null) {
+									any.setLastData(JSON.stringify(data));
+								}
+							}
+							quiebreSaveInit = false;
+							anySave.saveClaseWeb(true, "anywhere_movil_restanywhere", "AnySave", "add", params, success);
 							
 							var popup = new MasterPopup();
 							popup.alertPopup(nombreModulo, "Datos de estado de quiebre guardados correctamente", {"funcYes":  function() {
-							    /*$.mobile.changePage( "menu.html", { transition: "flip"} );*/
+							    $.mobile.changePage( "../menu.html", { transition: "flip"} );
 							}});
 						}
 					});

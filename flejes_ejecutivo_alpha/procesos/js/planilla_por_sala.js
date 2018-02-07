@@ -164,12 +164,13 @@ function internalSave_ModoSimple() {
 			}});
 		}
 		
+		
+		guardaProtocolo();
 		var anySave = new AnywhereManager();
 		anySave.saveClaseWeb(true, "anywhere_movil_restanywhere", "AnySave", "	", params, success);
-		guardaProtocolo();
+		anySave.saveClaseWeb(true, "anywhere_movil_restanywhere", "AnySave", "add", params, success);
 		
-		var save = new AnySave();
-		save.save(nombreModulo, codigoModulo);
+
 	
  
 }

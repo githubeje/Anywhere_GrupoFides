@@ -189,8 +189,6 @@ function internalSave3() {
 		},
 		function(data,status,jqXHR) {
 			guardaProtocolo();
-			var save = new AnySave();
-			save.save(nombreModulo, codigoModulo);
 			var mensajeSave = "Registro de fotos de salida enviado correctamente";
 			if(data != null) {
 				if(data.dataFalsa == "dataFalsa") {
@@ -199,9 +197,28 @@ function internalSave3() {
 			}
 			var popup = new MasterPopup();
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			    /*$.mobile.changePage( "menu.html", { transition: "flip"} );*/
+			    $.mobile.changePage( "../menu.html", { transition: "flip"} );
 			}});
 		});
+		var saveUtil = new SaveUtils();
+		var params = saveUtil.serializePage("formSend", objAnywhere);
+		params["formulario_id"]    = codigoModulo;
+		params["formulario_alias"] = nombreModulo;
+		params["latitud"]     = posLatitud;
+		params["longitud"]    = posLongitud;
+		params["point"]   	  = pointAddress;
+		params["fotoUno"] 		= varFotoUno;
+		params["fotoDos"] 		= varFotoDos;
+		params["fotoTres"] 		= varFotoTres;
+		params["fotoCuatro"] 	= varFotoCuatro;
+		
+		var success = function(data,status,jqXHR) { 
+			if(data != null) {
+				any.setLastData(JSON.stringify(data));
+			}
+		}
+		quiebreSaveInit = false;
+		anySave.saveClaseWeb(true, "anywhere_movil_restanywhere", "AnySave", "add", params, success);
 }
 
 
