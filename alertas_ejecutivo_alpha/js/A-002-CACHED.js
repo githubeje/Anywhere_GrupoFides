@@ -166,10 +166,17 @@ function internalSave3() {
 	 var idUsuario = sessionStorage.getItem("rutT");
 	 fecha = moment().format("YYYYMMDD");
 	 hora = moment().format("HHmmss");
+<<<<<<< HEAD
 	 
 	 var save = new AnySave();
 	 save.save(nombreModulo, codigoModulo);
 	 
+=======
+		
+	var save = new AnySave();
+	save.save(nombreModulo, "A-003");
+	
+>>>>>>> 6b997369183c9573dc47c2a434b85fd59dd28b49
 	 anySave.save(vUrl,  { a1: idUsuario,
 			a2: objAnywhere.getCliente(),
 			a3: objAnywhere.getCadena(),
