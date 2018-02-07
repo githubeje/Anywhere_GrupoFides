@@ -1,3 +1,8 @@
+/**
+ * 2018-01
+ * GM
+ * */
+ 
 var objAnywhere = null;
 var facingSaveInit = false;
 
@@ -243,7 +248,7 @@ function guardaProtocolo() {
 							
 							var popup = new MasterPopup();
 							popup.alertPopup(nombreModulo, "Datos de estado de quiebre guardados correctamente", {"funcYes":  function() {
-							    $.mobile.changePage( "../menu.html", { transition: "flip"} );
+							    $.mobile.changePage( "menu.html", { transition: "flip"} );
 							}});
 						}
 					});

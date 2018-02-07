@@ -1,8 +1,6 @@
 /**
- * 2015-05-11
- * (A-002) Tipo, Categoría, Comentario, FOTO (máx. 3)
- * 
- * 
+ * 2018-01
+ * GM
  * */
 
 
@@ -243,7 +241,7 @@ function internalSave3() {
 			}
 			var popup = new MasterPopup();
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			    $.mobile.changePage( "../menu.html", { transition: "flip"} );
+			    $.mobile.changePage( "menu.html", { transition: "flip"} );
 			}});
 		});
 }

@@ -1,6 +1,6 @@
 /**
- * (M-FP-003) Selector Categoría, listado de Producto, Facing, precio, existe fleje (SI/NO)
- * 2015-05-11
+ * 2018-01
+ * GM
  * */
 
 var objAnywhere = null;
