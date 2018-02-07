@@ -1542,8 +1542,8 @@ function AnySave() {
 
 	var pointAddress = 'No definido';
 	var stockImage = 'Sin Imagen';
-	var posLatitud = null;
-	var posLongitud = null;
+	var posLatitud = 1;
+	var posLongitud = 1;
 	var quiebreSaveInit = false;
 	var nombreModulo = "nn"
 	var formularioID = null;
@@ -1563,6 +1563,15 @@ function AnySave() {
 		nombreModulo = nM;
 		formularioID = fID;
 		
+		var geo = new GeoGlobal();
+		geo.refreshGeo(function(lat, lo) {
+			posLatitud = lat;
+			posLongitud = lo;
+
+		}, function(point) {
+			pointAddress = point;
+		});
+	
 		if(!quiebreSaveInit) {
 			quiebreSaveInit = true;
 			internalSave(fJava);
@@ -1638,7 +1647,7 @@ function AnySave() {
 			}
 			var popup = new MasterPopup();
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			   $.mobile.changePage( "index.html", { transition: "flip"} );
+			   /*$.mobile.changePage( "index.html", { transition: "flip"} );*/
 			}});
 			
 			if(fJava != null) {

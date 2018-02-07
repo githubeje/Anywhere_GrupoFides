@@ -5,8 +5,8 @@
 
 var pointAddress = 'No definido';
 var stockImage = 'Sin Imagen';
-var posLatitud = null;
-var posLongitud = null;
+var posLatitud = 1;
+var posLongitud = 1;
 var objAnywhere = null;
 var quiebreSaveInit = false;
 
