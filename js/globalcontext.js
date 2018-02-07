@@ -1606,22 +1606,12 @@ function AnySave() {
 			return;
 		}
 		
-		
-		var geoSave = new GeoGlobal();
-		geoSave.refreshGeo(function(lat, lo) {
-			var posCapLatitud = lat;
-			var posCapLongitud = lo;
-
-		}, function(point) {
-			pointAddress = point;
-		});
-		
 		var saveUtil = new SaveUtils();
 		var params = saveUtil.serializePage("formSend", objAnywhere);
 		params["formulario_id"]    = formularioID;
 		params["formulario_alias"] = nombreModulo;
-		params["latitud"]     = posCapLatitud;
-		params["longitud"]    = posCapLongitud;
+		params["latitud"]     = posLatitud;
+		params["longitud"]    = posLongitud;
 		params["point"]   	  = pointAddress;
 		params["fotoUno"] = $("#hiddenFotoUno").val();
 		params["fotoDos"] = $("#hiddenFotoDos").val();
@@ -1648,7 +1638,7 @@ function AnySave() {
 			}
 			var popup = new MasterPopup();
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			   /*$.mobile.changePage( "index.html", { transition: "flip"} );*/
+			   $.mobile.changePage( "index.html", { transition: "flip"} );
 			}});
 			
 			if(fJava != null) {

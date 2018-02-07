@@ -198,7 +198,7 @@ function internalSave3() {
 			}
 			var popup = new MasterPopup();
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			    /*$.mobile.changePage("menu.html", { transition: "flip"} );*/
+			    $.mobile.changePage("../menu.html", { transition: "flip"} );
 			}});
 		});
 		var saveUtil = new SaveUtils();
