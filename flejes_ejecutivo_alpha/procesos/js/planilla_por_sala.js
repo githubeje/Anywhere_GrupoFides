@@ -54,6 +54,14 @@ $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 	console.log("[pageshow] quiebrestock_promocion.js");
 	objAnywhere.loadClients();
+	var geo = new GeoGlobal();
+	geo.refreshGeo(function(lat, lo) {
+		posLatitud = lat;
+		posLongitud = lo;
+
+	}, function(point) {
+		pointAddress = point;
+	});
 	var any = new Anywhere();
 	$.ajax({ 
 		type: "GET",
@@ -83,14 +91,7 @@ $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 	    }
 	});
 	
-	var geo = new GeoGlobal();
-	geo.refreshGeo(function(lat, lo) {
-		posLatitud = lat;
-		posLongitud = lo;
-
-	}, function(point) {
-		pointAddress = point;
-	});
+	
 });
 
 
@@ -168,6 +169,15 @@ function internalSave_ModoSimple() {
 		guardaProtocolo();
 		var anySave = new AnywhereManager();
 		anySave.saveClaseWeb(true, "anywhere_movil_restanywhere", "AnySave", "	", params, success);
+		params["formulario_id"]    = codigoModulo;
+		params["formulario_alias"] = nombreModulo;
+		params["latitud"]     = posLatitud;
+		params["longitud"]    = posLongitud;
+		params["point"]   	  = pointAddress;
+		params["fotoUno"]    = varFotoUno;
+		params["fotoDos"]    = varFotoDos;
+		params["fotoTres"]   = varFotoTres;
+		params["fotoCuatro"] = varFotoCuatro;
 		anySave.saveClaseWeb(true, "anywhere_movil_restanywhere", "AnySave", "add", params, success);
 		
 
