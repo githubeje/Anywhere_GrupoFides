@@ -187,8 +187,22 @@ function internalSave3() {
 			tipoAlerta:2,
 			num_val1:6,
 		},
+		function(data,status,jqXHR) {
+			guardaProtocolo();
+			var mensajeSave = "Alerta enviada correctamente";
+			
+			if(data != null) {
+				if(data.dataFalsa == "dataFalsa") {
+					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
+				}
+			}
+			var popup = new MasterPopup();
+			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
+			    /*$.mobile.changePage("menu.html", { transition: "flip"} );*/
+			}});
+		});
 		
-	 var saveUtil = new SaveUtils();
+		var saveUtil = new SaveUtils();
 		var params = saveUtil.serializePage("formSend", objAnywhere);
 		params["formulario_id"]    = formularioID;
 		params["formulario_alias"] = nombreModulo;
@@ -207,20 +221,4 @@ function internalSave3() {
 		}
 		quiebreSaveInit = false;
 		anySave.saveClaseWeb(true, "anywhere_movil_restanywhere", "AnySave", "add", params, success);
-		
-		
-		function(data,status,jqXHR) {
-			guardaProtocolo();
-			var mensajeSave = "Alerta enviada correctamente";
-			
-			if(data != null) {
-				if(data.dataFalsa == "dataFalsa") {
-					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
-				}
-			}
-			var popup = new MasterPopup();
-			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			    /*$.mobile.changePage("menu.html", { transition: "flip"} );*/
-			}});
-		});
 }
