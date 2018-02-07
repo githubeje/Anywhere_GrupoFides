@@ -192,8 +192,8 @@ function internalSave3() {
 		var params = saveUtil.serializePage("formSend", objAnywhere);
 		params["formulario_id"]    = formularioID;
 		params["formulario_alias"] = nombreModulo;
-		params["latitud"]     = posCapLatitud;
-		params["longitud"]    = posCapLongitud;
+		params["latitud"]     = posLatitud;
+		params["longitud"]    = posLongitud;
 		params["point"]   	  = pointAddress;
 		params["fotoUno"] = $("#hiddenFotoUno").val();
 		params["fotoDos"] = $("#hiddenFotoDos").val();
