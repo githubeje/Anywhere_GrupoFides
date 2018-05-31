@@ -8,15 +8,15 @@ function getInstancer() {
 
 function Anywhere() {
 	this.getWSAnywhere_context = function() {
-		return "http://www.anywhere.cl/fides/ws1/";
+		return "http://www.anywhere.cl/fides/ws1/"; //prod
 		//return "http://www.anywhere.cl/wsprogestionchilebi/";
-		//return "http://localhost:8080/wsprogestionchilebi/";
+		//return "http://localhost:8090/fides/ws1/"; //LOCAL PANCHO
 		//return "http://192.168.1.5:8080/wsprogestionchilebi/";
 	};
 
 	this.getWSAnywjere_contextEjeCore = function() {
-		return "http://www.anywhere.cl/fides/ws2/";
-		//return "http://www.anywhere.cl/wsprogestionchilebi2/";
+		return "http://www.anywhere.cl/fides/ws2/"; // prod
+		//return "http://localhost:8080/fides/ws2/"; // LOCAL PANCHO
 		//return "http://localhost:8080/wsprogestionchilebi2/";
 		//return "http://localhost:8090/web/";
 	};
@@ -25,7 +25,7 @@ function Anywhere() {
 		return "http://www.anywhere.cl/fides/ws1/";
 		//return "http://www.anywhere.cl/wsprogestionchilebi/";
 		//return "http://192.168.1.6:8080/progestionchilebi/";
-		//return "http://localhost:8080/wsprogestionchilebi/";
+		//return "http://localhost:8080/fides/ws1/";
 
 	}; 
 	
@@ -175,28 +175,58 @@ function InOutUtils() {
 		if(functionIsInside == null) return;
 		  
 		var login = new Login();
-		var functionIsInside1 = functionIsInside;
-		
+	
 		login.getUsuario(function(usuario) {
-			var functionIsInside2 = functionIsInside1;
+			console.log("getUsuario!!!!");
 			
 			var success = function(data,status,jqXHR) {
-				var funcReturn = eval(functionIsInside2);
-				try {
-					funcReturn(data.total > 0, data.data[0]);
-				}
-				catch(e) {
+				console.log("success!!!!");
+				
+				var fSuccess = function(data,status,jqXHR, x, versions) {
+					var funcReturn = eval(x);
 					try {
-						funcReturn(false, data.data[0]);	
+						funcReturn(data.total > 0, data.data[0], versions);
 					}
 					catch(e) {
-						
+						try {
+							funcReturn(false, data.data[0], versions);	
+						}
+						catch(e) {
+							
+						}
 					}
 				}
+
+				var fValidaLastVersion = function(versions) {
+					
+					var funcReturn = eval(functionIsInside);
+					console.log("fValidaLastVersion");
+					console.log(versions);
+					
+					if(versions.lastVersion == -1) { //SIN SESIÓN
+						FunctionTool.evalFunction(funcReturn(true, 1, versions));
+					}
+					else {
+						FunctionTool.evalFunction(fSuccess(data,status,jqXHR, functionIsInside, versions));	
+					}
+				};
+				
+				//console.log("getting versions:");
+				
+				var version = new Version();
+				version.getVersions(fValidaLastVersion);
+
 			};
 			
 			var eje = new AnywhereManager();
-			eje.getClaseWeb(true, "anywhere_movil_restanywhere", "Presencia", "get", null,success)
+		 
+			var p = {
+					success : success,
+					error : success
+			}
+ 
+			
+			eje.getClaseWeb(true, "anywhere_movil_restanywhere", "Presencia", "get", p ,success);
 			
 		 
 		});
@@ -776,7 +806,7 @@ function Version() {
 				var any = new Anywhere();
 				//var vUrl = any.getWSAnywhere_context() +"dispatcher?m=getVersion&c=Version&usuario="+JSON.stringify(usuario);
 				var vUrl = any.getWSAnywjere_contextEjeCore() +"EjeCoreI";
-				var localLastVersion = null;
+				var localLastVersion = -1;
 				
 				$.ajax({ 
 					type: "POST",
@@ -800,6 +830,7 @@ function Version() {
 						}	
 					},
 					error: function() {
+						
 					},
 					complete: function() {
 						$.mobile.loading("hide");
@@ -808,14 +839,16 @@ function Version() {
 				
 				var f = eval(funcJavascript);
 				f(localLastVersion);
+				
 			});
 			
 			
 		}
 		catch(e) {
-			//console.log(e);
+			console.log(e);
 		}
 
+		console.log("retValue:"+retValue);
 		return retValue;
 	};
 	
@@ -1183,6 +1216,7 @@ function AnywhereManager() {
 	};
 	
 	this.getClaseWeb = function (async, modulo, thing, accion, parameters, funcJavascript) {
+		
 		console.log("[AnywhereManager.getClaseWeb.begin]");
 		var login = new Login();
 		login.getUsuario(function(usuario) {
@@ -1229,7 +1263,17 @@ function AnywhereManager() {
 				var any = new Anywhere();
 				
 				if(async) {
-						   anyCaller.loadFromServer_Async(any.getWSAnywjere_contextEjeCore()+ "EjeCoreI",params , funcJavascript, "POST");
+					params["modulo"] = "anywhere_movil_restanywhere";
+					params["thing"] = "AnySave";
+					params["modulo"] = "add";
+					
+					
+					anyCaller.save(
+						any.getWSAnywjere_contextEjeCore()+ "EjeCoreI",
+						params,
+						funcJavascript );
+
+					//anyCaller.loadFromServer_Async(any.getWSAnywjere_contextEjeCore()+ "EjeCoreI",params , funcJavascript, "POST");
 				}
 				else {
 					return anyCaller.loadFromServer_Sync(any.getWSAnywjere_contextEjeCore() + "EjeCoreI", params, null, "POST");
@@ -1260,7 +1304,7 @@ function AnywhereManager() {
 			
 			var popup = new MasterPopup();
 			popup.confirmPopup("Guardar"
-					, "Se ha encontrado "+this.getSavesPendientes()+" registro(s) pendiente(s) por informar, �Desea hacerlo ahora?.</div>"
+					, "Se ha encontrado "+this.getSavesPendientes()+" registro(s) pendiente(s) por informar, \u00BFDesea hacerlo ahora?.</div>"
 					, { "funcYes": function() {
 						var mng = new AnywhereManager();
 						mng.sendSavesToServer(urlRedirect, functionJavascript);		
@@ -1280,61 +1324,76 @@ function AnywhereManager() {
 		if(localStorage.getItem("idSaves") != null) {
 			var popup = new MasterPopup();
 			popup.bloqPopup("Actualizando", "Informando registros<br/>", {"callbackopen": function() {
-				window.setTimeout(
-						function() {
-
-							var oks = 0;
-							var mal = 0;
-							
-							var stack = JSON.parse(localStorage.getItem("idSaves"));
-							
-							try {
+				
+				var f = function() {
+	
+						var oks = 0;
+						var mal = 0;
 						
-								$.each(stack, function(k,v) {
-									console.log("[KEY "+k+"]");
-									try {
-										var newSave = localStorage.getItem(k);
-										//var popupNewSave = new MasterPopup();
-										//popupNewSave.alertPopup("New Save", newSave);
+						var stack = JSON.parse(localStorage.getItem("idSaves"));
+						
+						try {
+					
+							$.each(stack, function(k,v) {
+								console.log("[KEY "+k+"]");
+								try {
+									console.log("[KEY "+k+" 1]");
+									var newSave = localStorage.getItem(k);
+									//var popupNewSave = new MasterPopup();
+									//popupNewSave.alertPopup("New Save", newSave);
+									
+									if(newSave != null) {
+										console.log("[KEY "+k+" 2]");
+										newSave = JSON.parse(newSave);
+										newSave.async = false;
 										
-										if(newSave != null) {
-											newSave = JSON.parse(newSave);
-											newSave.async = false;
-											
-											var gc = new AnywhereManager();
-											var ok = gc.saveMaster(newSave);
-											if(ok) {
-												oks += 1;
-												var mngLocal = new AnywhereManager();
-												mngLocal.deleteSavePendiente(k);
-											}
-											else {
-												mal += 1;
-											}
-										}else {
-											localStorage.removeItem(k);
+										var gc = new AnywhereManager();
+										var ok = gc.saveMaster(newSave);
+										console.log("[KEY "+k+" 4]");
+										if(ok) {
+											oks += 1;
+											var mngLocal = new AnywhereManager();
+											console.log("[KEY "+k+" 5]");
+											mngLocal.deleteSavePendiente(k);
 										}
+										else {
+											mal += 1;
+										}
+										console.log("[KEY "+k+" 5]");
+									}else {
+										localStorage.removeItem(k);
+									}
+									
+								}catch(e) {
+									var popupError = new MasterPopup();
+									popupError.alertPopup("Actualizando", "Ha ocurrido un error desconocido <br/>"+e);
+								}
 										
-									}catch(e) {
-										var popupError = new MasterPopup();
-										popupError.alertPopup("Actualizando", "Ha ocurrido un error desconocido <br/>"+e);
-									}
-															
-								});
-							} finally {
-
-								var popupMsg = new MasterPopup();
-								popupMsg.alertPopup("Actualizando", "Registros cargados:"+oks+" <br/> Registros pendientes:"+mal+" <br/>",{"funcYes":  function() {
-								   if(functionJavascript != null){
-									   var func =  eval(functionJavascript);
-									   func();
-									}
-								}});
-
-								popup.closePopup();	
-							}
+								console.log("[END KEY "+k+"]");
+							});
+						} 
+						catch(e) {
+							console.log(e);
 						}
-						, 2000);
+						finally {
+	
+							var popupMsg = new MasterPopup();
+							popupMsg.alertPopup("Actualizando", "Registros cargados:"+oks+" <br/> Registros pendientes:"+mal+" <br/>",{"funcYes":  function() {
+							   if(functionJavascript != null){
+								   var func =  eval(functionJavascript);
+								   func();
+								}
+							}});
+	
+							popup.closePopup();	
+							checkSaves();
+						}
+						
+						console.log("TERMINÓ sendSavesToServer");
+				};
+				
+				//FunctionTool.evalFunction(f);
+				window.setTimeout( f, 2000);
 				
 			}});
 
@@ -1375,9 +1434,19 @@ function AnywhereManager() {
 	};
 	
 	this.save = function(vUrl, params, sucess, error, complete, async) {
+		var versionAqui = "save v1.0.2 ";
+		console.log(" "+versionAqui+" "+vUrl);
+		/**
+		 * save
+		 * */
+		
 		if(async == null) {
 			async = true;
 		}
+		
+		params["success"] = sucess;
+		params["error"] = error;
+		params["complete"] = complete;
 		
 		var newSave = {"type": "POST",
 					   "async": async,
@@ -1388,33 +1457,47 @@ function AnywhereManager() {
 					   "complete":complete};
 			
 		var version = new Version();
+		console.log(versionAqui+" getting version");
 		version.getLastVersion(function(lastVersion){
-			if( lastVersion == -1) {
-				var stack = localStorage.getItem("idSaves");
-				if(stack == null || stack == undefined) {
-					stack = JSON.stringify({});
-				}
-				
+			if( lastVersion == -1) {//-1 = SIN SESIÓN
+				console.log(versionAqui+" SIN SESION");
 				try {
-					stack = JSON.parse(stack);
-				}catch(e) {
-					stack = JSON.stringify({});
-					stack = JSON.parse(stack);
+					var stack = localStorage.getItem("idSaves");
+					if(stack == null || stack == undefined) {
+						stack = JSON.stringify({});
+					}
+					
+					try {
+						stack = JSON.parse(stack);
+					}catch(e) {
+						stack = JSON.stringify({});
+						stack = JSON.parse(stack);
+					}
+					
+					var newId = "idSaves_" +Math.random();
+					stack[newId] =  "";
+					
+					localStorage.setItem(newId	  ,JSON.stringify(newSave));
+					localStorage.setItem("idSaves",JSON.stringify(stack));
+					
+					if(params.success != null) {
+						var func = eval(sucess);
+						func({"dataFalsa":"dataFalsa"});
+					}
+	
+					if(params.complete != null) { 
+						/*
+						var func2 = eval(params.complete);
+						func2();*/
+					}
 				}
-				
-				var newId = "idSaves" +this.makeId();
-				stack[newId] =  "";
-				
-				localStorage.setItem(newId	  ,JSON.stringify(newSave));
-				localStorage.setItem("idSaves",JSON.stringify(stack));
-				
-				var func = eval(sucess);
-				func({"dataFalsa":"dataFalsa"});
-				
-				var func2 = eval(complete);
-				func2();
+				catch(e) {
+					console.log(e);
+				}
 			}
 			else {
+				console.log(versionAqui+" CON SESION");
+				
 				var gc = new AnywhereManager();
 				gc.saveMaster(newSave);
 			}
@@ -1484,7 +1567,7 @@ function AnywhereManager() {
 	};
 	
 	this.callServer = function(vUrl, params, async , funcJavascript, type) {
-		//console.log("[Globalcontext.loadFromServer] "+vUrl+" "+JSON.stringify(params));
+		console.log("[Globalcontext.callServer] "+vUrl+" "+JSON.stringify(params));
 		var dataReturn = null;
 		if(type == null) {
 			type = "GET";
@@ -1493,6 +1576,17 @@ function AnywhereManager() {
 		try {
 			var log = new Log();
 			log.addLog("CALLING SERVER");
+			
+			params.success = funcJavascript;
+			var data = params;
+			
+			var fsucess = params.success;
+			var ferror = params.error;
+			var fcomplete = params.complete;
+			
+			params.success = null;
+			params.error = null;
+			params.complete = null;
 			
 			var caller = new ServerCaller();
 			caller.call({ 
@@ -1503,16 +1597,27 @@ function AnywhereManager() {
 				data: params,
 				crossDomain : true,
 				cache: false,
-				success: function(data) {
+				success: function(data,a,b) {
 					
-					if(funcJavascript != null) {
-						var funcSuccesLocal = eval(funcJavascript);
-						dataReturn = funcSuccesLocal(data);
+					if(fsucess != null) {
+						var f = eval(fsucess);
+						dataReturn = f(data,a,b);
 					}
+ 
 				},
-				error: function(error) {
+				error: function(error,a,b,c) {
+					if(ferror != null) {
+						var f = eval(ferror);
+						f(error,a,b,c);
+					}
 					//console.log("[Globalcontext.callServer.ajaxError]"+error+"  "+vUrl+" "+JSON.stringify(params));
-					throw new Error("[Globalcontext.callServer.ajaxError]"+error+"  "+vUrl+" "+JSON.stringify(params));
+					//throw new Error("[Globalcontext.callServer.ajaxError]"+error+"  "+vUrl+" "+JSON.stringify(params));
+				},
+				complete : function(a,b,c,d) {
+					if(fcomplete != null) {
+						var f = eval(fcomplete);
+						f(a,b,c,d);
+					}
 				}
 			});
 		}
@@ -1560,6 +1665,7 @@ function AnySave() {
 
 
 	this.save = function (nM, fID, fJava) {
+		console.log("save v9.0.0");
 		nombreModulo = nM;
 		formularioID = fID;
 		
@@ -1600,6 +1706,7 @@ function AnySave() {
 
 
 	function internalSave_ModoSimple(fJava) {
+		console.log("internalSave_ModoSimple");
 		
 		if(!checkRadios()) {
 			quiebreSaveInit = false;
@@ -1696,5 +1803,17 @@ function AnySave() {
 	this.getLastData = function() {
 		return $("#lastMessageSave").val();
 	}
+}
+
+class FunctionTool {
+	static evalFunction(func) {
+		if(func!=null) {
+	 
+			if(typeof func == 'function') {
+				var f = func;
+				f();
+			}
+		}
+	};
 }
 

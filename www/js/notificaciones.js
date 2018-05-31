@@ -213,7 +213,7 @@ capturePhotoEdit = function(source) {
 }
 
 onFail = function(message) {
-	alert('Failed because: ' + message);
+	 console.log('Failed because: ' + message);
 }
 
 

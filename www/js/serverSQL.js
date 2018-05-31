@@ -255,7 +255,7 @@ function WindowLocalStorageImplementation(tNameParam) {
 	
 	this.delAll = function(funcJavascript) {
 		console.log("delAll")
-		console.trace();
+		//console.trace();
 		
 		var arrayToDelete  = new Array();
 		

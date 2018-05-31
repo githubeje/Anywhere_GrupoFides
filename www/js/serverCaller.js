@@ -26,6 +26,7 @@ function ServerCaller() {
 	
 	this.call = function(json) {
 		var eSucess 	= json.success;
+		var eError 		= json.error;
 		var url 		= json.url;
 		var dataSend 	= json.data;
 		
@@ -46,12 +47,12 @@ function ServerCaller() {
 					console.log(e);
 				}
 			};
-			json["success"] = function(dataReceive) {
+			json["success"] = function(dataReceive,x,y) {
 				var log = new Log();
 				log.addLog("[SUCESS]");
 				var caller = new ServerCaller();
 				if(eSucess != null) {
-					eval(eSucess(dataReceive));
+					eval(eSucess(dataReceive,x,y));
 				}
 				
 				caller.putCache(url,dataSend, dataReceive );
@@ -62,6 +63,16 @@ function ServerCaller() {
 					url = json.url;
 				}
 				
+				if(eError != null) {
+					eval(eError(xhr, ajaxOptions, thrownError,b,c));
+				}
+				
+				/*
+				if(json.error != null) {
+					var f = json.error;
+					f(xhr, ajaxOptions, thrownError,b,c);
+				} 
+				*/
 				//superPopup("msg","ServerCaller", "SC: A ocurrido un error inesperado, revisa tu conexi�n a internet e int�ntalo nuevamente. "+url+"<br/>");
 			};
 			json["complete"] = function(data) {

@@ -1,8 +1,9 @@
 /**
- * 2018-01
- * GM
+ * 2015-05-11
+ * (A-002) Tipo, Categoría, Comentario, FOTO (máx. 3)
+ * 
+ * 
  * */
-
 
 
 var pointAddress = 'No definido';
@@ -17,7 +18,6 @@ var idCadena = [];
 var idLocal = [];
 
 var nombreModulo = "Fotos - Salida";
-var codigoModulo = "PROT-2";
 
 $(".titleTag").each(function() {
 	$(this).html(nombreModulo);
@@ -52,14 +52,6 @@ $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 	console.log("[pageshow] quiebrestock_promocion.js");
 	objAnywhere.loadClients();
-	var geo = new GeoGlobal();
-	geo.refreshGeo(function(lat, lo) {
-		posLatitud = lat;
-		posLongitud = lo;
-
-	}, function(point) {
-		pointAddress = point;
-	});
 	var any = new Anywhere();
 	$.ajax({ 
 		type: "GET",
@@ -85,7 +77,7 @@ $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 			});
 		}, 
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-	       alert("error : " + textStatus + "," + errorThrown);
+			console.log("error : " + textStatus + "," + errorThrown);
 	    }
 	});
 });
@@ -108,7 +100,7 @@ function guardaProtocolo() {
 			a6: objAnywhere.getProducto(),
 			num_val1:2,
 		},
-		/*function(data,status,jqXHR) { 
+		function(data,status,jqXHR) { 
 			var mensajeSave = "Registro de ingreso enviado correctamente";
 			if(data != null) {
 				if(data.dataFalsa == "dataFalsa") {
@@ -119,9 +111,7 @@ function guardaProtocolo() {
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
 			    $.mobile.changePage( "../menu.html", { transition: "flip"} );
 			}});
-		}
-		*/
-		);
+		});
 }
 
 function saveQuiebre() {
@@ -180,8 +170,8 @@ function internalSave3() {
 			a100: varFotoDos,
 			a1000: varFotoTres,
 			a10000: varFotoCuatro,
-			a11: posLatitud,  
-			a12: posLongitud,
+			a11: "0", 
+			a12: "0", 
 			a13: "0",
 			desc_val1: $("#tipo").val(),
 			tipoAlerta: 11,
@@ -189,26 +179,7 @@ function internalSave3() {
 		},
 		function(data,status,jqXHR) {
 			guardaProtocolo();
-			var saveUtil = new SaveUtils();
-			var params = saveUtil.serializePage("formSend", objAnywhere);
-			params["formulario_id"]    = codigoModulo;
-			params["formulario_alias"] = nombreModulo;
-			params["latitud"]     = posLatitud;
-			params["longitud"]    = posLongitud;
-			params["point"]   	  = pointAddress;
-			params["fotoUno"] 		= varFotoUno;
-			params["fotoDos"] 		= varFotoDos;
-			params["fotoTres"] 		= varFotoTres;
-			params["fotoCuatro"] 	= varFotoCuatro;
-			
-			var success = function(data,status,jqXHR) { 
-				if(data != null) {
-					any.setLastData(JSON.stringify(data));
-				}
-			}
-			quiebreSaveInit = false;
-			anySave.saveClaseWeb(true, "anywhere_movil_restanywhere", "AnySave", "add", params, success);
-			var mensajeSave = "Registro de fotos de salida enviado correctamente";
+			var mensajeSave = "Alerta enviada correctamente";
 			if(data != null) {
 				if(data.dataFalsa == "dataFalsa") {
 					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
@@ -216,10 +187,9 @@ function internalSave3() {
 			}
 			var popup = new MasterPopup();
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			    $.mobile.changePage( "../menu.html", { transition: "flip"} );
+			    $.mobile.changePage( "index.html", { transition: "flip"} );
 			}});
 		});
-		
 }
 
 

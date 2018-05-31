@@ -13,11 +13,7 @@ var posLongitud = null;
 var objAnywhere = null;
 var quiebreSaveInit = false;
 
-var idCliente = [];
-var idCadena = [];
-var idLocal = [];
-
-var nombreModulo = "Alertas";
+var nombreModulo = "1. Alertas";
 
 $(".titleTag").each(function() {
 	$(this).html(nombreModulo);
@@ -31,13 +27,13 @@ createPhotoButton(4,false);
 
 $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 	if(objAnywhere == null) {
-		objAnywhere = new ObjAnyWhereCCL_CP({"disabled1":"no",
-											 "disabled2":"no",
-											 "disabled3":"no",
+		objAnywhere = new ObjAnyWhereCCL_CP({"disabled1":"yes",
+											 "disabled2":"yes",
+											 "disabled3":"yes",
 											 
-											 "getCache1":"no",
-											 "getCache2":"no",
-											 "getCache3":"no",
+											 "getCache1":"yes",
+											 "getCache2":"yes",
+											 "getCache3":"yes",
 											 
 											 "omit4": "yes",
 											 
@@ -53,67 +49,8 @@ $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 	console.log("[pageshow] quiebrestock_promocion.js");
 	objAnywhere.loadClients();
-	var any = new Anywhere();
-	$.ajax({ 
-		type: "GET",
-		dataType:"json",
-		url: any.getWSAnywhere_context() + "services/p2s/querys/infoultimavisita/" + sessionStorage.getItem("rutT") ,
-		dataType:"json",
-		crossDomain : true,
-		success: function(data,status,jqXHR) {
-			$.each(data, function(key, val) {
-				$.each(val, function(key2, val2) {
-					idCliente.push(val2[0].value);
-					idCadena.push(val2[1].value);
-					idLocal.push(val2[2].value);					
-				});
-			});
-			
-			$( document ).ready(function() {
-				console.log(data);
-				document.getElementById('selectClientes_1000').options[document.getElementById('selectClientes_1000').selectedIndex].value = idCliente[0];
-				document.getElementById('selectCadenas_1000').options[document.getElementById('selectCadenas_1000').selectedIndex].value   = idCadena[0];
-				document.getElementById('selectLocales_1000').options[document.getElementById('selectLocales_1000').selectedIndex].value   = idLocal[0];
-								
-			});
-		}, 
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log("error : " + textStatus + "," + errorThrown);
-	    }
-	});
 });
 
-function guardaProtocolo() {
-
-	 var any = new Anywhere();
-	 var vUrl = any.getWSAnywhere_context() + "services/alertasvarias/guardaprotocolo/";
-	 var anySave = new AnywhereManager();
-	 
-	 var idUsuario = sessionStorage.getItem("rutT");
-	 fecha = moment().format("YYYYMMDD");
-	 hora = moment().format("HHmmss");
-	 
-	 anySave.save(vUrl,  { a1: idUsuario,
-			a2: objAnywhere.getCliente(),
-			a3: objAnywhere.getCadena(),
-			a4: objAnywhere.getLocal(),
-			a5: objAnywhere.getCategoria(),
-			a6: objAnywhere.getProducto(),
-			num_val1:6,
-		},
-		function(data,status,jqXHR) { 
-			var mensajeSave = "Registro de fleje enviado correctamente";
-			if(data != null) {
-				if(data.dataFalsa == "dataFalsa") {
-					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
-				}
-			}
-			var popup = new MasterPopup();
-			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			    $.mobile.changePage( "../menu.html", { transition: "flip"} );
-			}});
-		});
-}
 
 function saveQuiebre() {
 	if(!quiebreSaveInit) {
@@ -176,10 +113,8 @@ function internalSave3() {
 			a13: "0",
 			desc_val1: $("#tipo").val(),
 			tipoAlerta:2,
-			num_val1:6,
 		},
-		function(data,status,jqXHR) {
-			guardaProtocolo();
+		function(data,status,jqXHR) { 
 			var mensajeSave = "Alerta enviada correctamente";
 			if(data != null) {
 				if(data.dataFalsa == "dataFalsa") {

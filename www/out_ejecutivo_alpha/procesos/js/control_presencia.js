@@ -1,8 +1,8 @@
 /**
- * 2018-01
- * GM
+ * Versión 2.0.1
+ * Fecha: 2016-04-26
+ * Francisco
  * */
-
 
 var evento = "-1";
 var fecha_inicio = [];
@@ -88,7 +88,7 @@ $('#principal').bind( 'pageshow',function(event) {
 			});
 		}, 
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-	       alert("error : " + textStatus + "," + errorThrown);
+			console.log("error : " + textStatus + "," + errorThrown);
 	    }
 	});
 });
@@ -227,14 +227,15 @@ $("#save").live("click",function() {
 				+   "   </tr> "
 				+   "</table> "
 			);
-			/*
+			console.table(data);
+			console.log(NombreTareaOut);
 			if (data != null){
 				popup("Mensaje", "Resultados","#lista_protocolo");
+				/*$(location).attr("href","#informe");*/
 			}
-			*/
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-	       alert("error : " + textStatus + "," + errorThrown);
+			 console.log("error : " + textStatus + "," + errorThrown);
 	    }
 	})
 	

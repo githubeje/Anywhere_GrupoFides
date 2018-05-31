@@ -329,12 +329,12 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 						
 					}, 
 					error: function(XMLHttpRequest, textStatus, errorThrown) {
-				       alert("error : " + textStatus + "," + errorThrown);
+						 console.log("error : " + textStatus + "," + errorThrown);
 				    }
 				});
 			}, 
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
-		       alert("error : " + textStatus + "," + errorThrown);
+				 console.log("error : " + textStatus + "," + errorThrown);
 		    }
 		});
 		

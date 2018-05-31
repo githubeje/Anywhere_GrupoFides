@@ -1,7 +1,10 @@
 /**
- * 2018-01
- * GM
+ * 2015-05-11
+ * (A-003) Tipo, Categoría, Comentario, FOTO (máx. 3)
+ * VERSIÓN 2
+ * 
  * */
+
 
 
 var stockImage = 'Sin Imagen';
@@ -17,7 +20,6 @@ var objAnywhere = null;
 var quiebreSaveInit = false;
 
 var nombreModulo = "Flejes";
-var codigoModulo = "PROT-5";
 
 $(".titleTag").each(function() {
 	$(this).html(nombreModulo);
@@ -54,14 +56,6 @@ $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 	console.log("[pageshow] quiebrestock_promocion.js");
 	objAnywhere.loadClients();
-	var geo = new GeoGlobal();
-	geo.refreshGeo(function(lat, lo) {
-		posLatitud = lat;
-		posLongitud = lo;
-
-	}, function(point) {
-		pointAddress = point;
-	});
 	var any = new Anywhere();
 	$.ajax({ 
 		type: "GET",
@@ -87,11 +81,18 @@ $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 			});
 		}, 
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-	       alert("error : " + textStatus + "," + errorThrown);
+			console.log("error : " + textStatus + "," + errorThrown);
 	    }
 	});
 	
-	
+	var geo = new GeoGlobal();
+	geo.refreshGeo(function(lat, lo) {
+		posLatitud = lat;
+		posLongitud = lo;
+
+	}, function(point) {
+		pointAddress = point;
+	});
 });
 
 
@@ -109,7 +110,7 @@ function saveQuiebre() {
 
 
 function internalSave() {
-	
+	console.log("hola como estas");
 	 if ($('#formSend').validate({
 		 	errorPlacement: function(error, element) {
 				if ($(element).is('select')) {
@@ -121,12 +122,12 @@ function internalSave() {
 			}
 		 }).form() == true) {
 		 
-		 if( fotosObligatoriasCargadas() ) {
+		 //if( fotosObligatoriasCargadas() ) {
 			 internalSave_ModoSimple();	 
-		 }
-		 else {
-			 quiebreSaveInit = false;
-		 }
+		 //}
+		 //else {
+		//	 quiebreSaveInit = false;
+		 //}
 	 }
 	 else {
 		 var popup = new MasterPopup();
@@ -142,18 +143,18 @@ function internalSave_ModoSimple() {
 		
 		var saveUtil = new SaveUtils();
 		var params = saveUtil.serializePage("formSend", objAnywhere);
-		params["formulario_id"]    = codigoModulo;
+		params["formulario_id"]    = "A-003";
 		params["formulario_alias"] = nombreModulo;
 		params["latitud"]     = posLatitud;
 		params["longitud"]    = posLongitud;
 		params["point"]   	  = pointAddress;
-		params["fotoUno"]    = varFotoUno;
-		params["fotoDos"]    = varFotoDos;
-		params["fotoTres"]   = varFotoTres;
+		params["fotoUno"] = varFotoUno;
+		params["fotoDos"] = varFotoDos;
+		params["fotoTres"] = varFotoTres;
 		params["fotoCuatro"] = varFotoCuatro;
 		
 		var success = function(data,status,jqXHR) { 
-			var mensajeSave = "Información de flejes enviada correctamente";
+			var mensajeSave = "Información enviada correctamente";
 			if(data != null) {
 				if(data.dataFalsa == "dataFalsa") {
 					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
@@ -161,26 +162,13 @@ function internalSave_ModoSimple() {
 			}
 			var popup = new MasterPopup();
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			   /*$.mobile.changePage( "menu.html", { transition: "flip"} );*/
+			   $.mobile.changePage( "../../menu.html", { transition: "flip"} );
 			}});
 		}
 		
-		
-		guardaProtocolo();
 		var anySave = new AnywhereManager();
 		anySave.saveClaseWeb(true, "anywhere_movil_restanywhere", "AnySave", "	", params, success);
-		params["formulario_id"]    = codigoModulo;
-		params["formulario_alias"] = nombreModulo;
-		params["latitud"]     = posLatitud;
-		params["longitud"]    = posLongitud;
-		params["point"]   	  = pointAddress;
-		params["fotoUno"]    = varFotoUno;
-		params["fotoDos"]    = varFotoDos;
-		params["fotoTres"]   = varFotoTres;
-		params["fotoCuatro"] = varFotoCuatro;
-		anySave.saveClaseWeb(true, "anywhere_movil_restanywhere", "AnySave", "add", params, success);
-		
-
+		guardaProtocolo();
 	
  
 }
@@ -203,7 +191,6 @@ function guardaProtocolo() {
 			a6: objAnywhere.getProducto(),
 			num_val1:5,
 		},
-		/*
 		function(data,status,jqXHR) { 
 			var mensajeSave = "Registro de fleje enviado correctamente";
 			if(data != null) {
@@ -215,9 +202,7 @@ function guardaProtocolo() {
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
 			    $.mobile.changePage( "planilla_por_sala.html", { transition: "flip"} );
 			}});
-		}
-		*/
-		);
+		});
 }
 
 

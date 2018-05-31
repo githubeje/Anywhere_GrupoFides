@@ -49,16 +49,37 @@ var Menu = function() {
 					console.log("IntOut ISACTIVE:"+isInOutActivate);
 					if(isInOutActivate) {
 						var ioUtil = new InOutUtils();
-						ioUtil.isInside(function(inside,registro) {
+						ioUtil.isInside(function(inside,registro, versions) {
+							console.log("INSIDE IsInside()"+inside);
 							var json = menuObject.getButtonDefault(inside);
 							json["inout"] = true;
 							
+							//console.log(versions);
+							if(versions.lastVersion == -1) {
+								json["inout"]=false;
+								json["out"]= false;
+							}
+							
 							menuObject.loadZonas_etapa2(clienteACargar, inside, json);
 							
-							var map = new MapSQL("PRESENCIA");
-							map.delAll(function() {
-								map.add("idregistro", registro.idregistro);	
-							})
+							console.log(versions);
+							/*
+							if(inside) {
+								var map = new MapSQL("PRESENCIA");
+								map.delAll(function() {
+									map.add("idregistro", registro.idregistro);	
+									map.add("isinside", "true");	
+								})	
+							}
+							else {
+								var map = new MapSQL("PRESENCIA");
+								map.delAll(function() {
+									map.add("idregistro", "0");	
+									map.add("isinside", "false");	
+								})
+							}
+							*/
+							
 						});
 					}
 					else {
@@ -244,7 +265,8 @@ var Menu = function() {
 			var cliente = this.getCliente(idcliente);
 			console.log("CLIENTE:"+cliente);
 			
-			if ( idmodulo == "1") {		 		return this.addBoton_inout(activo, rol, cliente, jsonEnableButtons.inout);
+			if ( idmodulo == "1") {		 		
+				return this.addBoton_inout(activo, rol, cliente, jsonEnableButtons.inout);
 			}
 			else if ( idmodulo == "2") {
 				return this.addBoton_fotosentrada(activo, rol, cliente, jsonEnableButtons.stepstep);
@@ -794,6 +816,7 @@ $("#menu_principal").bind("pageshow",function() {
     var menu = new Menu();
 	var init = new InitCache();
 	init.iniciaCacheo(function() {
+		console.log("INSIDE iniciaCacheo();");
 		menu.loadZonas();
 		checkSaves();
 	});	
