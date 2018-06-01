@@ -432,11 +432,20 @@ function SaveUtils() {
 					json[name] = [];
 					json[name].push(tmp);
 				}
-				
-				json[name].push(saveUtil.getDefValue( $(iterateObject) ));
+				var o = saveUtil.getDefValue( $(iterateObject) );
+				//console.log(o);
+				if(o.value != null) {
+					json[name].push(o);
+				}
 			}
 			else {
-				json[name] = saveUtil.getDefValue( $(iterateObject) );	
+				
+				var o = saveUtil.getDefValue( $(iterateObject) );
+				//console.log(o);
+				
+				if(o.value != null) {
+					json[name] = o;	
+				}
 			}
 		}
 		
@@ -445,7 +454,7 @@ function SaveUtils() {
 	
 	this.transponeFilas = function(json, remove) {
 		console.log("[transportandoFila]");
-		console.log(json);
+		//console.log(json);
 		/*
 		 * Transpone todas las filas que comienzan con "g_row" y las transforma en columnas,
 		 * la idea es pasar los parametros en forma de columna.
@@ -573,7 +582,7 @@ function SaveUtils() {
 			//$("#errorContainer").html($("#errorContainer").html() + "<br/>" + e);
 		}
 		
-		console.log(json);
+		//console.log(json);
 		return json;
 	};
 }
@@ -1263,9 +1272,9 @@ function AnywhereManager() {
 				var any = new Anywhere();
 				
 				if(async) {
-					params["modulo"] = "anywhere_movil_restanywhere";
-					params["thing"] = "AnySave";
-					params["modulo"] = "add";
+//					params["modulo"] = "anywhere_movil_restanywhere";
+//					params["thing"] = "AnySave";
+//					params["modulo"] = "add";
 					
 					
 					anyCaller.save(

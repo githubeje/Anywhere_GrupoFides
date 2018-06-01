@@ -56,6 +56,7 @@ $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 	console.log("[pageshow] quiebrestock_promocion.js");
 	objAnywhere.loadClients();
+		
 	var any = new Anywhere();
 	$.ajax({ 
 		type: "GET",
@@ -99,6 +100,14 @@ $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 $("#tipo").live("click",function() {
 	
 });
+
+function test() {
+	console.log(".testSerialize");
+	
+	var su = new SaveUtils();
+	var p = su.serializePage("formSend", objAnywhere);
+	console.log(p);
+}
 
 function saveQuiebre() {
 	if(!quiebreSaveInit) {
