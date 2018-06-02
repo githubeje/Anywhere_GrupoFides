@@ -29,6 +29,8 @@ createPhotoButton(2,false);
 createPhotoButton(3,false);
 createPhotoButton(4,false);
 
+var anySaveObject = new AnySave();
+
 $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 	if(objAnywhere == null) {
 		objAnywhere = new ObjAnyWhereCCL_CP({"disabled1":"no",
@@ -102,7 +104,7 @@ function guardaProtocolo() {
 			num_val1:6,
 		},
 		function(data,status,jqXHR) { 
-			var mensajeSave = "Registro de fleje enviado correctamente";
+			var mensajeSave = "Alerta enviada correctamente";
 			if(data != null) {
 				if(data.dataFalsa == "dataFalsa") {
 					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
@@ -116,37 +118,21 @@ function guardaProtocolo() {
 }
 
 function saveQuiebre() {
-	if(!quiebreSaveInit) {
-		quiebreSaveInit = true;
-		internalSave();
-	}	
-
-}
-
-
-function internalSave() {
+	var success = function() {
+		guardaProtocolo();
+	}
 	
-	 if ($('#formSend').validate({
-		 	errorPlacement: function(error, element) {
-				if ($(element).is('select')) {
-					error.insertAfter($(element).parent());
-				}
-				else {
-					error.insertAfter(element);
-				}
-			}
-		 }).form() == true) {
-		 
-		 internalSave3();
-	 }
-	 else {
-		 var popup = new MasterPopup();
-		 popup.alertPopup(nombreModulo, "Debes completar todos los datos en rojo");
-		 quiebreSaveInit = false;
-	 } 
-	 
+	anySaveObject.save({
+		 nombreModulo: nombreModulo,
+		 formularioID: "PROT-6",
+		 formName : "formSend",
+		 objAnywhere: objAnywhere,
+		 silent: false,
+		 success : success
+	});
 }
 
+ 
 
 function internalSave3() {
 
@@ -179,16 +165,7 @@ function internalSave3() {
 			num_val1:6,
 		},
 		function(data,status,jqXHR) {
-			guardaProtocolo();
-			var mensajeSave = "Alerta enviada correctamente";
-			if(data != null) {
-				if(data.dataFalsa == "dataFalsa") {
-					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
-				}
-			}
-			var popup = new MasterPopup();
-			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			    $.mobile.changePage( "index.html", { transition: "flip"} );
-			}});
+			
+		 
 		});
 }

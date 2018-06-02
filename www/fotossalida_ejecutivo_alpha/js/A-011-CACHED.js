@@ -25,9 +25,11 @@ $(".titleTag").each(function() {
 
 reiniciaFotos();
 createPhotoButton(1,true, true, "Foto Gondola");
-createPhotoButton(2,true, true, "Foto Pasillo");
+createPhotoButton(2,true, true, "Foto Hoja");
 createPhotoButton(3,true, true, "Foto Cabecera");
 createPhotoButton(4,true, true, "Foto Cabecera");
+
+var anySaveObject = new AnySave();
 
 $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 	if(objAnywhere == null) {
@@ -82,70 +84,48 @@ $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 	});
 });
 
-function guardaProtocolo() {
-
-	 var any = new Anywhere();
-	 var vUrl = any.getWSAnywhere_context() + "services/alertasvarias/guardaprotocolo/";
-	 var anySave = new AnywhereManager();
-	 
-	 var idUsuario = sessionStorage.getItem("rutT");
-	 fecha = moment().format("YYYYMMDD");
-	 hora = moment().format("HHmmss");
-	 
-	 anySave.save(vUrl,  { a1: idUsuario,
-			a2: objAnywhere.getCliente(),
-			a3: objAnywhere.getCadena(),
-			a4: objAnywhere.getLocal(),
-			a5: objAnywhere.getCategoria(),
-			a6: objAnywhere.getProducto(),
-			num_val1:2,
-		},
-		function(data,status,jqXHR) { 
-			var mensajeSave = "Registro de ingreso enviado correctamente";
-			if(data != null) {
-				if(data.dataFalsa == "dataFalsa") {
-					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
-				}
-			}
-			var popup = new MasterPopup();
-			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			    $.mobile.changePage( "../menu.html", { transition: "flip"} );
-			}});
-		});
-}
-
+ 
 function saveQuiebre() {
-	if(!quiebreSaveInit) {
-		quiebreSaveInit = true;
-		internalSave();
-	}	
-
-}
-
-
-function internalSave() {
-	
-	 if ($('#formSend').validate({
-		 	errorPlacement: function(error, element) {
-				if ($(element).is('select')) {
-					error.insertAfter($(element).parent());
-				}
-				else {
-					error.insertAfter(element);
-				}
+	var success = function(data) {
+		var mensajeSave = "Registro enviado correctamente";
+		if(data != null) {
+			if(data.dataFalsa == "dataFalsa") {
+				mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
 			}
-		 }).form() == true) {
-		 
-		 internalSave3();
-	 }
-	 else {
-		 var popup = new MasterPopup();
-		 popup.alertPopup(nombreModulo, "Debes completar todos los datos en rojo");
-		 quiebreSaveInit = false;
-	 } 
-	 
+		}
+		var popup = new MasterPopup();
+		popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
+		    $.mobile.changePage( "../menu.html", { transition: "flip"} );
+		}});
+		
+		reiniciaFotos();
+		createPhotoButton(1,true, true, "Foto Gondola");
+		createPhotoButton(2,true, true, "Foto Hoja");
+		createPhotoButton(3,true, true, "Foto Cabecera");
+		createPhotoButton(4,true, true, "Foto Cabecera");
+		
+		Protocolo.guardaProtocolo({
+			moduloId : 2,
+			objAnywhere:objAnywhere
+		});
+	}
+	
+	//internalSave3();
+	
+	
+	anySaveObject.save({
+		 nombreModulo: nombreModulo,
+		 formularioID: "PROT-2",
+		 formName : "formSend",
+		 objAnywhere: objAnywhere,
+		 silent: false,
+		 success : success
+	});
+
 }
 
+
+ 
 
 function internalSave3() {
 
@@ -178,7 +158,7 @@ function internalSave3() {
 			num_val1: 2,
 		},
 		function(data,status,jqXHR) {
-			guardaProtocolo();
+			/*
 			var mensajeSave = "Alerta enviada correctamente";
 			if(data != null) {
 				if(data.dataFalsa == "dataFalsa") {
@@ -189,6 +169,7 @@ function internalSave3() {
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
 			    $.mobile.changePage( "index.html", { transition: "flip"} );
 			}});
+			*/
 		});
 }
 

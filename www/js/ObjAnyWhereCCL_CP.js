@@ -11,6 +11,12 @@
  * 
  * */
 
+var idCliente = [];		//mal definido, debe ser una propiedad miembro
+var idCadena = [];		//mal definido, debe ser una propiedad miembro
+var idLocal = [];		//mal definido, debe ser una propiedad miembro
+var idCorr = [];		//mal definido, debe ser una propiedad miembro
+var idProducto = [];	//mal definido, debe ser una propiedad miembro
+var nombreProducto = [];//mal definido, debe ser una propiedad miembro
 
 function ValorMoreLess(tipo,id) {
 		if(tipo == "more") {
@@ -34,6 +40,26 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 			if(this.json == null || this.json == undefined) {
 				this.json = {};
 			}
+			/*disabled*/
+			if( this.json.hide1 == null && this.json.hide1 == undefined ) {
+				this.json["hide1"] = false;
+			}
+			
+			/*disabled*/
+			if( this.json.hide2 == null && this.json.hide2 == undefined ) {
+				this.json["hide2"] = false;
+			}
+			
+			/*disabled*/
+			if( this.json.hide3 == null && this.json.hide3 == undefined ) {
+				this.json["hide3"] = false;
+			}
+			
+			/*disabled*/
+			if( this.json.hide4 == null && this.json.hide4 == undefined ) {
+				this.json["hide4"] = false;
+			}
+			
 			
 			if( this.json.column1 != null && this.json.column1 != undefined ) {
 				this.json["theme5.columna1.name"] = this.json.column1;
@@ -246,7 +272,96 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 
 			$.mobile.selectmenu.prototype.options.nativeMenu = false;
 			
-				};
+	};
+	
+	this.getHtmlSegQuiebre = function(idUsuario) {
+		this.num=1000;
+		 
+		this.setNum(this.num);
+		
+		
+		
+		
+		var	html =		"<div class='ui-field-contain ui-body ui-br' data-role='fieldcontain' > " +
+							"<label for='selectProductoQuebrado_"+this.num+"' class='ui-select'>Producto :</label>" +
+							"<div class='ui-select'>" +
+								"<input type='hidden' value='' name='gato_producto_quebrado' id='gato_producto_quebrado' /> " +
+								"<select eje-type='number' class='required' name='gato_id_producto_quebrado_"+this.num+"' id='selectProductoQuebrado_"+this.num+"' "+
+								"onchange=\" $('#gato_producto_quebrado').val($('#selectProductoQuebrado_"+this.num+" option:selected').text()); \">";
+			html+=						"<option value='' selected>Escoger producto declarado en Quiebre</option>";
+			
+			
+			
+			html+=			"</select>" +
+						"</div></div>";
+			
+		
+			return html;
+	};
+	
+	this.setProductosQuebrados = function(idUsuario) {
+		/*$("#selectProductoQuebrado_1000").append("<option value='2' selected>Prueba 2</option>");
+		$("#selectProductoQuebrado_1000").append("<option value='3' selected>Prueba 3</option>");*/
+		console.log("setProductosQuebrados");
+		var any = new Anywhere();
+		$.ajax({ 
+			type: "GET",
+			dataType:"json",
+			url: any.getWSAnywhere_context() + "services/p2s/querys/infoultimavisita/" + idUsuario ,
+			dataType:"json",
+			crossDomain : true,
+			success: function(data,status,jqXHR) {
+				$.each(data, function(key, val) {
+					$.each(val, function(key2, val2) {
+						idCliente.push(val2[0].value);
+						idCadena.push(val2[1].value);
+						idLocal.push(val2[2].value);
+						idCorr.push(val2[3].value);
+					});
+				});
+				$.ajax({ 
+					type: "GET",
+					dataType:"json",
+					url: any.getWSAnywhere_context() + "services/p2s/querys/productosquebrados/" + idUsuario + "/" + idCorr[0] + "/" + idCliente[0] + "/" + idCadena[0] + "/" + idLocal[0] ,
+					dataType:"json",
+					crossDomain : true,
+					success: function(data,status,jqXHR) {
+						construyeOpciones(data);
+						
+						
+					}, 
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						 console.log("error : " + textStatus + "," + errorThrown);
+				    }
+				});
+			}, 
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				 console.log("error : " + textStatus + "," + errorThrown);
+		    }
+		});
+		
+	};
+	
+	function construyeOpciones(data) {
+		$.each(data, function(key3, val3) {
+			$.each(val3, function(key4, val4) {
+				
+				idProducto.push(val4[0].value);
+				nombreProducto.push(val4[1].value);
+					
+				
+			});
+		});
+		var iteradorA = 0;
+		$.each(idProducto, function() {
+			
+			$("#selectProductoQuebrado_1000").append("<option value='"+idProducto[iteradorA]+"' selected>"+nombreProducto[iteradorA]+"</option>");
+			$("#selectProductoQuebrado_1000 option:eq(0)").prop("selected",true);
+			$("#selectProductoQuebrado_1000").selectmenu('refresh',true);
+			
+			iteradorA = iteradorA + 1;
+		});
+	}
 	
 	this.getHtml = function() {
 		/*this.num= parseInt(Math.random() * 100000);*/
@@ -258,16 +373,23 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 		 
  
 		if(this.json.omit1 != "yes"  ) {
-			html+= 	  "<div class='ui-field-contain ui-body ui-br' data-role='fieldcontain' "+this.json.style1+">" +
+			var style = "";
+			if(this.json.hide1) {
+				style="style='display:none;'"
+			}
+			
+			html+= 	  "<div class='ui-field-contain ui-body ui-br' data-role='fieldcontain' "+this.json.style1+" "+style+">" +
 					"<label for='selectClientes_"+this.num+"' class='ui-select'>"+this.json.getLabel1+":</label>" +
 	                 		"<div class='ui-select'>" +
 						"<select eje-type='number' class='required' name='selectClientes_"+this.num+"' id='selectClientes_"+this.num+"'  " +
 							"onchange=\"(function() { ";
+							html+= "var any = new ObjAnyWhereCCL_CP(); ";
+			
 							if( this.json["cache1"] == "yes" ) {
-	      							html+= " any.onChangeCadena('"+this.num+"'); ";
+	      							html+= " any.onChangeCliente('"+this.num+"'); ";
 	      			  			}
-							html+= "var any = new ObjAnyWhereCCL_CP(); " +
-							"any.loadCadenas('"+this.num+"'); " +
+
+							html+="any.loadCadenas('"+this.num+"'); " +
 							"})();\"  >" +
 							"<option value='' selected>Escoger Cliente</option>" +
 						"</select>" +
@@ -277,7 +399,12 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 		}
         
 		if(this.json.omit2 != "yes"  ) {
-			html+=    "<div class='ui-field-contain ui-body ui-br' data-role='fieldcontain'>" +
+			var style = "";
+			if(this.json.hide2) {
+				style="style='display:none;'"
+			}
+			
+			html+=    "<div class='ui-field-contain ui-body ui-br' data-role='fieldcontain' "+style+">" +
 					  "<label for='selectCadenas_"+this.num+"' class='ui-select'>"+this.json.getLabel2+":</label>" +
 	                  "<div class='ui-select'>" +
 	                  "<select  eje-type='number' class='required' name='selectCadenas_"+this.num+"' id='selectCadenas_"+this.num+"'  onchange=\"(function() { var any = new ObjAnyWhereCCL_CP();   ";
@@ -293,7 +420,12 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 		}
         
 		if(this.json.omit3 != "yes"  ) {
-			html+=    "<div class='ui-field-contain ui-body ui-br' data-role='fieldcontain'>" +
+			var style = "";
+			if(this.json.hide3) {
+				style="style='display:none;'"
+			}
+			
+			html+=    "<div class='ui-field-contain ui-body ui-br' data-role='fieldcontain' "+style+">" +
 					  "<label for='selectLocales_"+this.num+"' class='ui-select'>"+this.json.getLabel3+":</label>" +
 	                  "<div class='ui-select'>" +
 	                  "<select  eje-type='number'  class='required' name='selectLocales_"+this.num+"' id='selectLocales_"+this.num+"' " +
@@ -314,9 +446,13 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 		}
          
 		if(this.json.omit4 != "yes"  ) {
+			var style = "";
+			if(this.json.hide4) {
+				style="style='display:none;'"
+			}
 			
 			if(this.json.theme4 == "combo") { 
-				   html+=    "<div class='ui-field-contain ui-body ui-br' data-role='fieldcontain'>" +
+				   html+=    "<div class='ui-field-contain ui-body ui-br' data-role='fieldcontain' "+style+">" +
 				   			"<label for='selectCategorias_"+this.num+"' class='ui-select'>"+this.json.getLabel4+":</label>" +
 				   			"<div class='ui-select'>" +
 				   			"<select  eje-type='number' class='required' name='selectCategorias_"+this.num+"' id='selectCategorias_"+this.num+"' " +
@@ -434,10 +570,12 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 							delete v.cadenas[i].locales;
 						}
 						*/
-							
+						//console.log(v);
 						var strCadenas = JSON.stringify(v.cadenas);
 						
-						map.add("cliente_"+v.id, strCadenas, function() {
+						map.add("cliente_"+v.id, strCadenas, function(cliente) {
+							
+							
 							$("#selectClientes_"+id).append("<option value='"+v.id+"' >"+v.name+"</option>");	
 						});
 						
@@ -610,10 +748,13 @@ function ObjAnyWhereCCL_CP(paramJSON) {
  
 		$.each(jsonLocales , function(k,v) {
 			map.add("local_"+v.idlocal, JSON.stringify(v.categorias), function() {
-				$("#selectLocales_"+numPos).append("<option value='"+v.idlocal+"' >"+v.nombre+"</option>");
+				var option = "<option value='"+v.idlocal+"' >"+v.nombre+"</option>";
+				//console.log(option);
+				$("#selectLocales_"+numPos).append(option);
 				cant=cant+1;
 			});
 		});
+		//console.log($("#selectLocales_"+numPos));
 		
 		if(cant==1 && json["getCache3"] != "yes") {
 			//console.log("##########  LOCALES CON 1 OBJETO Y SIN OBTENCION DE CACHE ");
@@ -680,6 +821,7 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 		  
 			if(localJson.theme4 == "combo") { 
 				$.each(jsonCategorias , function(k,v) {
+					 
 					var map = new MapSQL("dataSQL");
 					map.add("categoria_"+v.idparametro, JSON.stringify(v.productos), function() {
 						if( catOnly != null ) {
@@ -691,7 +833,10 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 							});
 						}
 						else {
-							$("#selectCategorias_"+numPos).append("<option value='"+v.idparametro+"' lang='"+JSON.stringify(v.productos)+"'>"+v.descparametro+"</option>");
+							//var html = "<option value='"+v.idparametro+"' lang='"+JSON.stringify(v.productos)+"'>"+v.descparametro+"</option>";
+							var html = "<option value='"+v.idparametro+"' >"+v.descparametro+"</option>";
+							$("#selectCategorias_"+numPos).append(html);
+							//console.log($("#selectCategorias_"+numPos));
 							cant=cant+1;
 						}
 					});	
@@ -819,38 +964,38 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 			var obj = new ObjAnyWhereCCL_CP(localJson);
 
 			
-			//console.log("bef - each-->");
+			 
 			$.each(data, function(k,v) {
-				console.log(v);
+				//console.log(v);
 				var str = "<tr>";
-				str+="			<th align='left'>"+v.nombreproducto;
-				str+="				<input type='hidden' name='gato_id_producto' 	id='gato_row_"+v.idproducto+"_id_producto'	value='"+v.idproducto+"'/>";
-				str+="				<input type='hidden' name='gato_producto_desc' 	id='gato_row_"+v.idproducto+"_producto'		value='"+v.nombreproducto+"' />";			
-				str+="			</th>";
+				str+="			<td align='left'>"+v.nombreproducto;
+				str+="				<input type='hidden' name='gato_id_producto' 	id='gato_row_"+cant+"_id_producto'	value='"+v.idproducto+"'/>";
+				str+="				<input type='hidden' name='gato_producto_desc' 	id='gato_row_"+cant+"_producto'		value='"+v.nombreproducto+"' />";			
+				str+="			</td>";
 				if(col1Hidden != "display:none;") {
 					str+="			<td>";//+localJson["column1"];
 					str+="				 <input type='hidden' id='id' name='id'  value='"+v.idproducto+"' size='1' width='40px' class=''/>";
-					str+="    			 	"+obj.getColType( localJson["theme5.columna1.type"] , v.idproducto, "pNormal", idCategoria,1, localJson["theme5.columna1.name"], localJson["theme5.columna1.data"], v.data_adic1, localJson["theme5.columna1.readonly"])+"</td>";
+					str+="    			 	"+obj.getColType( localJson["theme5.columna1.type"] , v.idproducto, "pNormal", idCategoria,1, cant,  obj.colNameToColServer(localJson["theme5.columna1.name"]), localJson["theme5.columna1.data"], v.data_adic1, localJson["theme5.columna1.readonly"])+"</td>";
 				}
 				
 				if(col2Hidden != "display:none;") {
 					str+="			<td>";//+localJson["column2"];
-					str+="			    "+obj.getColType( localJson["theme5.columna2.type"] , v.idproducto, "pTarjeta"  , idCategoria, 2, localJson["theme5.columna2.name"], localJson["theme5.columna2.data"], v.data_adic2, localJson["theme5.columna2.readonly"])+"</td>";
+					str+="			    "+obj.getColType( localJson["theme5.columna2.type"] , v.idproducto, "pTarjeta"  , idCategoria, 2, cant, obj.colNameToColServer(localJson["theme5.columna2.name"]), localJson["theme5.columna2.data"], v.data_adic2, localJson["theme5.columna2.readonly"])+"</td>";
 				}
 				
 				if(col3Hidden != "display:none;") {
 					str+="			<td>";//+localJson["column3"];
-					str+="			    "+obj.getColType( localJson["theme5.columna3.type"] , v.idproducto, "pColumna3" , idCategoria, 3, localJson["theme5.columna3.name"], localJson["theme5.columna3.data"], v.data_adic3, localJson["theme5.columna3.readonly"])+"</td>";
+					str+="			    "+obj.getColType( localJson["theme5.columna3.type"] , v.idproducto, "pColumna3" , idCategoria, 3, cant, obj.colNameToColServer(localJson["theme5.columna3.name"]), localJson["theme5.columna3.data"], v.data_adic3, localJson["theme5.columna3.readonly"])+"</td>";
 				}
 				
 				if(col4Hidden != "display:none;") {
 					str+="			<td>";//+localJson["column4"];
-					str+="			     "+obj.getColType( localJson["theme5.columna4.type"] , v.idproducto, "pColumna4" , idCategoria,4, localJson["theme5.columna4.name"], localJson["theme5.columna4.data"], v.data_adic4, localJson["theme5.columna4.readonly"])+"</td>";
+					str+="			     "+obj.getColType( localJson["theme5.columna4.type"] , v.idproducto, "pColumna4" , idCategoria,4, cant, obj.colNameToColServer(localJson["theme5.columna4.name"]), localJson["theme5.columna4.data"], v.data_adic4, localJson["theme5.columna4.readonly"])+"</td>";
 				}
 				
 				if(col5Hidden != "display:none;") {
 					str+="			<td>";//+localJson["column5"];
-					str+="			    "+obj.getColType( localJson["theme5.columna5.type"] , v.idproducto, "pColumna5" , idCategoria, 5, localJson["theme5.columna5.name"], localJson["theme5.columna5.data"], v.data_adic5, localJson["theme5.columna5.readonly"])+"</td>";
+					str+="			    "+obj.getColType( localJson["theme5.columna5.type"] , v.idproducto, "pColumna5" , idCategoria, 5, cant, obj.colNameToColServer(localJson["theme5.columna5.name"]), localJson["theme5.columna5.data"], v.data_adic5, localJson["theme5.columna5.readonly"])+"</td>";
 				}
 				str+="</tr>";
 				
@@ -858,7 +1003,7 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 				cant=cant+1;
 			});	
 			//console.log("end - each");
-			$(queryProducto+" tbody").append("<tr style='height:120px;'></tr>");
+			//$(queryProducto+" tbody").append("<tr style='height:120px;'></tr>");
 			
 			var f = new Function("("+localJson["listeners.endAddProducto"]+")()");
 			f();
@@ -914,7 +1059,15 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 		//console.log("[END ITERACION POR PRODUCTO]"+cant);
 	};
 	
-	this.getColType = function(tipo, numProducto, idName , idCategoria, position, columnName, data, dataAdicional, readONLY) {
+	this.colNameToColServer = function(colName) {
+		if(colName != null) {
+			colName = colName.replace("<br/>","_");
+		}
+		
+		return colName;
+	};
+	
+	this.getColType = function(tipo, numProducto, idName , idCategoria, positionCol, positionRow ,  columnName, data, dataAdicional, readONLY) {
 		var readonly = "";
 		if(readONLY == true) {
 			readonly = "readonly='readonly'";
@@ -925,43 +1078,43 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 		var value = "";
 		
 		if( tipo == "radio") {
-			id 	 	= "g_row_"+numProducto;
-			name 	= "g_row_"+numProducto;
+			id 		= "g_row_"+positionRow+"_"+positionCol;
+			name 	= "g_row_"+positionRow; // se transponerá por el hecho de ser g_row
 			value 	= "1";
 		}
-		else if( tipo == "number") {
-			id 	 	= "g_row_"+numProducto;
-			name 	= "g_row_"+numProducto;
+		else if( tipo == "number") {	// en la fila esta cell es un numero
+			id 		= "g_row_"+positionRow+"_"+positionCol;
+			name 	= "gato_["+positionRow+"]"+columnName;
 			value 	= "1";
 		}
-		else if( tipo == "number2") {
-			id 		= "g_row_"+idName+"_"+numProducto;
-			name 	= "g_row_"+idName+"_"+numProducto;
+		else if( tipo == "number2") {  // en la fila esta cell es un numero
+			id 		= "g_row_"+positionRow+"_"+positionCol;
+			name 	= "gato_["+positionRow+"]"+columnName;
 			value 	= "1";
 		}
 		else if( tipo == "range") {
-			id 		= "g_row_"+idName+"_"+numProducto;
-			name 	= "g_row_"+idName+"_"+numProducto;
+			id 		= "g_row_"+positionRow+"_"+positionCol;
+			name 	= "g_row_"+positionRow+"_"+numProducto;
 			value 	= "0";
 		}
 		else if( tipo == "radiomultiple") {
-			id 		= "g_row_"+numProducto;
-			name 	= "g_row_"+numProducto+"_"+idName;
+			id 		= "g_row_"+positionRow+"_"+positionCol;
+			name 	= "gato_"+positionRow;	//ok
 			value 	= "1";
 		}
-		else if( tipo == "combobox" ) {
-			id 		= "g_row_"+numProducto;
-			name 	= "g_row_"+numProducto+"_"+idName;
+		else if( tipo == "combobox" ) { // es una fila esta cell es un combo con varios valores
+			id 		= "g_row_"+positionRow+"_"+positionCol;
+			name 	= "gato_["+positionRow+"]"+columnName;
 			value 	= "1";
 		}
-		else if( tipo == "combobox2" ) {
-			id 		= "g_row_"+numProducto;
-			name 	= "g_row_"+numProducto;
+		else if( tipo == "truefalse" ) {	// es una fila esta cell es un combo con si y no
+			id 		= "g_row_"+positionRow+"_"+positionCol;
+			name 	= "gato_["+positionRow+"]"+columnName;
 			value 	= "1";
 		}
 		else {
-			id 		= "g_row_"+idName+"_"+numProducto;
-			name 	= "g_row_"+idName+"_"+numProducto;
+			id 		= "g_row_"+positionRow+"_"+positionCol;
+			name 	= "g_row_"+positionRow+"_"+numProducto;
 			value   = 0;
 		}
 		
@@ -1210,7 +1363,7 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 					    "<tr>";
 			 
 			 if( this.json.theme5 == "table") {
-				
+				/*02-06-201 Pancho*/
 				var col1Hidden = "";
 				var col2Hidden = "";
 				var col3Hidden = "";
@@ -1240,25 +1393,38 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 				//console.log("@@@@  COLUMN 4");
 				//console.log(this.json.column4);
 				
-				htmlLocal+="<th>"+this.json.column0+"</th>";
+				htmlLocal+="<th>";
+				//htmlLocal+="<input type='hidden' name='gato_id_producto' value='' />";
+				//htmlLocal+="<input type='hidden' name='gato_producto_desc' value='' />";
+				htmlLocal+=this.json.column0+"</th>";
 				if(col1Hidden != "display:none;") {
-					htmlLocal+="<th data-priority='1'  >"+this.json.column1+"</th>";
+					htmlLocal+="<th data-priority='1'  >";
+					//htmlLocal+="<input type='hidden' name='gato_col_1' value='"+this.json.column1+"' />";
+					htmlLocal+=this.json.column1+"</th>";
 				}
 				
 				if(col2Hidden != "display:none;") {
-					htmlLocal+="<th  data-priority='2'  >"+this.json.column2+"</th>";
+					htmlLocal+="<th  data-priority='2'  >";
+					//htmlLocal+="<input type='hidden' name='gato_col_2' value='"+this.json.column2+"' />";
+					htmlLocal+=this.json.column2+"</th>";
 				}
 				
 				if(col3Hidden != "display:none;") {
-					htmlLocal+="<th data-priority='3'  >"+this.json.column3+"</th>";
+					htmlLocal+="<th data-priority='3'  >";
+					//htmlLocal+="<input type='hidden' name='gato_col_3' value='"+this.json.column3+"' />";
+					htmlLocal+=this.json.column3+"</th>";
 				}
 				
 				if(col4Hidden != "display:none;") {
-					htmlLocal+="<th  data-priority='4'  >"+this.json.column4+"</th>";
+					htmlLocal+="<th  data-priority='4'  >";
+					//htmlLocal+="<input type='hidden' name='gato_col_4' value='"+this.json.column4+"' />";
+					htmlLocal+=this.json.column4+"</th>";
 				}
 				
 				if(col5Hidden != "display:none;") {
-					htmlLocal+="<th  data-priority='5'  >"+this.json.column5+"</th>";
+					htmlLocal+="<th  data-priority='5'  >";
+					//htmlLocal+="<input type='hidden' name='gato_col_5' value='"+this.json.column5+"' />";
+					htmlLocal+=this.json.column5+"</th>";
 				}
 					
 			 }
@@ -1321,5 +1487,9 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 			
 	    //console.log("[num:"+localNum+"]");
 	    return localNum;
+	}
+	
+	this.getTableProductosSelector = function() {
+		return "#selectProductos_"+numPos;
 	}
 }

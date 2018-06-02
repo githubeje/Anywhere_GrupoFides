@@ -41,7 +41,13 @@ $("#principal").live("pageshow",function() {
 
 $('#principal').bind( 'pagebeforecreate',function(event) {
 	if(objAnywhere == null) {
-		objAnywhere = new ObjAnyWhereCCL_CP({"disabled1":"no",
+		objAnywhere = new ObjAnyWhereCCL_CP({
+			
+											 "cache1":"yes",
+											 "cache2":"yes",
+											 "cache3":"yes",
+			 
+											 "disabled1":"no",
 											 "disabled2":"no",
 											 "disabled3":"no",
 											 
@@ -50,7 +56,7 @@ $('#principal').bind( 'pagebeforecreate',function(event) {
 											 "getCache3":"yes",
 											 
 											 "system.producto.class":"required",
-											 "system.producto.class":"required",
+											 
 											 "omit4":"yes",
 											 "omit5":"yes" 
 										});
@@ -202,7 +208,7 @@ $("#save").live("click",function() {
 			console.table(val);
 			console.table(NombreTarea);*/
 			if (data != null){
-				popup("Mensaje", "Resultados","#lista_protocolo");
+				//popup("Mensaje", "Resultados","#lista_protocolo");
 				/*$(location).attr("href","#informe");*/
 			}
 		},
@@ -235,6 +241,7 @@ function guardaProtocolo() {
 		},
 		
 		function(data,status,jqXHR) { 
+			/*
 			var mensajeSave = "Registro de ingreso enviado correctamente";
 			if(data != null) {
 				if(data.dataFalsa == "dataFalsa") {
@@ -246,6 +253,7 @@ function guardaProtocolo() {
 			    $.mobile.changePage( "index.html", { transition: "flip"} );
 			
 			}});
+			*/
 		});
 }
 

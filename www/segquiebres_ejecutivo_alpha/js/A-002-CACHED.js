@@ -32,16 +32,23 @@ createPhotoButton(2,false);
 createPhotoButton(3,false);
 createPhotoButton(4,false);
 
+var anySaveObject = new AnySave();
+
 $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 	if(objAnywhere == null) {
-		objAnywhere = new ObjAnyWhereCCL_CP({"disabled1":"no",
+		objAnywhere = new ObjAnyWhereCCL_CP({
+											 "hide1":"yes",
+											 "hide2":"no",
+											 "hide3":"no",
+			
+											 "disabled1":"no",
 											 "disabled2":"no",
 											 "disabled3":"no",
 											 
-											 "getCache1":"no",
-											 "getCache2":"no",
-											 "getCache3":"no",
-											 
+											 "getCache1":"yes",
+											 "getCache2":"yes",
+											 "getCache3":"yes", 
+ 								 
 											 "omit4": "yes",
 											 
 											 "system.producto.class":"required",
@@ -105,18 +112,6 @@ function guardaProtocolo() {
 			a5: objAnywhere.getCategoria(),
 			a6: objAnywhere.getProducto(),
 			num_val1:6,
-		},
-		function(data,status,jqXHR) { 
-			var mensajeSave = "Registro de seguimiento de quiebre enviado correctamente";
-			if(data != null) {
-				if(data.dataFalsa == "dataFalsa") {
-					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
-				}
-			}
-			var popup = new MasterPopup();
-			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			    $.mobile.changePage( "index.html", { transition: "flip"} );
-			}});
 		});
 }
 
@@ -159,37 +154,34 @@ function removeOptions(selectbox)
 
 
 function saveQuiebre() {
-	if(!quiebreSaveInit) {
-		quiebreSaveInit = true;
-		internalSave();
-	}	
-
-}
-
-
-function internalSave() {
-	
-	 if ($('#formSend').validate({
-		 	errorPlacement: function(error, element) {
-				if ($(element).is('select')) {
-					error.insertAfter($(element).parent());
-				}
-				else {
-					error.insertAfter(element);
-				}
+	var success = function(data) {
+		guardaProtocolo();
+		
+		var mensajeSave = "Registro de seguimiento de quiebre enviado correctamente";
+		if(data != null) {
+			if(data.dataFalsa == "dataFalsa") {
+				mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
 			}
-		 }).form() == true) {
-		 
-		 internalSave3();
-	 }
-	 else {
-		 var popup = new MasterPopup();
-		 popup.alertPopup(nombreModulo, "Debes completar todos los datos en rojo");
-		 quiebreSaveInit = false;
-	 } 
-	 
+		}
+		var popup = new MasterPopup();
+		popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
+		    $.mobile.changePage( "../menu.html", { transition: "flip"} );
+		}});
+		
+
+	}
+	
+	anySaveObject.save({
+		 nombreModulo: nombreModulo,
+		 formularioID: "PROT-7",
+		 formName : "formSend",
+		 objAnywhere: objAnywhere,
+		 silent: false,
+		 success : success
+	});
 }
 
+ /*
 
 function internalSave3() {
 
@@ -235,4 +227,11 @@ function internalSave3() {
 			    $.mobile.changePage( "../menu.html", { transition: "flip"} );
 			}});
 		});
+}
+*/
+
+function test() {
+	var su = new SaveUtils();
+	var json = su.serializePage("formSend", objAnywhere);
+	console.log(json);
 }

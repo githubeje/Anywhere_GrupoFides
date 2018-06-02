@@ -18,6 +18,8 @@ $(".titleTag").each(function() {
 	$(this).html(nombreModulo);
 });
 
+var anySaveObject = new AnySave();
+
 $('#shareofshelf_principal').bind( 'pagebeforecreate',function(event) {
 	console.log("shareofshelf_principal");
 	
@@ -28,20 +30,26 @@ $('#shareofshelf_principal').bind( 'pagebeforecreate',function(event) {
 function restartCombosShareOfShelf() {
 	objAnywhere = new ObjAnyWhereCCL_CP({
 		
+		 "hide1":true,
+		 "hide2":true,
+		 "hide3":true,
+		 
 		 "disabled1":"no",
 		 "disabled2":"no",
 		 "disabled3":"no",
 		 
-		 "getCache1":"no",
-		 "getCache2":"no",
-		 "getCache3":"no", 
+		 "getCache1":"yes",
+		 "getCache2":"yes",
+		 "getCache3":"yes",
 		
 		 "theme5":"table",
 		 "theme5.columna2.visibility":true,
 		 "theme5.columna3.visibility":true,
+		 
 		 "theme5.columna1.name":"Facing",
 		 "theme5.columna2.name":"Precio",
 		 "theme5.columna3.name":"¿Es Promoción?",
+		 
 		 "theme5.columna3.type":"truefalse",	
 		 
 		// "categorias.only":[410,411,412,413],
@@ -118,44 +126,27 @@ function guardaProtocolo() {
 }
 
 function saveShareOfShelf() {
-	if(!shareofShelfSaveInit) {
-		shareofShelfSaveInit = true;
-		internalSave();
-	}	
-
+	var success = function() {
+		guardaProtocolo();
+		
+	}
+	anySaveObject.save({
+		 nombreModulo: nombreModulo,
+		 formularioID: "PROT-3",
+		 formName : "formSend",
+		 objAnywhere: objAnywhere,
+		 silent: false,
+		 success : success
+	 });
 }
 
-	function internalSave() {
-		
-		 if ($('#formSend').validate({
-			 	errorPlacement: function(error, element) {
-					if ($(element).is('select')) {
-						error.insertAfter($(element).parent());
-					}
-					else {
-						error.insertAfter(element);
-					}
-				}
-			 }).form() == true) {
-			 
-			 
-			 internalSave2();
-			 
-		 }
-		 else {
-			 var popup = new MasterPopup();
-			 popup.alertPopup("Alerta", "Debes completar todos los datos en rojo");
-			 shareofShelfSaveInit = false;
-		 } 
-		 
-	}
-
-
-	function internalSave2() {	
-		
-			internalSave3();
-		
-	}
+function test() {
+	var saveUtil = new SaveUtils();
+	var params = saveUtil.serializePage("formSend", objAnywhere);
+	console.log(params);
+}
+ 
+ /*
 
 	function internalSave3() {
 			console.log("Sending");
@@ -229,3 +220,4 @@ function saveShareOfShelf() {
 		});
 	}
 	
+*/

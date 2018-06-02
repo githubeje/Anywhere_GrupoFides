@@ -31,6 +31,8 @@ createPhotoButton(2,true, false, "Foto.");
 createPhotoButton(3,true, false, "Foto.");
 createPhotoButton(4,false);
 
+var anySaveObject = new AnySave();
+
 $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 	if(objAnywhere == null) {
 		objAnywhere = new ObjAnyWhereCCL_CP({"disabled1":"no",
@@ -110,42 +112,21 @@ function test() {
 }
 
 function saveQuiebre() {
-	if(!quiebreSaveInit) {
-		quiebreSaveInit = true;
-		internalSave();
-	}	
+	var success = function() {
+		guardaProtocolo();
+	}
+	
+	anySaveObject.save({
+		 nombreModulo: nombreModulo,
+		 formularioID: "PROT-5",
+		 formName : "formSend",
+		 objAnywhere: objAnywhere,
+		 silent: false,
+		 success : success
+	});
 
 }
-
-
-function internalSave() {
-	console.log("hola como estas");
-	 if ($('#formSend').validate({
-		 	errorPlacement: function(error, element) {
-				if ($(element).is('select')) {
-					error.insertAfter($(element).parent());
-				}
-				else {
-					error.insertAfter(element);
-				}
-			}
-		 }).form() == true) {
-		 
-		 //if( fotosObligatoriasCargadas() ) {
-			 internalSave_ModoSimple();	 
-		 //}
-		 //else {
-		//	 quiebreSaveInit = false;
-		 //}
-	 }
-	 else {
-		 var popup = new MasterPopup();
-		 popup.alertPopup(nombreModulo, "Debes completar todos los datos en rojo");
-		 quiebreSaveInit = false;
-	 } 
-	 
-}
-
+ /*
 
 function internalSave_ModoSimple() {
 	
@@ -180,7 +161,7 @@ function internalSave_ModoSimple() {
 		guardaProtocolo();
 	
  
-}
+}*/
 
 function guardaProtocolo() {
 
@@ -209,7 +190,7 @@ function guardaProtocolo() {
 			}
 			var popup = new MasterPopup();
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			    $.mobile.changePage( "planilla_por_sala.html", { transition: "flip"} );
+			    $.mobile.changePage( "../../menu.html", { transition: "flip"} );
 			}});
 		});
 }

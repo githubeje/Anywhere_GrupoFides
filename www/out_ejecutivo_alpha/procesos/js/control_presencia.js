@@ -230,7 +230,7 @@ $("#save").live("click",function() {
 			console.table(data);
 			console.log(NombreTareaOut);
 			if (data != null){
-				popup("Mensaje", "Resultados","#lista_protocolo");
+				//popup("Mensaje", "Resultados","#lista_protocolo");
 				/*$(location).attr("href","#informe");*/
 			}
 		},

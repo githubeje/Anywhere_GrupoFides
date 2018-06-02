@@ -301,6 +301,7 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 	this.setProductosQuebrados = function(idUsuario) {
 		/*$("#selectProductoQuebrado_1000").append("<option value='2' selected>Prueba 2</option>");
 		$("#selectProductoQuebrado_1000").append("<option value='3' selected>Prueba 3</option>");*/
+		console.log("setProductosQuebrados");
 		var any = new Anywhere();
 		$.ajax({ 
 			type: "GET",

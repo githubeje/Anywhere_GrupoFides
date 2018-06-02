@@ -56,8 +56,8 @@ var Menu = function() {
 							
 							//console.log(versions);
 							if(versions.lastVersion == -1) {
-								json["inout"]=false;
-								json["out"]= false;
+								//json["inout"]=false;
+								//json["out"]= false;
 							}
 							
 							menuObject.loadZonas_etapa2(clienteACargar, inside, json);

@@ -161,10 +161,14 @@ function confirmWJavasript(asunto, msg, metodoJavascript){
 	});
 }
 
-MasterPopup = function() {
-	var popupIdentify = null;
+class MasterPopup{
 	
-	this.createPopup = function(id, asunto, msg, url1, url2, metodoJavascript, headerClose, omitButtonTrue, omitButtonFalse, jsonProps) {
+	
+	constructor() {
+		this.popupIdentify = null;
+	}
+	
+	createPopup(id, asunto, msg, url1, url2, metodoJavascript, headerClose, omitButtonTrue, omitButtonFalse, jsonProps) {
 		console.log("[MasterPopup.createPopup]");
 		
 		var funcYes = null;
@@ -174,13 +178,14 @@ MasterPopup = function() {
 			id = this.makeId();
 		}
 		
-		if( $("#"+id).length == 0){
-			$("body").append("<div id='"+id+"'></id>");
-			popupIdentify = "#"+id;
+		if( $("#"+id).length!= 0){
+			$("#"+id).remove();
 		}
-		else {
-			popupIdentify = id;
-		}
+		
+		$("body").append("<div id='"+id+"'></id>");
+		this.popupIdentify = "#"+id;
+	
+		
 		
 		if(jsonProps == null || jsonProps == "undefined" || jsonProps == undefined) {
 			jsonProps = {};
@@ -217,7 +222,7 @@ MasterPopup = function() {
 							
 						}
 						
-						$(popupIdentify).remove();
+						$(this.popupIdentify).remove();
 						return true;
 					}
 				},
@@ -232,7 +237,7 @@ MasterPopup = function() {
 							$(location).attr("href", url2);
 						}
 						
-						$(popupIdentify).remove();
+						$(this.popupIdentify).remove();
 					},
 					icon : "question",
 					theme : "c"
@@ -259,10 +264,10 @@ MasterPopup = function() {
 			delete configuration["callbackClose"];
 		};
 		
-		$(popupIdentify).simpledialog2(configuration);
+		$(this.popupIdentify).simpledialog2(configuration);
 	};
 	
-	this.makeId = function()  {
+	makeId()  {
 		console.log("[MasterPopup.makeid]");
 	    var text = "";
 	    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -273,28 +278,28 @@ MasterPopup = function() {
 	    return text;
 	};
 	
-	this.bloqPopup =  function(asunto, msg , configura) {
+	bloqPopup(asunto, msg , configura) {
 		console.log("[MasterPopup.bloqPopup]");
 		this.createPopup(null, asunto, msg, null, null, null, false,true,true, configura);
 	};
 	
-	this.alertPopup = function(asunto, msg, configura) {
+	alertPopup(asunto, msg, configura) {
 		console.log("[MasterPopup.alertPopup]");
 		this.createPopup(null, asunto, msg, null, null, null, false, false, true, configura);
 	};
 	
-	this.confirmPopup = function(asunto, msg, configura) {
+	confirmPopup(asunto, msg, configura) {
 		console.log("[MasterPopup.confirmPopup]");
 		this.createPopup(null, asunto, msg, null, null, null, false, false, false, configura);
 	};
 	
-	this.closePopup = function() {
+	closePopup() {
 		console.log("[MasterPopup.closePopup]");
 		
-		$(popupIdentify).simpledialog2('close');
+		$(this.popupIdentify).simpledialog2('close');
 	};
 	
-	this.ACTION_REFRESHPAGE = function()
+	ACTION_REFRESHPAGE()
 	{
 	    $.mobile.changePage(
 	    	    window.location.href,

@@ -9,7 +9,7 @@ var style = "<style> .tabla, .tabla TD, .tabla TH .tabla TR {font-family:Georgia
 function drawMap(mapDiv) {
 	var infowindow = new google.maps.InfoWindow({size: new google.maps.Size(150,50)});
 	geocoder = new google.maps.Geocoder();
-	if(typeof direccion != 'undefined') {
+	if(typeof direccion != 'undefined') { 
 		geocoder.geocode( { "address": direccion}, 
 			function(results, status) {
 				if (status == google.maps.GeocoderStatus.OK) {
@@ -83,7 +83,7 @@ function codeAddress() {
 			return true;
 		}
 		else { 
-			popup("Mensaje", "La direccion que Ud. ha indicado no se puede encontrar. ¿Desea buscar manualmente?", "#mapa", "#nuevo");
+			popup("Mensaje", "La direccion que Ud. ha indicado no se puede encontrar. ï¿½Desea buscar manualmente?", "#mapa", "#nuevo");
 		}
 	}); 	
 }

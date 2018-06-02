@@ -29,6 +29,7 @@ createPhotoButton(2,true, true, "Foto Pasillo");
 createPhotoButton(3,true, true, "Foto a ocultar");
 createPhotoButton(4,true, true, "Foto a ocultar");
 
+var anySaveObject = new AnySave();
 
 $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 	if(objAnywhere == null) {
@@ -121,97 +122,107 @@ function guardaProtocolo() {
 			num_val1:1,
 		},
 		function(data,status,jqXHR) { 
+			/*
 			var mensajeSave = "Registro de ingreso enviado correctamente";
 			if(data != null) {
 				if(data.dataFalsa == "dataFalsa") {
 					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
 				}
 			}
+			
 			var popup = new MasterPopup();
 			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
 			    $.mobile.changePage( "../menu.html", { transition: "flip"} );
 			}});
+			*/
 		});
 	 
 	 	
 }
 
 function saveQuiebre() {
-	if(!quiebreSaveInit) {
-		quiebreSaveInit = true;
-		internalSave();
-	}	
-
-}
-
-
-function internalSave() {
-	
-	 if ($('#formSend').validate({
-		 	errorPlacement: function(error, element) {
-				if ($(element).is('select')) {
-					error.insertAfter($(element).parent());
-				}
-				else {
-					error.insertAfter(element);
-				}
-			}
-		 }).form() == true) {
-		 
-		 internalSave3();
-	 }
-	 else {
-		 var popup = new MasterPopup();
-		 popup.alertPopup(nombreModulo, "Debes completar todos los datos en rojo");
-		 quiebreSaveInit = false;
-	 } 
-	 
-}
-
-
-function internalSave3() {
 
 	 var any = new Anywhere();
 	 var vUrl = any.getWSAnywhere_context() + "services/alertasvarias/saveextendido/";
-	 var anySave = new AnywhereManager();
+	 
 	 
 	 var idUsuario = sessionStorage.getItem("rutT");
 	 fecha = moment().format("YYYYMMDD");
 	 hora = moment().format("HHmmss");
 	 
-	 anySave.save(vUrl,  { a1: idUsuario,
-			a2: objAnywhere.getCliente(),
-			a3: objAnywhere.getCadena(),
-			a4: objAnywhere.getLocal(),
-			a5: objAnywhere.getCategoria(),
-			a6: objAnywhere.getProducto(),
-			msg: $("#comentario").val(), 
-			a8: fecha, 
-			a9: hora, 
-			a10: varFotoUno,
-			a100: varFotoDos,
-			a1000: varFotoTres,
-			a10000: varFotoCuatro,
-			a11: posLatitud,  
-			a12: posLongitud,
-			a13: "0",
-			desc_val1: $("#tipo").val(),
-			tipoAlerta: 11,
-			num_val1: 1,
-		},
-		function(data,status,jqXHR) { 
-			guardaProtocolo();
-			var mensajeSave = "Alerta enviada correctamente";
-			if(data != null) {
-				if(data.dataFalsa == "dataFalsa") {
-					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
-				}
+	 
+	 var success = function(data) {
+		 console.log(data);
+		 
+		 var mensajeSave = "Alerta enviada correctamente";
+		 if(data != null) {
+			if(data.dataFalsa == "dataFalsa") {
+				mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
 			}
-			var popup = new MasterPopup();
-			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			    $.mobile.changePage( "index.html", { transition: "flip"} );
-			}});
-		});
+		 }
+		 var popup = new MasterPopup();
+		 popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
+		    $.mobile.changePage( "../menu.html", { transition: "flip"} );
+		 }});
+			
+		 reiniciaFotos();
+		 createPhotoButton(1,true, true, "Foto Gondola");
+		 createPhotoButton(2,true, true, "Foto Pasillo");
+		 createPhotoButton(3,true, true, "Foto a ocultar");
+		 createPhotoButton(4,true, true, "Foto a ocultar");
+		 
+		 guardaProtocolo();
+		 /*
+		 var anySave = new AnywhereManager();
+		 anySave.save(vUrl,  { a1: idUsuario,
+				a2: objAnywhere.getCliente(),
+				a3: objAnywhere.getCadena(),
+				a4: objAnywhere.getLocal(),
+				a5: objAnywhere.getCategoria(),
+				a6: objAnywhere.getProducto(),
+				msg: $("#comentario").val(), 
+				a8: fecha, 
+				a9: hora, 
+				a10: varFotoUno,
+				a100: varFotoDos,
+				a1000: varFotoTres,
+				a10000: varFotoCuatro,
+				a11: posLatitud,  
+				a12: posLongitud,
+				a13: "0",
+				desc_val1: $("#tipo").val(),
+				tipoAlerta: 11,
+				num_val1: 1,
+			},
+			function(data,status,jqXHR) { 
+				
+				var mensajeSave = "Alerta enviada correctamente";
+				if(data != null) {
+					if(data.dataFalsa == "dataFalsa") {
+						mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
+					}
+				}
+				var popup = new MasterPopup();
+				popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
+				    $.mobile.changePage( "index.html", { transition: "flip"} );
+				}});
+			});
+			*/
+	 }
+
+	 
+	 var f = {
+			 nombreModulo: nombreModulo,
+			 formularioID: "PROT-1",
+			 formName : "formSend",
+			 objAnywhere: objAnywhere,
+			 silent: false,
+			 success : success 
+		 };
+	 
+	 anySaveObject.save(f);
+	 
+	 
 }
 
 

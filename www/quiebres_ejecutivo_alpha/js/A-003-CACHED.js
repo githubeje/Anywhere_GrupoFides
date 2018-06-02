@@ -25,6 +25,8 @@ createPhotoButton(2,false);
 createPhotoButton(3,false);
 createPhotoButton(4,false);
 
+var anySaveObject = new AnySave();
+
 $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 	if(objAnywhere == null) {
 		objAnywhere = new ObjAnyWhereCCL_CP({"disabled1":"yes",
@@ -58,43 +60,35 @@ $("#tipo").live("click",function() {
 });
 
 function saveQuiebre() {
-	if(!quiebreSaveInit) {
-		quiebreSaveInit = true;
-		internalSave();
-	}	
-
-}
-
-
-function internalSave() {
-	
-	 if ($('#formSend').validate({
-		 	errorPlacement: function(error, element) {
-				if ($(element).is('select')) {
-					error.insertAfter($(element).parent());
+	var success = function(data,status,jqXHR) {
+		Protocolo.guardaProtocolo({
+			moduloId : 4,
+			objAnywhere:objAnywhere,
+			success: function(data2,status2,jqXHR2) {
+				var mensajeSave = "Alerta enviada correctamente";
+				if(data != null) {
+					if(data.dataFalsa == "dataFalsa") {
+						mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
+					}
 				}
-				else {
-					error.insertAfter(element);
-				}
+				var popup = new MasterPopup();
+				popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
+				    $.mobile.changePage( "../menu.html", { transition: "flip"} );
+				}});
 			}
-		 }).form() == true) {
-		 
-		 if( fotosObligatoriasCargadas() ) {
-			 internalSave3();	 
-		 }
-		 else {
-			 quiebreSaveInit = false;
-		 }
-	 }
-	 else {
-		 var popup = new MasterPopup();
-		 popup.alertPopup(nombreModulo, "Debes completar todos los datos en rojo");
-		 quiebreSaveInit = false;
-	 } 
-	 
+		});
+	}
+	anySaveObject.save({
+		 nombreModulo: nombreModulo,
+		 formularioID: "A-002-CACHED",
+		 formName : "formSend",
+		 objAnywhere: objAnywhere,
+		 silent: false,
+		 success : success
+	});
 }
-
-
+ 
+/*
 function internalSave3() {
 	 var prods = new Array();
 	 prods.push(objAnywhere.getProducto());
@@ -177,7 +171,7 @@ function internalSave3() {
 	 anySave.saveClaseWeb(true, "anywhere_movil_restanywhere", "OldSaveAlertas", "add", params, funcSuccess);	 
 	 
 }
-
+*/
 /*
 
 function internalSave_ModoSimple() {

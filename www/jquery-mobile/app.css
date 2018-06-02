@@ -1,4 +1,5 @@
 /* CSS Document redefine label de error */
+
 label.error { 
 	float:inherit; 
 	color: red; 

@@ -12,18 +12,25 @@ $(".titleTag").each(function() {
 	$(this).html(nombreModulo);
 });
 
+var anySaveObject = new AnySave();
+
 $('#precio_principal').bind( 'pagebeforecreate',function(event) {
 	console.log("precio_principal");
 	
 
 	objAnywhere = new ObjAnyWhereCCL_CP({
+		
+										 "hide1":"yes",
+										 "hide2":"yes",
+										 "hide3":"yes",
+	
 										 "disabled1":"no",
 										 "disabled2":"no",
 										 "disabled3":"no",
 										 
-										 "getCache1":"no",
-										 "getCache2":"no",
-										 "getCache3":"no", 
+										 "getCache1":"yes",
+										 "getCache2":"yes",
+										 "getCache3":"yes", 
 		 
 										 "theme5":"table",
 										 "theme5.columna1.name":"Hay<br/>Producto",
@@ -84,68 +91,44 @@ $('#precio_principal').bind( 'pageshow',function(event) {
 });
 
 
-
-function guardaProtocolo() {
-
-	 var any = new Anywhere();
-	 var vUrl = any.getWSAnywhere_context() + "services/alertasvarias/guardaprotocolo/";
-	 var anySave = new AnywhereManager();
-	 
-	 var idUsuario = sessionStorage.getItem("rutT");
-	 fecha = moment().format("YYYYMMDD");
-	 hora = moment().format("HHmmss");
-	 
-	 anySave.save(vUrl,  { a1: idUsuario,
-			a2: objAnywhere.getCliente(),
-			a3: objAnywhere.getCadena(),
-			a4: objAnywhere.getLocal(),
-			a5: objAnywhere.getCategoria(),
-			a6: objAnywhere.getProducto(),
-			num_val1:4,
-		},
-		function(data,status,jqXHR) { 
-			var mensajeSave = "Registro de ingreso enviado correctamente";
-			if(data != null) {
-				if(data.dataFalsa == "dataFalsa") {
-					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
-				}
-			}
-			var popup = new MasterPopup();
-			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			    $.mobile.changePage( "../menu.html", { transition: "flip"} );
-			}});
-		});
-}
+ 
 
 		function savePrecio() {
-			if(!facingSaveInit) {
-				facingSaveInit = true;
-				internalSave();
-			}	
-		}
-
-		
-		function internalSave() {
-			 if ($('#formSend').validate({
-				 	errorPlacement: function(error, element) {
-						if ($(element).is('select')) {
-							error.insertAfter($(element).parent());
-						}
-						else {
-							error.insertAfter(element);
+			 
+				var success = function(data,status,jqXHR) {
+					var mensajeSave = "Registro enviado correctamente";
+					if(data != null) {
+						if(data.dataFalsa == "dataFalsa") {
+							mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
 						}
 					}
-				 }).form() == true) {
-				 
-				 internalSave2();
-			 }
-			 else {
-				 var popup = new MasterPopup();
-				 popup.alertPopup(nombreModulo, "Debes completar todos los datos en rojo");
-				 facingSaveInit = false;
-			 } 
+					var popup = new MasterPopup();
+					popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
+					    $.mobile.changePage( "../menu.html", { transition: "flip"} );
+					}});
+					
+					{
+						Protocolo.guardaProtocolo({
+							moduloId : 4,
+							objAnywhere:objAnywhere,
+						});
+						
+						internalSave2();
+					}
+				}
+				anySaveObject.save({
+					 nombreModulo: nombreModulo,
+					 formularioID: "PROT-4",
+					 formName : "formSend",
+					 objAnywhere: objAnywhere,
+					 silent: false,
+					 success : success
+				});
+			 
 		}
-		
+
+		 
+
 		function internalSave2() {
 			
 			
@@ -223,15 +206,23 @@ function guardaProtocolo() {
 						cantOk+=1;			
 						
 						if(cantTotal == (cantOk + cantError ) ) {
-							guardaProtocolo();
-							
+							//guardaProtocolo();
+							/*
 							var popup = new MasterPopup();
 							popup.alertPopup(nombreModulo, "Datos guardados correctamente", {"funcYes":  function() {
 							    $.mobile.changePage( "index.html", { transition: "flip"} );
 							}});
+							*/
 						}
 					});
 			});
 			
 			
+			
+		}
+
+		function test() {
+			var saveUtil = new SaveUtils();
+			var params = saveUtil.serializePage("formSend", objAnywhere);
+			console.log(params);
 		}
