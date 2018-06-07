@@ -29,7 +29,7 @@ createPhotoButton(2,false);
 createPhotoButton(3,false);
 createPhotoButton(4,false);
 
-var anySaveObject = new AnySave();
+//var anySaveObject = new AnySave();
 
 $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 	if(objAnywhere == null) {

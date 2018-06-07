@@ -28,15 +28,10 @@ var idCliente = [];
 var idCadena = [];
 var idLocal = [];
 
-$("#principal").live("pageshow",function() {
-	var geo = new GeoGlobal();
-	geo.refreshGeo(function(lat, lo) {
-		posLatitud = lat;
-		posLongitud = lo;
+//var anySaveObject = new AnySave();
 
-	}, function(point) {
-		pointAddress = point;
-	});
+$("#principal").live("pageshow",function() {
+ 
 	
 	checkSiYaIngreso(true);
 });
@@ -147,9 +142,9 @@ $("#save").live("click",function() {
 								evento:evento,					
 							    fecha:now.format("YYYY/DD/MM"),			
 								hora:now.format("HH:mm:ss"),	
-								latitud:posLatitud,		
-								longitud:posLongitud,		
-								punto:pointAddress,  	
+								latitud:anySaveObject.getLatitud(),		
+								longitud:anySaveObject.getLongitud(),			
+								punto:anySaveObject.getPoint(),			
 								imagen:facingImage,			
 								idregistro:value.data,	
 								estado_gestion: 205	};
@@ -184,74 +179,7 @@ $("#save").live("click",function() {
 		}
 
 	});
-	/*
-	var any = new Anywhere();
-	$.ajax({ 
-		type: "GET",
-		dataType:"json",
-		url: any.getWSAnywhere_context() + "services/p2s/querys/protocoloactual/" + sessionStorage.getItem("rutT") + "/" + objAnywhere.getCliente() + "/" + objAnywhere.getCadena() + "/" + objAnywhere.getLocal() ,
-//		 sessionStorage.getItem("tmp") 
-		dataType:"json",
-		crossDomain : true,
-		success: function(data,status,jqXHR) {
-			$.each(data, function(key, val) {
-				$.each(val, function(key2, val2) {
-					NumeroVisitaOut.push(val2[0].value);
-					NumeroTareaOut.push(val2[1].value);
-					NombreTareaOut.push(val2[2].value);
-					EstadoTareaOut.push(val2[3].value);					
-				});
-			});
-			$("#tablaprotocolo2").html(
-					""
-				+	"	<div align='middle'>"
-				+	"		<p><strong>PROTOCOLO DE VISITAS</strong></p>"
-				+	"		<p> Visita actual : Nº " + NumeroVisitaOut[0] + " </p>"
-				+	" 	</div>"
-				+	"<table align='middle' border='1'>"
-				+   "   <tr> "
-				+   " 		<td><strong>Actividad</strong></td>"
-				+   " 		<td><strong>Estado de realización</strong></td>"
-				+   "   </tr> "
-				+   "   <tr> "
-				+   " 		<td>" + NombreTareaOut[0] + "</td>"
-				+   " 		<td>" + EstadoTareaOut[0] + "</td>"
-				+   "   </tr> "
-				+   "   <tr> "
-				+   " 		<td>" + NombreTareaOut[1] + "</td>"
-				+   " 		<td>" + EstadoTareaOut[1] + "</td>"
-				+   "   </tr> "
-				+   "   <tr> "
-				+   " 		<td>" + NombreTareaOut[2] + "</td>"
-				+   " 		<td>" + EstadoTareaOut[2] + "</td>"
-				+   "   </tr> "
-				+   "   <tr> "
-				+   " 		<td>" + NombreTareaOut[3] + "</td>"
-				+   " 		<td>" + EstadoTareaOut[3] + "</td>"
-				+   "   </tr> "
-				+   "   <tr> "
-				+   " 		<td>" + NombreTareaOut[4] + "</td>"
-				+   " 		<td>" + EstadoTareaOut[4] + "</td>"
-				+   "   </tr> "
-				+   "   <tr> "
-				+   " 		<td>" + NombreTareaOut[5] + "</td>"
-				+   " 		<td>" + EstadoTareaOut[5] + "</td>"
-				+   "   </tr> "
-				+   "</table> "
-			);
-			console.table(data);
-			console.log(NombreTareaOut);
-			if (data != null){
-				//popup("Mensaje", "Resultados","#lista_protocolo");
-//				$(location).attr("href","#informe");
-			}
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			 console.log("error : " + textStatus + "," + errorThrown);
-	    }
-	})
-	*/
-	
+		
 });
 
  

@@ -17,6 +17,7 @@ var destinationType;
 var facingImage = "";
 var registred = false;
 
+var anySaveObject = new AnySave();
 
 var Menu = function() {
 	this.loadZonas = function() {
@@ -264,6 +265,7 @@ var Menu = function() {
 			var rol = this.getRol(idrol);
 			var cliente = this.getCliente(idcliente);
 			console.log("CLIENTE:"+cliente);
+			console.log($.mobile.path.makeUrlAbsolute( "/images" ));
 			
 			if ( idmodulo == "1") {		 		
 				return this.addBoton_inout(activo, rol, cliente, jsonEnableButtons.inout, idmodulo);
@@ -512,7 +514,7 @@ var Menu = function() {
 		}
 		
 		htm += " 		<img width='96'src='icons/MenuIcon/03-F_ENTR.png'> ";; 
-		htm += " 			<h2>Fotos de entrada</h2><p>Registro de im\u00E1genes de entrada en g\u00F3ndolas</p> "; 
+		htm += " 			<h2>Fotos de entrada</h2><p>Registro de imagenes de entrada en g&oacute;ndolas</p> "; 
 		htm += " 	</a>"; 
 		htm += " </li>";
 			
@@ -542,7 +544,7 @@ var Menu = function() {
 		}
 		
 		htm += " 		<img width='96'src='icons/MenuIcon/08-F_SAL.png'> ";
-		htm += " 			<h2>Fotos de salida</h2><p>Registro de im\u00E1genes de salida en g\u00F3ndolas</p> "; 
+		htm += " 			<h2>Fotos de salida</h2><p>Registro de imagenes de salida en góndolas</p> "; 
 		htm += " 	</a>"; 
 		htm += " </li>";
 		
@@ -602,7 +604,7 @@ var Menu = function() {
 		}
 		 
 		htm += " 		<img src='icons/ipos.png'> "; 
-		htm += " 		<h2>IPos "+cliente+"</h2><p>Aplicaci\u00F3n m\u00F3vil de apoyo a la gesti\u00F3n de fuerzas de ventas</p> "; 
+		htm += " 		<h2>IPos "+cliente+"</h2><p>Aplicaci&oacute;n m&oacute;vil de apoyo a la gesti&oacute;n de fuerzas de ventas</p> "; 
 		htm += " 	</a> "; 
 		htm += " </li> ";
 			
@@ -634,7 +636,7 @@ var Menu = function() {
 		}
 		
 		htm += "		<img src='icons/imarket.png'> "; 
-		htm += "			<h2>IMarket "+cliente+"</h2><p>Aplicaci\u00F3n m\u00F3vil para recolecci\u00F3n de informaci\u00F3n de la competencia</p> "; 
+		htm += "			<h2>IMarket "+cliente+"</h2><p>Aplicaci&oacute;n m&oacute;vil para recolecci&oacute;n de informaci&oacute;n de la competencia</p> "; 
 		htm += "	</a> "; 
 		htm += "</li>";
 		
@@ -657,7 +659,7 @@ var Menu = function() {
 		htm += " <li id='"+key+"' "+strDisabled+"> ";
 		htm+= "		<a href='imarker/index.html' rel='external'> "; 
 		htm+= "			<img src='icons/imarker.png'> "; 
-		htm+= "				<h2>IMarker</h2><p>Aplicaci\u00F3n para el marcado de puntos georeferenciados</p> "; 
+		htm+= "				<h2>IMarker</h2><p>Aplicaci&oacute;n para el marcado de puntos georeferenciados</p> "; 
 		htm+= "		</a> "; 
 		htm+= "	</li> ";
 		$("#listaBotones").append(htm);
@@ -702,7 +704,7 @@ var Menu = function() {
 		htm += " <li id='"+key+"' "+strDisabled+"> ";
 		htm+= " 	<a href='ilocator/index.html' rel='external'> "; 
 		htm+= " 		<img src='icons/locator.png'> "; 
-		htm+= " 			<h2>Locator</h2><p>Aplicaci\u00F3n para la localizacion de puntos geogr\u00E1ficos</p> "; 
+		htm+= " 			<h2>Locator</h2><p>Aplicaci&oacute;n para la localizacion de puntos geogr&aacute;ficos</p> "; 
 		htm+= " 	</a> "; 
 		htm+= " </li>";
 		$("#listaBotones").append(htm);
@@ -906,14 +908,19 @@ $("#menu_principal").bind("pageshow",function() {
 		 
 	
 	/*SHOW VERSION IN MENU*/
-	/*
+	 
 	var info = new DeviceInfo();
-	var jSonDevice = info.getDeviceInfo(function(jSonDevice) {
-		$("#version").html(jSonDevice.app_version);
+	info.getDeviceInfo(function(jSonDevice) {
+		console.log(jSonDevice);
+		$(".version").each(function(o) {
+			$(this).html(jSonDevice.app_version);
+		});
 	});
-	*/
+
 	
-	/*no funciona el depurar remoto de google con registraGCM activado*/
+ 
+	
+	/*no funciona el DEBUG remoto de google con registraGCM activado*/
 	console.log("registraGCM()");
 	registraGCM();
 	//initDoMark();

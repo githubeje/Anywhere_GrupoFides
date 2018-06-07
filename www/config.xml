@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="cl.imasd.anywhere.fides.full" version="6.1.9">    
-	<name>Anywhere - Grupo Fides Test</name>
-	<description>Anywhere - Grupo Fides Test</description>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="cl.imasd.anywhere.fides.full" version="6.1.23">    
+	<name>Anywhere - Grupo Fides</name>
+	<description>Anywhere - Grupo Fides</description>
 	<author href="https://www.ejedigital.cl" email="soporte@ejedigital.cl">Soporte</author>
 	
 	<access origin="http://www.anywhere.cl/fides/ws1"/>

@@ -12,7 +12,7 @@ $(".titleTag").each(function() {
 	$(this).html(nombreModulo);
 });
 
-var anySaveObject = new AnySave();
+//var anySaveObject = new AnySave();
 
 $('#precio_principal').bind( 'pagebeforecreate',function(event) {
 	console.log("precio_principal");

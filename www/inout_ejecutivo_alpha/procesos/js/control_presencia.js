@@ -26,15 +26,10 @@ var NumeroTarea = [];
 var NombreTarea = [];
 var EstadoTarea = [];
 
-$("#principal").live("pageshow",function() {
-	var geo = new GeoGlobal();
-	geo.refreshGeo(function(lat, lo) {
-		posLatitud = lat;
-		posLongitud = lo;
+var anySaveObject = new AnySave();
 
-	}, function(point) {
-		pointAddress = point;
-	});
+$("#principal").live("pageshow",function() {
+ 
 	
 	checkSiYaIngreso(true);
 });
@@ -62,11 +57,14 @@ $('#principal').bind( 'pagebeforecreate',function(event) {
 										});
 		
 		$("#combos").html(objAnywhere.getHtml());
+		
+
 	}
 });
 
 $('#principal').bind( 'pageshow',function(event) {
 	objAnywhere.loadClients();
+	objAnywhere.isReady();
 });
 
 function checkSiYaIngreso(cambiaEstados) {
@@ -114,9 +112,9 @@ $("#save").live("click",function() {
 								evento:evento,					
 							    fecha:now.format("YYYY/DD/MM"),			
 								hora:now.format("HH:mm:ss"),	
-								latitud:posLatitud,		
-								longitud:posLongitud,		
-								punto:pointAddress,  	
+								latitud:anySaveObject.getLatitud(),		
+								longitud:anySaveObject.getLongitud(),			
+								punto:anySaveObject.getPoint(),		
 								imagen:facingImage,			
 								idregistro:value.data,	
 								estado_gestion: 205	};

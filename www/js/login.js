@@ -44,9 +44,17 @@ var login;
 			var sql = new MapSQL("cacheTripletaSelector");
 			sql.delAll();
 		};
+		
+		var info = new DeviceInfo();
+		info.getDeviceInfo(function(jSonDevice) {
+			console.log(jSonDevice);
+			$(".version").each(function(o) {
+				$(this).html(jSonDevice.app_version);
+			});
+		});
 	}
 	
-	document.addEventListener("deviceready", onDeviceReady, false);
+	//document.addEventListener("deviceready", onDeviceReady, false);
 	
 
 

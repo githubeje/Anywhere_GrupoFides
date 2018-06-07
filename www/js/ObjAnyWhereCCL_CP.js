@@ -1529,4 +1529,20 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 	this.getTableProductosSelector = function() {
 		return "#selectProductos_"+numPos;
 	}
+	
+	ObjAnyWhereCCL_CP.prototype.isReady = function() {
+		var localJson = JSON.parse($("#hiddenJson").val());
+		var ok = true;
+		if(localJson.getCache1 == "yes") {
+			ok&=this.getCliente()!=null;
+		}
+		if(localJson.getCache2 == "yes") {
+			ok&=this.getCadena()!=null;
+		}
+		if(localJson.getCache3 == "yes") {
+			ok&=this.getLocal()!=null;
+		}
+
+		return ok;
+	}
 }

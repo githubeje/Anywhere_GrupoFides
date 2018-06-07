@@ -28,7 +28,6 @@
 		<script type="text/javascript" src="jquery-mobile/jquery.chained.js"></script>
 		<script type="text/javascript" src="jquery-mobile/jquery.mobile.datebox-1.0.1.min.js"></script>		
 		<script type="text/javascript" src="jquery-mobile/messages_es.js"></script>	
-				
 
 		<script type="text/javascript" src="js/globalcontext.js"></script>
 		<script type="text/javascript" src="js/serverCaller.js"></script>
@@ -39,6 +38,7 @@
 		<script type="text/javascript" src="js/login.js"></script>
 		<script type="text/javascript" src="js/camera.js"></script>
 		<script src="phonegap.js"></script>
+
 		<script type="text/javascript" src="js/serverSQL.js"></script>
 		<script type="text/javascript" src="js/ObjAnyWhereCCL_CP.js"></script>
 
@@ -58,21 +58,15 @@
 				<img src="images/logos/anywhere.png" style="width:25%">
 				
 				<img src="images/logos/grupofides.png" style="width:25%; padding: 5px 60px 0px 0px;" align="right">
-				
-			   	<a href="#" id="close" data-icon="close" data-iconpos="notext" style="left:auto;right:20px;">Cerrar</a>
+
+			   	<a href="javascript:;App.exit();"  class="btn_home" data-transition="flip" data-icon="delete" data-iconpos="notext" style="left:auto;right:20px;">Home</a>
 			</div>
 			<div class="ui-content" data-role="content" id="contenido" data-theme="c">
 					<div data-role="fieldcontain" >
 						<input type="hidden" id="hiddenLog" />
-						<!-- <a href="javascript:;" onclick="showLog();">Versi&oacute;n 1.7.2</a>  --> 
 						<table><tr>
-						<td>Versi&oacute;n :</td><td><strong><div id="version"></div></strong></td>
+						<td>Versi&oacute;n :</td><td><div class="version"></div></td>
 						</tr></table>
-						<!-- 
-						<textarea rows="4" cols="5" id="debugArea" >
-						
-						</textarea>
-						-->
 			        </div>
 			        <ul data-role="listview" data-inset="true" id="updateapp"></ul>
 			        <ul data-role="listview" data-inset="true" id="listaPendientes"></ul>

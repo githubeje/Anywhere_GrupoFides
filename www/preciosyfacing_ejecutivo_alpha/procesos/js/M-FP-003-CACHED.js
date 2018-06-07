@@ -18,7 +18,7 @@ $(".titleTag").each(function() {
 	$(this).html(nombreModulo);
 });
 
-var anySaveObject = new AnySave();
+//var anySaveObject = new AnySave();
 
 $('#shareofshelf_principal').bind( 'pagebeforecreate',function(event) {
 	console.log("shareofshelf_principal");

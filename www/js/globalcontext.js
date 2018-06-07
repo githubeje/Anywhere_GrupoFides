@@ -750,42 +750,31 @@ function DeviceInfo() {
 	
 	 
 	
-	this.getDeviceInfo = function(funcJavascript) {
+	this.getDeviceInfo = function(func) {
+		console.log("getDeviceInfo 1.1");
 		var info = {};
-		
-	    try { info["model"]  	= device.model 		} catch(e) { info["model"] = "-Error-" };
-	    try { info["cordova"]	= device.cordova 	} catch(e) { info["cordova"] = "-Error-" };
-	    try { info["platform"]  = device.platform 	} catch(e) { info["platform"] = "-Error-" };
-	    try { info["uuid"]  	= device.uuid 		} catch(e) { info["uuid"] = "-Error-" };
-	    try { info["version"]  	= device.version 	} catch(e) { info["version"] = "-Error-" };
-	    
-	    try {
-	    	getAppVersion(function(version) {
-	    			
-	    		info["app_version"] = version;
-	        	if(funcJavascript != null) {
-	        		var f = eval(funcJavascript);
-	        		f(info);
-	        	}
-	        });	
-	       
-	    }
-	    catch(e) {
-	    	info["app_version"] =  e;
-	    	if(funcJavascript != null) {
-        		var f = eval(funcJavascript);
-        		f(info);
-        	}
-	    }
-	    
-	    if(info["model"] == null 	   || info["model"] == undefined) { info["model"] = "-Error-" }
-	    if(info["cordova"] == null 	   || info["cordova"] == undefined) { info["cordova"] = "-Error-" }
-	    if(info["platform"] == null    || info["platform"] == undefined) { info["platform"] = "-Error-" }
-	    if(info["uuid"] == null 	   || info["uuid"] == undefined) { info["uuid"] = "-Error-" }
-	    if(info["version"] == null 	   || info["version"] == undefined) { info["version"] = "-Error-" }
-	    if(info["app_version"] == null || info["app_version"] == undefined) { info["app_version"] = "-Error-" }
-	    
-	    return info;
+	 
+		setTimeout(function() {
+			 try { info["model"]  		= device.model 		} catch(e) { info["model"] = "-Error-" };
+			    try { info["cordova"]	= device.cordova 	} catch(e) { info["cordova"] = "-Error-" };
+			    try { info["platform"]  = device.platform 	} catch(e) { info["platform"] = "-Error-" };
+			    try { info["uuid"]  	= device.uuid 		} catch(e) { info["uuid"] = "-Error-" };
+			    try { info["version"]  	= device.version 	} catch(e) { info["version"] = "-Error-" };
+			    
+			    try {
+			    	info["app_version"] = AppVersion.version;
+				    info["app_build"] = AppVersion.build;	
+			    }
+			    catch(e) {
+			    	info["app_version"] = e.message;
+				    info["app_build"] = e.message;
+			    	console.log(e);
+			    }
+			    
+			    var f = func;
+			    f(info);
+		},1000);
+	
 	}
 }
 
@@ -1748,33 +1737,52 @@ function AnySave() {
 	this.stockImage = 'Sin Imagen';
 	AnySave.prototype.posLatitud = null;
 	AnySave.prototype.posLongitud = null;
+	
 	this.saveInt = false;
 	this.nombreModulo = "nn";
 	this.formularioID = null;
 	this.message = null;
-	AnySave.prototype.listeners = [];
 	
-	var geo = new GeoGlobal();
-	geo.refreshGeo(function(lat, lo) {
-		AnySave.prototype.posLatitud = lat;
-		AnySave.prototype.posLongitud = lo;
-		//console.log(AnySave.prototype.posLatitud + ","+ AnySave.prototype.posLongitud);
+	
+	var f = function(lat, long, poin) {
+		console.log(lat, long, poin);
+		$(".btn_home").each(function() {
+			//console.log(this);
+			$(this).addClass("ui-icon-carat-l").removeClass("ui-icon-home").removeClass("ui-icon-delete");
+		});      
 		
-		if(AnySave.prototype.posLatitud !== null && 
-		   AnySave.prototype.posLongitud !== null && 
-		   AnySave.prototype.pointAddress !== null) {
-			AnySave.prototype.onGeo(AnySave.prototype.posLatitud, AnySave.prototype.posLongitud,AnySave.prototype.pointAddress );
-		}
-	}, function(point) {
-		AnySave.prototype.pointAddress = point;
-		//console.log(AnySave.prototype.pointAddress);
-		
-		if(AnySave.prototype.posLatitud !== null && 
-		   AnySave.prototype.posLongitud !== null && 
-		   AnySave.prototype.pointAddress !== null) {
-			AnySave.prototype.onGeo(AnySave.prototype.posLatitud, AnySave.prototype.posLongitud,AnySave.prototype.pointAddress );
-		}
-	});
+	}
+	
+	AnySave.prototype.listeners = [f];
+	var check = function() {
+		var geo = new GeoGlobal();
+		geo.refreshGeo(function(lat, lo) {
+			AnySave.prototype.posLatitud = lat;
+			AnySave.prototype.posLongitud = lo;
+			//console.log(AnySave.prototype.posLatitud + ","+ AnySave.prototype.posLongitud);
+			
+			if(AnySave.prototype.posLatitud !== null && 
+			   AnySave.prototype.posLongitud !== null && 
+			   AnySave.prototype.pointAddress !== null) {
+				AnySave.prototype.onGeo(AnySave.prototype.posLatitud, AnySave.prototype.posLongitud,AnySave.prototype.pointAddress );
+			}
+		}, function(point) {
+			AnySave.prototype.pointAddress = point;
+			//console.log(AnySave.prototype.pointAddress);
+			
+			if(AnySave.prototype.posLatitud !== null && 
+			   AnySave.prototype.posLongitud !== null && 
+			   AnySave.prototype.pointAddress !== null) {
+				AnySave.prototype.onGeo(AnySave.prototype.posLatitud, AnySave.prototype.posLongitud,AnySave.prototype.pointAddress );
+			}
+		}); 
+	}
+	
+	check();
+	setInterval(function() {
+		check();
+	},5000);
+	
 	
 	AnySave.prototype.onGeo = function(lat, long, point) {
 		$.map(AnySave.prototype.listeners, function(o) {
@@ -1791,10 +1799,32 @@ function AnySave() {
 		}
 	}
 
+	AnySave.prototype.getLatitud = function() {
+		return AnySave.prototype.posLatitud;
+	}
+	
+	AnySave.prototype.getLongitud = function() {
+		return AnySave.prototype.posLongitud;	
+	}
+	
+	AnySave.prototype.getPoint = function() {
+		return AnySave.prototype.pointAddress;	
+	}
 
 	AnySave.prototype.save = function(params) {
-		console.log("save v9.0.1");
-		if(!this.saveInt) {
+		console.log("save v10.0.0 saveInt="+this.saveInt);
+		if(params == null) {
+			params = {};
+		}
+		
+		if(params.objAnywhere != null) {
+			if(!params.objAnywhere.isReady()) {
+				var mp = new MasterPopup();
+				mp.alert("Espere un momento.");
+			}
+		}
+		
+		if((this.saveInt == false)) {
 			this.saveInt = true;
 			if(params == null) {
 				params = {};
@@ -1825,7 +1855,6 @@ function AnySave() {
 			 
 			 if( fotosObligatoriasCargadas() ) {
 				 this.saveThree(params);	 
-				 this.saveInt = false;
 			 }
 			 else {
 				 this.saveInt = false;
@@ -1898,9 +1927,13 @@ function AnySave() {
 		
 		//params["success"] = success2;
 		
- 
+		this.saveInt = false;
 		var anySave = new AnywhereManager();
 		anySave.saveClaseWeb(true, "anywhere_movil_restanywhere", "AnySave", "add", params);
+		
+		if($("#"+params["formName"]).length != null) {
+			$("#"+params["formName"])[0].reset();
+		}
 	}
 	
 	AnySave.prototype.checkRadios = function() {
@@ -2029,10 +2062,23 @@ function Activity() {
 					}
 				});
 			});
-
-			
-			
-			 
 		}
 }
- 
+
+function App() {
+	
+}
+ App.exit = function() {
+	 try {
+		 if (navigator.app) {
+		    navigator.app.exitApp();
+		 } else if (navigator.device) {
+		    navigator.device.exitApp();
+		 } else {
+		    window.close();
+		 }
+	 }
+	 catch(e){
+		 console.log(e);
+	 }
+ }
