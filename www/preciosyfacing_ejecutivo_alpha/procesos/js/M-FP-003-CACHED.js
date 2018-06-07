@@ -61,6 +61,7 @@ function restartCombosShareOfShelf() {
 $('#shareofshelf_principal').bind( 'pageshow',function(event) {
 	console.log("[pageshow] shareofshelf.js");
 	objAnywhere.loadClients();
+	/*
 	var any = new Anywhere();
 	$.ajax({ 
 		type: "GET",
@@ -89,10 +90,11 @@ $('#shareofshelf_principal').bind( 'pageshow',function(event) {
 			console.log("error : " + textStatus + "," + errorThrown);
 	    }
 	});
-	
+	*/
 	
 });
 
+/*
 function guardaProtocolo() {
 
 	 var any = new Anywhere();
@@ -124,12 +126,21 @@ function guardaProtocolo() {
 			}});
 		});
 }
-
+*/
 function saveShareOfShelf() {
-	var success = function() {
-		guardaProtocolo();
-		
-	}
+	var success = function(data,status,jqXHR) { 
+		var mensajeSave = "Registro de ingreso enviado correctamente";
+		if(data != null) {
+			if(data.dataFalsa == "dataFalsa") {
+				mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
+			}
+		}
+		var popup = new MasterPopup();
+		popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
+		    $.mobile.changePage( "../../menu.html", { transition: "flip"} );
+		}});
+	};
+	
 	anySaveObject.save({
 		 nombreModulo: nombreModulo,
 		 formularioID: "PROT-3",

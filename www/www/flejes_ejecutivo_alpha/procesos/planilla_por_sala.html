@@ -1,0 +1,137 @@
+<!DOCTYPE html> 
+<html lang="es">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>	
+		<meta charset="utf-8"/>
+		<title class="titleTag"></title>
+		<link rel="stylesheet" type="text/css" href="../../jquery-mobile/jquery.mobile-1.2.1.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../../jquery-mobile/jquery.mobile.datebox-1.0.1.min.css">
+        <link rel="stylesheet" type="text/css" href="../../jquery-mobile/jquery.mobile.simpledialog.min.css">
+		<link rel="stylesheet" type="text/css" href="../../jquery-mobile/app.css">        
+		
+	</head> 
+	<body>
+		<div data-role="page" id="quiebrestock_principal">
+			<script src="../../js/serverSQL.js"></script>
+			<script  src="../../js/ObjAnyWhereCCL_CP_ComboOculto.js"></script>
+			<script src="js/planilla_por_sala.js"></script>
+        		
+        
+			<div data-role="header" data-theme="e">
+				<a href="../../menu.html"  data-transition="flip" data-direction="reverse" data-icon="back" data-iconpos="notext">Atrás</a>
+				<h1 title="Ipos - Procesos - Facing - Flejeras" class="titleTag"></h1>
+				<a href="../../menu.html"  data-transition="flip" data-direction="reverse" data-icon="home" data-iconpos="notext">Home</a>
+			</div>	
+			<div data-role="content" data-theme="c">
+				<form method="post" id="formSend" id="formSend">
+				 	    <div data-role="fieldcontain" id="combos">
+				        </div>
+						<table>
+							<tr>
+								<td>¿Hay fleje?</td>
+								<td>
+									<label for="gato_hay_fleje1">Si</label>
+									<input type="radio" id="gato_hay_fleje1" name="gato_hay_fleje" value="si"/> 
+								</td>
+								<td>
+									<label for="gato_hay_fleje2">No</label>
+									<input type="radio" id="gato_hay_fleje2" name="gato_hay_fleje" value="no"/> 
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3">
+									<label for="gato_comentario1">Comentarios</label>
+									<input type="text" id="gato_comentario1" name="gato_comentario1" /> 
+								</td>
+							</tr>
+						</table>
+						
+
+						
+						<table>
+							<tr>
+								<td>¿Cambiar fecha de fleje?</td>
+								<td>
+									<label for="gato_cambiar_fecha_de_fleje1">Si</label>
+									<input type="radio" id="gato_cambiar_fecha_de_fleje1" name="gato_cambiar_fecha_de_fleje" value="si"/> 
+								</td>
+								<td>
+									<label for="gato_cambiar_fecha_de_fleje2">No</label>
+									<input type="radio" id="gato_cambiar_fecha_de_fleje2" name="gato_cambiar_fecha_de_fleje" value="no"/> 
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3">
+									<label for="gato_comentario2">Comentarios</label>
+									<input type="text" id="gato_comentario2" name="gato_comentario2" /> 
+								</td>
+							</tr>
+						</table>
+						<!-- 
+						<ul data-role="listview" data-inset="true" data-divider-theme="a" >
+							<li data-role="list-divider">M</li>
+						</ul>
+						-->
+						
+						<table>
+							<tr>
+								<td>¿Coincide fleje con el producto?</td>
+								<td>
+									<label for="gato_coincide_fleje1">Si</label>
+									<input type="radio" id="gato_coincide_fleje1" name="gato_coincide_fleje" value="si"/> 
+								</td>
+								<td>
+									<label for="gato_coincide_fleje2">No</label>
+									<input type="radio" id="gato_coincide_fleje2" name="gato_coincide_fleje" value="no"/> 
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3">
+									<label for="gato_comentario3">Comentarios</label>
+									<input type="text" id="gato_comentario3" name="gato_comentario3" /> 
+								</td>
+							</tr>
+						</table>
+						
+						<!-- 
+						<table>
+							<tr>
+								<td>¿Cartelería de promociones activas al 100%?</td>
+								<td>
+									<label for="gato_carteleria_activas_al_cien1">Si</label>
+									<input type="radio" id="gato_carteleria_activas_al_cien1" name="gato_carteleria_activas_al_cien" value="si"/> 
+								</td>
+								<td>
+									<label for="gato_carteleria_activas_al_cien2">No</label>
+									<input type="radio" id="gato_carteleria_activas_al_cien2" name="gato_carteleria_activas_al_cien" value="no"/> 
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3">
+									<label for="gato_carteleria_activas_al_cien_cualno">¿Cuál no?</label>
+									<input type="text" id="gato_carteleria_activas_al_cien_cualno" name="gato_carteleria_activas_al_cien_cualno" /> 
+								</td>
+							</tr>
+						</table>
+						-->
+				</form>
+			</div>
+			
+			
+			<div data-role="fieldcontain" id="espaciofinal"><br><br><br><br><br></div>
+			
+			<div data-role="footer" data-position="fixed" data-theme="e">
+				<div data-role="navbar">			
+					<ul>
+						<!-- <li><a href="javascript:;test()"		 class="testSerialize" data-icon="alert" data-iconpos="notext" >Test</a></li>-->
+						<li><a href="javascript:;saveQuiebre();" data-icon="save" data-iconpos="notext" >Grabar</a></li>
+					</ul>
+				</div>			
+			</div>
+			
+		</div>		
+    
+	</body>
+</html>
+
+

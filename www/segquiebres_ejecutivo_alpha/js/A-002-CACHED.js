@@ -58,13 +58,14 @@ $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 		
 		$("#combos").html(objAnywhere.getHtml());
 		$("#combosquiebre").html(objAnywhere.getHtmlSegQuiebre(sessionStorage.getItem("rutT")));
-		objAnywhere.setProductosQuebrados(sessionStorage.getItem("rutT"));
+		objAnywhere.setProductosQuebrados("PROT-4");
 	}
 });
 
 $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 	console.log("[pageshow] quiebrestock_promocion.js");
 	objAnywhere.loadClients();
+	/*
 	var any = new Anywhere();
 	$.ajax({ 
 		type: "GET",
@@ -93,55 +94,9 @@ $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 			console.log("error : " + textStatus + "," + errorThrown);
 	    }
 	});
+	*/
 });
-
-function guardaProtocolo() {
-
-	 var any = new Anywhere();
-	 var vUrl = any.getWSAnywhere_context() + "services/alertasvarias/guardaprotocolo/";
-	 var anySave = new AnywhereManager();
-	 
-	 var idUsuario = sessionStorage.getItem("rutT");
-	 fecha = moment().format("YYYYMMDD");
-	 hora = moment().format("HHmmss");
-	 
-	 anySave.save(vUrl,  { a1: idUsuario,
-			a2: objAnywhere.getCliente(),
-			a3: objAnywhere.getCadena(),
-			a4: objAnywhere.getLocal(),
-			a5: objAnywhere.getCategoria(),
-			a6: objAnywhere.getProducto(),
-			num_val1:6,
-		});
-}
-
-function actualizaEstadoProductoQuebrado() {
-
-	 var any = new Anywhere();
-	 var vUrl2 = any.getWSAnywhere_context() + "services/alertasvarias/actualizaestadoproductoquebrado/";
-	 var anySave = new AnywhereManager();
-	 
-	 var idUsuario = sessionStorage.getItem("rutT");
-	 console.log(idCorrSesion);
-	 anySave.save(vUrl2,  { 
-		 updIdUsuario: idUsuario,
-		 updIdCorr: idCorrSesion,
-		 updIdCliente: objAnywhere.getCliente(),
-		 updIdCadena: objAnywhere.getCadena(),
-		 updIdLocal: objAnywhere.getLocal(),
-		 updIdProductoQuebrado: objAnywhere.getProductoQuebrado(),
-		 updImgUno: varFotoUno,
-		 updIdComentario: $("#comentario").val(), 
-		 updIdTipo: $("#tipo").val(),
-		},
-		function(data,status,jqXHR) { 
-			
-		});
-	 
-	 removeOptions(document.getElementById("selectProductoQuebrado_1000"));
-	 objAnywhere.setProductosQuebrados(sessionStorage.getItem("rutT"));
-}
-
+  
 
 function removeOptions(selectbox)
 {
@@ -155,8 +110,6 @@ function removeOptions(selectbox)
 
 function saveQuiebre() {
 	var success = function(data) {
-		guardaProtocolo();
-		
 		var mensajeSave = "Registro de seguimiento de quiebre enviado correctamente";
 		if(data != null) {
 			if(data.dataFalsa == "dataFalsa") {

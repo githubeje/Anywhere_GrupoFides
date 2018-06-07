@@ -20,9 +20,9 @@ $('#precio_principal').bind( 'pagebeforecreate',function(event) {
 
 	objAnywhere = new ObjAnyWhereCCL_CP({
 		
-										 "hide1":"yes",
-										 "hide2":"yes",
-										 "hide3":"yes",
+										 "hide1":true,
+										 "hide2":true,
+										 "hide3":true,
 	
 										 "disabled1":"no",
 										 "disabled2":"no",
@@ -60,6 +60,7 @@ $('#precio_principal').bind( 'pageshow',function(event) {
 	console.log("[pageshow] precios.js");
 	objAnywhere.loadClients();
 	var any = new Anywhere();
+	/*
 	$.ajax({ 
 		type: "GET",
 		dataType:"json",
@@ -88,6 +89,7 @@ $('#precio_principal').bind( 'pageshow',function(event) {
 			console.log("error : " + textStatus + "," + errorThrown);
 	    }
 	});
+	*/
 });
 
 
@@ -107,14 +109,7 @@ $('#precio_principal').bind( 'pageshow',function(event) {
 					    $.mobile.changePage( "../menu.html", { transition: "flip"} );
 					}});
 					
-					{
-						Protocolo.guardaProtocolo({
-							moduloId : 4,
-							objAnywhere:objAnywhere,
-						});
-						
-						internalSave2();
-					}
+					 
 				}
 				anySaveObject.save({
 					 nombreModulo: nombreModulo,
@@ -128,98 +123,7 @@ $('#precio_principal').bind( 'pageshow',function(event) {
 		}
 
 		 
-
-		function internalSave2() {
-			
-			
-			var cantOk    = 0;
-			var cantError = 0;
-			var cantTotal = $("input[name='id']").length;
-			var any = new Anywhere();
-			var vUrl = any.getWSAnywhere_context() + "services/cargamasivastock/save";
-			var vUrlquiebre = any.getWSAnywhere_context() + "services/cargamasivastock/saveseguimientoquiebre";
-			var anySave= new AnywhereManager();
-			
-			$("input[name='id']").each(function(k,v){
-				var id = $(this).val();				
-				var json = localStorage.getItem("precio");
-				if(json == null) {
-					json = "{}";
-				}
-				var json = JSON.parse(json);
-				
-				
-				json["pNormal_"+$(v).val()]  = $("#pNormal_"+$(v).val()).val();
-				json["pTarjeta_"+$(v).val()] = $("#pTarjeta_"+$(v).val()).val();
  
-				var pos = 1;
-				var okValue = -1;
-				console.log("Cant de Existencias:"+$("input[name=g_row_"+id+"]").length );
-				$("input[name=g_row_"+id+"]").each(function(k,v) {
-					console.log( "CHECKED-->" + $(this).attr("checked")  );
-					if( $(this).attr("checked") == "checked" ) {
-						okValue = pos;
-						if( okValue == 3){
-							parametroquiebre = {
-									idUsuario  			: sessionStorage.getItem("rutT"),
-									idCliente			: idCliente[0],
-									idCadena			: idCadena[0],
-									idLocal				: idLocal[0],
-									idCorr  			: idCorr[0],
-									idProducto  		: id,
-								    estadoSeguimiento  	: "0"
-							};
-							console.log(parametroquiebre);
-							anySave.save(vUrlquiebre, parametroquiebre , function(){},function(){},function(){});
-							delete parametroquiebre;
-							
-						}
-					}
-					pos++;
-				});
-				
-				var params = {a1  : sessionStorage.getItem("rutT"),
-					     a2  : objAnywhere.getCliente(),
-					     a3  : id,
-					     a4  : "0", 
-						 a5  : "",
-						 a6  : "",
-						 a7  : "", 
-						 a8  : objAnywhere.getCategoria(),
-						 a9  : "",
-						 a10 : okValue,
-						 a11 : 0,
-						 a12 : objAnywhere.getCadena(),
-						 a13 : objAnywhere.getLocal()
-					};
-				
-				anySave.save(vUrl, params , 
-					function() {
-						
-					}
-					,
-					function() {
-						
-					},
-					function(data,status,jqXHR) {
-						console.log("TerminoC_ "+cantOk);
-						cantOk+=1;			
-						
-						if(cantTotal == (cantOk + cantError ) ) {
-							//guardaProtocolo();
-							/*
-							var popup = new MasterPopup();
-							popup.alertPopup(nombreModulo, "Datos guardados correctamente", {"funcYes":  function() {
-							    $.mobile.changePage( "index.html", { transition: "flip"} );
-							}});
-							*/
-						}
-					});
-			});
-			
-			
-			
-		}
 
 		function test() {
 			var saveUtil = new SaveUtils();

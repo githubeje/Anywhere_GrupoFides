@@ -153,7 +153,14 @@ function ServerSQL(booleanDebug) {
 /* 2014 Dic 31
  * ES UN SINGLETON*/
 function MapSQL(tNameParam) {
-	var conf = new Config();
+	var conf = null;
+	try {
+		conf = new Config();
+	}
+	catch(e) {
+		console.trace(e);
+	}
+	
 	var impl = null;
 	
 	if(conf.getMethodStorage() == "html5") {

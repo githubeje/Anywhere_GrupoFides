@@ -161,15 +161,13 @@ function confirmWJavasript(asunto, msg, metodoJavascript){
 	});
 }
 
-class MasterPopup{
+function MasterPopup() {
 	
+	this.popupIdentify = null;
+	MasterPopup.prototype.id = Math.random();
 	
-	constructor() {
-		this.popupIdentify = null;
-	}
-	
-	createPopup(id, asunto, msg, url1, url2, metodoJavascript, headerClose, omitButtonTrue, omitButtonFalse, jsonProps) {
-		console.log("[MasterPopup.createPopup]");
+	MasterPopup.prototype.createPopup = function(id, asunto, msg, url1, url2, metodoJavascript, headerClose, omitButtonTrue, omitButtonFalse, jsonProps) {
+		console.log("[MasterPopup.createPopup] "+ MasterPopup.prototype.id);
 		
 		var funcYes = null;
 		var funcNo = null;
@@ -267,8 +265,8 @@ class MasterPopup{
 		$(this.popupIdentify).simpledialog2(configuration);
 	};
 	
-	makeId()  {
-		console.log("[MasterPopup.makeid]");
+	MasterPopup.prototype.makeId = function()  {
+		console.log("[MasterPopup.makeid] "+ MasterPopup.prototype.id);
 	    var text = "";
 	    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -278,28 +276,28 @@ class MasterPopup{
 	    return text;
 	};
 	
-	bloqPopup(asunto, msg , configura) {
-		console.log("[MasterPopup.bloqPopup]");
+	MasterPopup.prototype.bloqPopup = function(asunto, msg , configura) {
+		console.log("[MasterPopup.bloqPopup] "+ MasterPopup.prototype.id);
 		this.createPopup(null, asunto, msg, null, null, null, false,true,true, configura);
 	};
 	
-	alertPopup(asunto, msg, configura) {
-		console.log("[MasterPopup.alertPopup]");
+	MasterPopup.prototype.alertPopup = function(asunto, msg, configura) {
+		console.log("[MasterPopup.alertPopup] "+ MasterPopup.prototype.id);
 		this.createPopup(null, asunto, msg, null, null, null, false, false, true, configura);
 	};
 	
-	confirmPopup(asunto, msg, configura) {
-		console.log("[MasterPopup.confirmPopup]");
+	MasterPopup.prototype.confirmPopup = function(asunto, msg, configura) {
+		console.log("[MasterPopup.confirmPopup] "+ MasterPopup.prototype.id);
 		this.createPopup(null, asunto, msg, null, null, null, false, false, false, configura);
 	};
 	
-	closePopup() {
-		console.log("[MasterPopup.closePopup]");
+	MasterPopup.prototype.closePopup = function() {
+		console.log("[MasterPopup.closePopup] "+ MasterPopup.prototype.id);
 		
 		$(this.popupIdentify).simpledialog2('close');
 	};
 	
-	ACTION_REFRESHPAGE()
+	MasterPopup.prototype.ACTION_REFRESHPAGE = function()
 	{
 	    $.mobile.changePage(
 	    	    window.location.href,

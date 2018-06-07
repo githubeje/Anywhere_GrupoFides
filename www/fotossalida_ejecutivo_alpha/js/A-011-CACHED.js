@@ -33,7 +33,13 @@ var anySaveObject = new AnySave();
 
 $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 	if(objAnywhere == null) {
-		objAnywhere = new ObjAnyWhereCCL_CP({"disabled1":"no",
+		objAnywhere = new ObjAnyWhereCCL_CP({
+			
+ 											 "hide1":true,
+											 "hide2":true,
+											 "hide3":true,
+		
+		  									 "disabled1":"no",
 											 "disabled2":"no",
 											 "disabled3":"no",
 											 
@@ -54,6 +60,7 @@ $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 	console.log("[pageshow] quiebrestock_promocion.js");
 	objAnywhere.loadClients();
+	/*
 	var any = new Anywhere();
 	$.ajax({ 
 		type: "GET",
@@ -82,11 +89,12 @@ $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 			console.log("error : " + textStatus + "," + errorThrown);
 	    }
 	});
+	*/
 });
 
  
 function saveQuiebre() {
-	var success = function(data) {
+	var successs = function(data) {
 		var mensajeSave = "Registro enviado correctamente";
 		if(data != null) {
 			if(data.dataFalsa == "dataFalsa") {
@@ -103,11 +111,7 @@ function saveQuiebre() {
 		createPhotoButton(2,true, true, "Foto Hoja");
 		createPhotoButton(3,true, true, "Foto Cabecera");
 		createPhotoButton(4,true, true, "Foto Cabecera");
-		
-		Protocolo.guardaProtocolo({
-			moduloId : 2,
-			objAnywhere:objAnywhere
-		});
+
 	}
 	
 	//internalSave3();
@@ -119,7 +123,7 @@ function saveQuiebre() {
 		 formName : "formSend",
 		 objAnywhere: objAnywhere,
 		 silent: false,
-		 success : success
+		 success : successs
 	});
 
 }

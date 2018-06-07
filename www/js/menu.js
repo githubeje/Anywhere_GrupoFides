@@ -62,7 +62,7 @@ var Menu = function() {
 							
 							menuObject.loadZonas_etapa2(clienteACargar, inside, json);
 							
-							console.log(versions);
+							//console.log(versions);
 							/*
 							if(inside) {
 								var map = new MapSQL("PRESENCIA");
@@ -156,7 +156,7 @@ var Menu = function() {
 	};
 	
 	this.getCliente = function(cliente) {
-		console.log(cliente);
+		//console.log(cliente);
 		
 		if ( cliente == "2") {	
 			return "Playstation";
@@ -266,31 +266,31 @@ var Menu = function() {
 			console.log("CLIENTE:"+cliente);
 			
 			if ( idmodulo == "1") {		 		
-				return this.addBoton_inout(activo, rol, cliente, jsonEnableButtons.inout);
+				return this.addBoton_inout(activo, rol, cliente, jsonEnableButtons.inout, idmodulo);
 			}
 			else if ( idmodulo == "2") {
-				return this.addBoton_fotosentrada(activo, rol, cliente, jsonEnableButtons.stepstep);
+				return this.addBoton_fotosentrada(activo, rol, cliente, jsonEnableButtons.stepstep, idmodulo);
 			}
 			else if ( idmodulo == "3") {
-				return this.addBoton_preciosyfacing(activo, rol, cliente, jsonEnableButtons.preciosyfacing);
+				return this.addBoton_preciosyfacing(activo, rol, cliente, jsonEnableButtons.preciosyfacing, idmodulo);
 			}
 			else if ( idmodulo == "4") {
-				return this.addBoton_flejes(activo, rol, cliente, jsonEnableButtons.ipos);
+				return this.addBoton_flejes(activo, rol, cliente, jsonEnableButtons.ipos, idmodulo);
 			}
 			else if ( idmodulo == "5") {
-				return this.addBoton_alertas(activo, rol, cliente, jsonEnableButtons.alertas);
+				return this.addBoton_alertas(activo, rol, cliente, jsonEnableButtons.alertas, idmodulo);
 			}
 			else if ( idmodulo == "6") {
-				return this.addBoton_quiebres(activo, rol, cliente, jsonEnableButtons.quiebres);
+				return this.addBoton_quiebres(activo, rol, cliente, jsonEnableButtons.quiebres, idmodulo);
 			}
 			else if ( idmodulo == "7") {
-				return this.addBoton_stepstep(activo, rol, cliente, jsonEnableButtons.stepstep);
+				return this.addBoton_stepstep(activo, rol, cliente, jsonEnableButtons.stepstep, idmodulo);
 			}
 			else if ( idmodulo == "8") {
-				return this.addBoton_fotossalida(activo, rol, cliente, jsonEnableButtons.fotossalida);
+				return this.addBoton_fotossalida(activo, rol, cliente, jsonEnableButtons.fotossalida, idmodulo);
 			}
 			else if ( idmodulo == "9") {
-				return this.addBoton_out(activo, rol, cliente, jsonEnableButtons.out);
+				return this.addBoton_out(activo, rol, cliente, jsonEnableButtons.out, idmodulo);
 			}
 			/*
 			else if ( idmodulo == "10") {
@@ -308,14 +308,21 @@ var Menu = function() {
 			*/
 	};
 	
-	this.addBoton_inout = function(activo, rol, cliente, enabled) {
+	this.addBoton_inout = function(activo, rol, cliente, enabled, idMod) {
+		var key = "modulo"+idMod;
+		console.log(key);
+		if($("#"+key).length != 0) {
+			console.log("Ya Está addBoton_inout");
+			return;
+		}
+		
 		var strDisabled = "";
 		if(enabled != true) {
 			strDisabled = "class='ui-disabled'";
 		}
 		
 		var htm = "";
-		htm += " <li "+strDisabled+"> ";
+		htm += " <li id='"+key+"' "+strDisabled+"> ";
 		
 		if(activo == true) {
 			htm += " 	<a href='inout_"+rol+"_"+cliente+"/procesos/index.html' data-transition='flip' > ";
@@ -324,7 +331,7 @@ var Menu = function() {
 			htm += " 	<a href='javascript:;' onclick='var popup = new MasterPopup(); popup.alertPopup(\"Anywhere\",\"M&#243;dulo desactivado\"); ' > ";		
 		}
 		 
-		htm += " 		<img width='96'src='icons/MenuIcon/01-IN.png'> "; 
+		htm += " 		<img width='96'src='icons/MenuIcon/01-IN.png' '> "; 
 		htm += " 		<h2>IN "+cliente+"</h2><p>Registro de entrada</p> "; 
 		htm += " 	</a> "; 
 		htm += " </li> ";
@@ -333,14 +340,20 @@ var Menu = function() {
 	};
 	
 	
-	this.addBoton_stepstep = function(activo, rol, cliente, enabled) {
+	this.addBoton_stepstep = function(activo, rol, cliente, enabled, idMod) {
+		var key = "modulo"+idMod;
+		if($("#"+key).length != 0) {
+			console.log("Ya Está addBoton_stepstep");
+			return;
+		}
+		
 		var strDisabled = "";
 		if(enabled != true) {
 			strDisabled = "class='ui-disabled'";
 		}
 		
 		var htm = "";
-		htm += " <li id='modulo2' "+strDisabled+"> "; 
+		htm += " <li id='"+key+"' "+strDisabled+"> ";
 		//htm += " <li id='modulo1' style='display:none' "+strDisabled+">  ";
 		//htm += " 	<a href='step/index.html' rel='external'> ";
 		
@@ -359,14 +372,20 @@ var Menu = function() {
 		$("#listaBotones").append(htm);
 	};
 	
-	this.addBoton_flejes = function(activo, rol, cliente, enabled) {
+	this.addBoton_flejes = function(activo, rol, cliente, enabled, key, idMod) {
+		var key = "modulo"+idMod;
+		if($("#"+key).length != 0) {
+			console.log("Ya Está addBoton_flejes");
+			return;
+		}
+		
 		var strDisabled = "";
 		if(enabled != true) {
 			strDisabled = "class='ui-disabled'";
 		}
 		
 		var htm = "";
-		htm += " <li id='modulo2' "+strDisabled+"> "; 
+		htm += " <li id='"+key+"' "+strDisabled+"> ";
 
 		if(activo == true) {
 			htm += " 	<a href='flejes_"+rol+"_"+cliente+"/procesos/planilla_por_sala.html' data-transition='flip' > ";
@@ -382,14 +401,20 @@ var Menu = function() {
 		
 		$("#listaBotones").append(htm);
 	};
-	this.addBoton_alertas = function(activo, rol, cliente, enabled) {
+	this.addBoton_alertas = function(activo, rol, cliente, enabled, idMod) {
+		var key = "modulo"+idMod;
+		if($("#"+key).length != 0) {
+			console.log("Ya Está addBoton_alertas");
+			return;
+		}
+		
 		var strDisabled = "";
 		if(enabled != true) {
 			strDisabled = "class='ui-disabled'";
 		}
 		
 		var htm = "";
-		htm += " <li id='modulo2' "+strDisabled+"> ";
+		htm += " <li id='"+key+"' "+strDisabled+"> ";
 		
 		if(activo == true) {
 			htm += " 	<a href='alertas_"+rol+"_"+cliente+"/index.html' data-transition='flip' > ";
@@ -405,14 +430,20 @@ var Menu = function() {
 		
 		$("#listaBotones").append(htm);
 	};
-	this.addBoton_quiebres = function(activo, rol, cliente, enabled) {
+	this.addBoton_quiebres = function(activo, rol, cliente, enabled, idMod) {
+		var key = "modulo"+idMod;
+		if($("#"+key).length != 0) {
+			console.log("Ya Está addBoton_quiebres");
+			return;
+		}
+		
 		var strDisabled = "";
 		if(enabled != true) {
 			strDisabled = "class='ui-disabled'";
 		}
 		
 		var htm = "";
-		htm += " <li id='modulo2' "+strDisabled+"> "; 
+		htm += " <li id='"+key+"' "+strDisabled+"> ";
 
 		if(activo == true) {
 			htm += " 	<a href='quiebres_"+rol+"_"+cliente+"/index.html' data-transition='flip' > ";
@@ -428,14 +459,20 @@ var Menu = function() {
 		
 		$("#listaBotones").append(htm);
 	};
-	this.addBoton_preciosyfacing = function(activo, rol, cliente, enabled) {
+	this.addBoton_preciosyfacing = function(activo, rol, cliente, enabled, idMod) {
+		var key = "modulo"+idMod;
+		if($("#"+key).length != 0) {
+			console.log("Ya Está addBoton_preciosyfacing");
+			return;
+		}
+		
 		var strDisabled = "";
 		if(enabled != true) {
 			strDisabled = "class='ui-disabled'";
 		}
 		
 		var htm = "";
-		htm += " <li id='modulo2' "+strDisabled+"> "; 
+		htm += " <li id='"+key+"' "+strDisabled+"> ";
 
 		if(activo == true) {
 			htm += " 	<a href='preciosyfacing_"+rol+"_"+cliente+"/procesos/index.html' data-transition='flip' > ";
@@ -452,15 +489,21 @@ var Menu = function() {
 		$("#listaBotones").append(htm);
 	};
 	
-	this.addBoton_fotosentrada = function(activo, rol, cliente, enabled) {
+	this.addBoton_fotosentrada = function(activo, rol, cliente, enabled, idMod) {
+		var key = "modulo"+idMod;
+		if($("#"+key).length != 0) {
+			console.log("Ya Está addBoton_fotosentrada");
+			return;
+		}
+		
 		var strDisabled = "";
 		if(enabled != true) {
 			strDisabled = "class='ui-disabled'";
 		}
 		
 		var htm = "";
-		htm += " <li id='modulo2' "+strDisabled+"> "; 
-
+		htm += " <li id='"+key+"' "+strDisabled+"> ";
+		
 		if(activo == true) {
 			htm += " 	<a href='fotosentrada_"+rol+"_"+cliente+"/index.html' data-transition='flip' > ";
 		}
@@ -469,21 +512,27 @@ var Menu = function() {
 		}
 		
 		htm += " 		<img width='96'src='icons/MenuIcon/03-F_ENTR.png'> ";; 
-		htm += " 			<h2>Fotos de entrada</h2><p>Registro de imagenes de entrada en g&oacute;ndolas</p> "; 
+		htm += " 			<h2>Fotos de entrada</h2><p>Registro de im\u00E1genes de entrada en g\u00F3ndolas</p> "; 
 		htm += " 	</a>"; 
 		htm += " </li>";
 			
 		$("#listaBotones").append(htm);
 	};
 	
-	this.addBoton_fotossalida = function(activo, rol, cliente, enabled) {
+	this.addBoton_fotossalida = function(activo, rol, cliente, enabled, idMod) {
+		var key = "modulo"+idMod;
+		if($("#"+key).length != 0) {
+			console.log("Ya Está addBoton_fotossalida");
+			return;
+		}
+		
 		var strDisabled = "";
 		if(enabled != true) {
 			strDisabled = "class='ui-disabled'";
 		}
 		
 		var htm = "";
-		htm += " <li id='modulo2' "+strDisabled+" > "; 
+		htm += " <li id='"+key+"' "+strDisabled+"> ";
 
 		if(activo == true) {
 			htm += " 	<a href='fotossalida_"+rol+"_"+cliente+"/index.html' data-transition='flip' > ";
@@ -493,21 +542,27 @@ var Menu = function() {
 		}
 		
 		htm += " 		<img width='96'src='icons/MenuIcon/08-F_SAL.png'> ";
-		htm += " 			<h2>Fotos de salida</h2><p>Registro de imagenes de salida en góndolas</p> "; 
+		htm += " 			<h2>Fotos de salida</h2><p>Registro de im\u00E1genes de salida en g\u00F3ndolas</p> "; 
 		htm += " 	</a>"; 
 		htm += " </li>";
 		
 		$("#listaBotones").append(htm);
 	};
 	
-	this.addBoton_out = function(activo, rol, cliente, enabled) {
+	this.addBoton_out = function(activo, rol, cliente, enabled, idMod) {
+		var key = "modulo"+idMod;
+		if($("#"+key).length != 0) {
+			console.log("Ya Está addBoton_out");
+			return;
+		}
+		
 		var strDisabled = "";
 		if(enabled != true) {
 			strDisabled = "class='ui-disabled'";
 		}
 		
 		var htm = "";
-		htm += " <li "+strDisabled+"> ";
+		htm += " <li id='"+key+"' "+strDisabled+"> ";
 		
 		if(activo == true) {
 			htm += " 	<a href='out_"+rol+"_"+cliente+"/procesos/index.html' data-transition='flip' > ";
@@ -524,14 +579,20 @@ var Menu = function() {
 		$("#listaBotones").append(htm);
 	};
 	
-	this.addBoton_ipos = function(activo, rol, cliente, enabled) {
+	this.addBoton_ipos = function(activo, rol, cliente, enabled, idMod) {
+		var key = "modulo"+idMod;
+		if($("#"+key).length != 0) {
+			console.log("Ya Está addBoton_ipos");
+			return;
+		}
+		
 		var strDisabled = "";
 		if(enabled != true) {
 			strDisabled = "class='ui-disabled'";
 		}
 		
 		var htm = "";
-		htm += " <li "+strDisabled+"> ";
+		htm += " <li id='"+key+"' "+strDisabled+"> ";
 		
 		if(activo == true) {
 			htm += " 	<a href='ipos_"+rol+"_"+cliente+"/procesos/index.html' data-transition='flip'  > ";
@@ -541,7 +602,7 @@ var Menu = function() {
 		}
 		 
 		htm += " 		<img src='icons/ipos.png'> "; 
-		htm += " 		<h2>IPos "+cliente+"</h2><p>Aplicaci&oacute;n m&oacute;vil de apoyo a la gesti&oacute;n de fuerzas de ventas</p> "; 
+		htm += " 		<h2>IPos "+cliente+"</h2><p>Aplicaci\u00F3n m\u00F3vil de apoyo a la gesti\u00F3n de fuerzas de ventas</p> "; 
 		htm += " 	</a> "; 
 		htm += " </li> ";
 			
@@ -550,14 +611,20 @@ var Menu = function() {
 	
 	
 	
-	this.addBoton_imarket = function(activo, rol, cliente, enabled) {
+	this.addBoton_imarket = function(activo, rol, cliente, enabled, idMod) {
+		var key = "modulo"+idMod;
+		if($("#"+key).length != 0) {
+			console.log("Ya Está addBoton_imarket");
+			return;
+		}
+		
 		var strDisabled = "";
 		if(enabled != true) {
 			strDisabled = "class='ui-disabled'";
 		}
 		
 		var htm = "";
-		htm += "<li "+strDisabled+">";
+		htm += " <li id='"+key+"' "+strDisabled+"> ";
 		
 		if(activo == true) {
 			htm += " 	<a href='imarket_"+rol+"_"+cliente+"/index.html' data-transition='flip' > ";
@@ -567,37 +634,49 @@ var Menu = function() {
 		}
 		
 		htm += "		<img src='icons/imarket.png'> "; 
-		htm += "			<h2>IMarket "+cliente+"</h2><p>Aplicaci&oacute;n m&oacute;vil para recolecci&oacute;n de informaci&oacute;n de la competencia</p> "; 
+		htm += "			<h2>IMarket "+cliente+"</h2><p>Aplicaci\u00F3n m\u00F3vil para recolecci\u00F3n de informaci\u00F3n de la competencia</p> "; 
 		htm += "	</a> "; 
 		htm += "</li>";
 		
 		$("#listaBotones").append(htm);
 	};
 	
-	this.addBoton_imarker = function(activo, rol, cliente, enabled) {
+	this.addBoton_imarker = function(activo, rol, cliente, enabled, idMod) {
+		var key = "modulo"+idMod;
+		if($("#"+key).length != 0) {
+			console.log("Ya Está addBoton_imarker");
+			return;
+		}
+		
 		var strDisabled = "";
 		if(enabled != true) {
 			strDisabled = "class='ui-disabled'";
 		}
 		
 		var htm = "";
-		htm+= "	<li id='modulo6' "+strDisabled+"> "; 
+		htm += " <li id='"+key+"' "+strDisabled+"> ";
 		htm+= "		<a href='imarker/index.html' rel='external'> "; 
 		htm+= "			<img src='icons/imarker.png'> "; 
-		htm+= "				<h2>IMarker</h2><p>Aplicaci&oacute;n para el marcado de puntos georeferenciados</p> "; 
+		htm+= "				<h2>IMarker</h2><p>Aplicaci\u00F3n para el marcado de puntos georeferenciados</p> "; 
 		htm+= "		</a> "; 
 		htm+= "	</li> ";
 		$("#listaBotones").append(htm);
 	};
 	
-	this.addBoton_generatorform = function(activo, rol, cliente, enabled) {
+	this.addBoton_generatorform = function(activo, rol, cliente, enabled, idMod) {
+		var key = "modulo"+idMod;
+		if($("#"+key).length != 0) {
+			console.log("Ya Está addBoton_generatorform");
+			return;
+		}
+		
 		var strDisabled = "";
 		if(enabled != true) {
 			strDisabled = "class='ui-disabled'";
 		}
 		
 		var htm = "";
-		htm+= "	 <li id='modulo7_ejecutivo' "+strDisabled+"> ";
+		htm += " <li id='"+key+"' "+strDisabled+"> ";
 		htm+= "	 <a href='generator_ejecutivo/lista.html' rel='external'> ";
 		htm+= "	 <img src='icons/generator.png'>  ";
 		htm+= "	 			<h2>GeneratorForm-Gestor</h2><p>Repositorio de Formularios de trabajos</p> "; 
@@ -607,30 +686,42 @@ var Menu = function() {
 		$("#listaBotones").append(htm);
 	};
 	
-	this.addBoton_locator = function(activo, rol, cliente, enabled) {
+	this.addBoton_locator = function(activo, rol, cliente, enabled, idMod) {
+		var key = "modulo"+idMod;
+		if($("#"+key).length != 0) {
+			console.log("Ya Está addBoton_locator");
+			return;
+		}
+		
 		var strDisabled = "";
 		if(enabled != true) {
 			strDisabled = "class='ui-disabled'";
 		}
 		
 		var htm = "";
-		htm+= " <li id='modulo8' "+strDisabled+"> ";
+		htm += " <li id='"+key+"' "+strDisabled+"> ";
 		htm+= " 	<a href='ilocator/index.html' rel='external'> "; 
 		htm+= " 		<img src='icons/locator.png'> "; 
-		htm+= " 			<h2>Locator</h2><p>Aplicaci&oacute;n para la localizacion de puntos geogr&aacute;ficos</p> "; 
+		htm+= " 			<h2>Locator</h2><p>Aplicaci\u00F3n para la localizacion de puntos geogr\u00E1ficos</p> "; 
 		htm+= " 	</a> "; 
 		htm+= " </li>";
 		$("#listaBotones").append(htm);
 	};
 	
-	this.addBoton_enrolamiento =function(activo, rol, cliente, enabled) {
+	this.addBoton_enrolamiento =function(activo, rol, cliente, enabled, idMod) {
+		var key = "modulo"+idMod;
+		if($("#"+key).length != 0) {
+			console.log("Ya Está addBoton_enrolamiento");
+			return;
+		}
+		
 		var strDisabled = "";
 		if(enabled != true) {
 			strDisabled = "class='ui-disabled'";
 		}
 		
 		var htm = "";
-		htm+= "<li id='modulo9' "+strDisabled+"> ";
+		htm += " <li id='"+key+"' "+strDisabled+"> ";
 		htm+= "		<a href='enrolar/index.html'>Enrolar ";
 		htm+= "			<img src='icons/enroll.png'> "; 
 		htm+= "				<h2></h2><p>Enrolamiento de usuario al sistema de notificaciones</p> "; 
@@ -791,14 +882,7 @@ onPhotoDataSuccess = function(imageData) {
 //$("#menu_principal").bind("pageshow",function() { });
 
 */
-
-function cargaURL(url) {
-    var ref = window.open(url, '_system', 'location=no');
-    setTimeout(function() {
-        ref.close();
-    }, 5000);
-}
-
+ 
 
 
 $("#menu_principal").bind("pageshow",function() {
@@ -816,18 +900,21 @@ $("#menu_principal").bind("pageshow",function() {
     var menu = new Menu();
 	var init = new InitCache();
 	init.iniciaCacheo(function() {
-		console.log("INSIDE iniciaCacheo();");
 		menu.loadZonas();
 		checkSaves();
 	});	
 		 
 	
 	/*SHOW VERSION IN MENU*/
+	/*
 	var info = new DeviceInfo();
 	var jSonDevice = info.getDeviceInfo(function(jSonDevice) {
 		$("#version").html(jSonDevice.app_version);
 	});
+	*/
 	
+	/*no funciona el depurar remoto de google con registraGCM activado*/
+	console.log("registraGCM()");
 	registraGCM();
 	//initDoMark();
 });

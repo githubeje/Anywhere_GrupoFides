@@ -3,18 +3,36 @@ var estado;
 var rut;
 var login;
 
-
-/* HOOK EVENTS */
-	 
-	
+ 
+ 
 	$("#login").live( "pagebeforecreate", function() {
+
+	});
+	
+	$("#login").live( "pageshow", function() {
+		 
+		iniciaLogin();
+ 
+	});
+	
+	$( document ).live("#login", "pageinit", function() {
+	    
+	});
+	
+	function iniciaLogin() {
+		var login = new Login();
+	    login.getUsuario(function(usuario) {
+	    	console.log("tokenHandler2(usuario.rutT,8);");
+	        //tokenHandler2(usuario.rutT,8);
+	    });
+	    
+		/*pagebeforecreate*/
 		console.log("pagebeforecreate[begin]");
 		var login = new Login();
 		$("#divUserContainer").html(login.getUserMethod());
 		console.log("pagebeforecreate[end]");
-	});
-	
-	$("#login").live( "pageshow", function() {
+		/*pagebeforecreate end*/
+		
 		var conf = new Config();
 		$("#clave").val(conf.getStaticClave());
 		
@@ -26,14 +44,11 @@ var login;
 			var sql = new MapSQL("cacheTripletaSelector");
 			sql.delAll();
 		};
-		
-	});
+	}
 	
 	document.addEventListener("deviceready", onDeviceReady, false);
 	
-	function onDeviceReady() {
-		registraGCM();
-	}
+
 
 /* END HOOK EVENTS */
 
@@ -100,10 +115,7 @@ function logea() {
 
 $("div[data-role='page']").live('pageshow',function(event, ui){
     
-    var login = new Login();
-    login.getUsuario(function(usuario) {
-        tokenHandler2(usuario.rutT,8);
-    });
+
 
     
 });

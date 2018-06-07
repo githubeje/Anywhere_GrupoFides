@@ -35,13 +35,19 @@ var anySaveObject = new AnySave();
 
 $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 	if(objAnywhere == null) {
-		objAnywhere = new ObjAnyWhereCCL_CP({"disabled1":"no",
+		objAnywhere = new ObjAnyWhereCCL_CP({
+
+											 "hide1":true,
+											 "hide2":true,
+											 "hide3":true,
+			 
+											 "disabled1":"no",
 											 "disabled2":"no",
 											 "disabled3":"no",
 											 
-											 "getCache1":"no",
-											 "getCache2":"no",
-											 "getCache3":"no",
+											 "getCache1":"yes",
+											 "getCache2":"yes",
+											 "getCache3":"yes",
 											 
 											 "system.producto.class":"required",
 											 "system.producto.class":"required",
@@ -59,6 +65,7 @@ $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 	console.log("[pageshow] quiebrestock_promocion.js");
 	objAnywhere.loadClients();
 		
+	/*
 	var any = new Anywhere();
 	$.ajax({ 
 		type: "GET",
@@ -96,6 +103,7 @@ $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 	}, function(point) {
 		pointAddress = point;
 	});
+	*/
 });
 
 
@@ -112,8 +120,17 @@ function test() {
 }
 
 function saveQuiebre() {
-	var success = function() {
-		guardaProtocolo();
+	var success = function(data) {
+		var mensajeSave = "Registro de fleje enviado correctamente";
+		if(data != null) {
+			if(data.dataFalsa == "dataFalsa") {
+				mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
+			}
+		}
+		var popup = new MasterPopup();
+		popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
+		    $.mobile.changePage( "../../menu.html", { transition: "flip"} );
+		}});
 	}
 	
 	anySaveObject.save({
@@ -163,37 +180,7 @@ function internalSave_ModoSimple() {
  
 }*/
 
-function guardaProtocolo() {
-
-	 var any = new Anywhere();
-	 var vUrl = any.getWSAnywhere_context() + "services/alertasvarias/guardaprotocolo/";
-	 var anySave = new AnywhereManager();
-	 
-	 var idUsuario = sessionStorage.getItem("rutT");
-	 fecha = moment().format("YYYYMMDD");
-	 hora = moment().format("HHmmss");
-	 
-	 anySave.save(vUrl,  { a1: idUsuario,
-			a2: objAnywhere.getCliente(),
-			a3: objAnywhere.getCadena(),
-			a4: objAnywhere.getLocal(),
-			a5: objAnywhere.getCategoria(),
-			a6: objAnywhere.getProducto(),
-			num_val1:5,
-		},
-		function(data,status,jqXHR) { 
-			var mensajeSave = "Registro de fleje enviado correctamente";
-			if(data != null) {
-				if(data.dataFalsa == "dataFalsa") {
-					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
-				}
-			}
-			var popup = new MasterPopup();
-			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			    $.mobile.changePage( "../../menu.html", { transition: "flip"} );
-			}});
-		});
-}
+ 
 
 
 function DisOrEnable(radio,id) {

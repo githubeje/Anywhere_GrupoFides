@@ -83,10 +83,6 @@ function checkSiYaIngreso(cambiaEstados) {
 			evento="2";
 			
 			/*GUARDADO GLOBAL*/
-			var map = new MapSQL("PRESENCIA");
-			map.delAll(function() {
-				map.add("idregistro", registro.idregistro);	
-			})
 		}
 		else {
 			$("#regHoraIncio").html("");
@@ -112,7 +108,6 @@ $("#save").live("click",function() {
 		else {
 			var map = new MapSQL("PRESENCIA");
 			map.get("idregistro",function(value) {
-				console.log(value);
 				var now = moment(new Date());
 
 				var params =  { idUsuario:JSON.stringify(user),					
@@ -127,134 +122,41 @@ $("#save").live("click",function() {
 								estado_gestion: 205	};
 				
 				var succ = function(data,status,jqXHR) { 
+					console.log("Success");
+					var inout = new InOutUtils();
+					inout.setInside(data.message);
+					
 					checkSiYaIngreso(false);
 					$("#in").addClass("ui-disabled");
 					$("#out").addClass("ui-disabled");
 					$("#save").addClass("ui-disabled");
 									
-					guardaProtocolo();
+					 
 										
 					var popup = new MasterPopup();
 					popup.alertPopup("Registro", "Informaci&oacute;n correctamente guardada.");
+					
+					var act = new Activity();
+					act.getActivityLastVisita("#tablaprotocolo");
 				};
 				
+				params.success = succ;
 				var mng = new AnywhereManager();
 				if(evento == 2) {
-					mng.saveClaseWeb(true,  "anywhere_movil_restanywhere", "Presencia", "upd", params, succ);
+					mng.saveClaseWeb(true,  "anywhere_movil_restanywhere", "Presencia", "upd", params );
 				}
 				else {
-					mng.saveClaseWeb(true,  "anywhere_movil_restanywhere", "Presencia", "add", params, succ);	
+					mng.saveClaseWeb(true,  "anywhere_movil_restanywhere", "Presencia", "add", params );	
 				}
 				
 			});
 		}
-		
 	});
-	var any = new Anywhere();
-	$.ajax({ 
-		type: "GET",
-		dataType:"json",
-		url: any.getWSAnywhere_context() + "services/p2s/querys/protocolo/" + sessionStorage.getItem("rutT") + "/" + objAnywhere.getCliente() + "/" + objAnywhere.getCadena() + "/" + objAnywhere.getLocal() ,
-		/*sessionStorage.getItem("tmp")*/
-		dataType:"json",
-		crossDomain : true,
-		success: function(data,status,jqXHR) {
-			$.each(data, function(key, val) {
-				$.each(val, function(key2, val2) {
-					NumeroVisita.push(val2[0].value);
-					NumeroTarea.push(val2[1].value);
-					NombreTarea.push(val2[2].value);
-					EstadoTarea.push(val2[3].value);					
-				});
-			});
-			$("#tablaprotocolo").html(
-					""
-				+	"	<div align='middle'>"
-				+	"		<p><strong>PROTOCOLO DE VISITAS</strong></p>"
-				+	"		<p> Visita anterior : Nº " + NumeroVisita[0] + " </p>"
-				+	" 	</div>"
-				+	"<table align='middle' border='1'>"
-				+   "   <tr> "
-				+   " 		<td><strong>Actividad</strong></td>"
-				+   " 		<td><strong>Estado de realización</strong></td>"
-				+   "   </tr> "
-				+   "   <tr> "
-				+   " 		<td>" + NombreTarea[0] + "</td>"
-				+   " 		<td>" + EstadoTarea[0] + "</td>"
-				+   "   </tr> "
-				+   "   <tr> "
-				+   " 		<td>" + NombreTarea[1] + "</td>"
-				+   " 		<td>" + EstadoTarea[1] + "</td>"
-				+   "   </tr> "
-				+   "   <tr> "
-				+   " 		<td>" + NombreTarea[2] + "</td>"
-				+   " 		<td>" + EstadoTarea[2] + "</td>"
-				+   "   </tr> "
-				+   "   <tr> "
-				+   " 		<td>" + NombreTarea[3] + "</td>"
-				+   " 		<td>" + EstadoTarea[3] + "</td>"
-				+   "   </tr> "
-				+   "   <tr> "
-				+   " 		<td>" + NombreTarea[4] + "</td>"
-				+   " 		<td>" + EstadoTarea[4] + "</td>"
-				+   "   </tr> "
-				+   "   <tr> "
-				+   " 		<td>" + NombreTarea[5] + "</td>"
-				+   " 		<td>" + EstadoTarea[5] + "</td>"
-				+   "   </tr> "
-				+   "</table> "
-			);
-			/*console.table(data);
-			console.table(val);
-			console.table(NombreTarea);*/
-			if (data != null){
-				//popup("Mensaje", "Resultados","#lista_protocolo");
-				/*$(location).attr("href","#informe");*/
-			}
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-	       console.log("error : " + textStatus + "," + errorThrown);
-	    }
-	})
-	
 });
-
-function guardaProtocolo() {
-
-	 var any = new Anywhere();
-	 var vUrl = any.getWSAnywhere_context() + "services/alertasvarias/guardaprotocolo/";
-	 
-	 
-	 var anySave = new AnywhereManager();
-	 
-	 var idUsuario = sessionStorage.getItem("rutT");
-	 fecha = moment().format("YYYYMMDD");
-	 hora = moment().format("HHmmss");
-	 
-	 anySave.save(vUrl,  { a1: idUsuario,
-			a2: objAnywhere.getCliente(),
-			a3: objAnywhere.getCadena(),
-			a4: objAnywhere.getLocal(),
-			a5: objAnywhere.getCategoria(),
-			a6: objAnywhere.getProducto(),
-			num_val1:0,
-		},
-		
-		function(data,status,jqXHR) { 
-			/*
-			var mensajeSave = "Registro de ingreso enviado correctamente";
-			if(data != null) {
-				if(data.dataFalsa == "dataFalsa") {
-					mensajeSave = "Alerta sin conexion a Internet. Su informaci&oacute;n ser&aacute; guardada en el celular y apenas cuente con Internet usted debe reenviarla (ir al men&uacute; principal)";
-				}
-			}
-			var popup = new MasterPopup();
-			popup.alertPopup(nombreModulo, mensajeSave, {"funcYes":  function() {
-			    $.mobile.changePage( "index.html", { transition: "flip"} );
-			
-			}});
-			*/
-		});
+ 
+function test() {
+	var act = new Activity();
+	act.getActivityLastVisita("#tablaprotocolo");
 }
 
 $("#filtro_presencia").live("pageshow",function() {

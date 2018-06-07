@@ -299,9 +299,48 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 			return html;
 	};
 	
+	this.setProductosQuebrados = function(formularioId) {
+		var map  = new MapSQL("PRESENCIA");
+		map.get("idregistro",function(value) {
+			var login = new Login();
+			var localJson = this.logStr;
+			
+			login.getUsuario(function(usuario) {
+				var any = new Anywhere();
+				
+				data = {
+					claseweb:"cl.imasd.view.sencha.anywhere.Conf",
+					modulo:"anywhere_movil_restanywhere.fides",
+					thing:"SeguimientoDeQuiebres",
+					accion : "get",
+					usuario : JSON.stringify(usuario),
+					idPresencia : value.data,
+					formularioId: formularioId
+				};
+				
+				console.log(data);
+				$.ajax({ 
+					type: "GET",
+					dataType:"json",
+					url: any.getWSAnywjere_contextEjeCore() + "EjeCoreI",
+					data : data,
+					dataType:"json",
+					crossDomain : true,
+					success: function(data,status,jqXHR) {
+						console.log("setProductosQuebrados 2");
+						
+						construyeOpciones(data);
+						 
+					}
+				});
+			});
+			
+		});
+	}
+	/*
 	this.setProductosQuebrados = function(idUsuario) {
-		/*$("#selectProductoQuebrado_1000").append("<option value='2' selected>Prueba 2</option>");
-		$("#selectProductoQuebrado_1000").append("<option value='3' selected>Prueba 3</option>");*/
+		//$("#selectProductoQuebrado_1000").append("<option value='2' selected>Prueba 2</option>");
+		//$("#selectProductoQuebrado_1000").append("<option value='3' selected>Prueba 3</option>"); 
 		console.log("setProductosQuebrados");
 		var any = new Anywhere();
 		$.ajax({ 
@@ -311,6 +350,8 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 			dataType:"json",
 			crossDomain : true,
 			success: function(data,status,jqXHR) {
+				console.log("setProductosQuebrados 2");
+				
 				$.each(data, function(key, val) {
 					$.each(val, function(key2, val2) {
 						idCliente.push(val2[0].value);
@@ -319,7 +360,8 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 						idCorr.push(val2[3].value);
 					});
 				});
-				$.ajax({ 
+				
+				var a = { 
 					type: "GET",
 					dataType:"json",
 					url: any.getWSAnywhere_context() + "services/p2s/querys/productosquebrados/" + idUsuario + "/" + idCorr[0] + "/" + idCliente[0] + "/" + idCadena[0] + "/" + idLocal[0] ,
@@ -333,7 +375,10 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 					error: function(XMLHttpRequest, textStatus, errorThrown) {
 						 console.log("error : " + textStatus + "," + errorThrown);
 				    }
-				});
+				};
+				
+				console.log(a);
+				$.ajax(a);
 			}, 
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				 console.log("error : " + textStatus + "," + errorThrown);
@@ -341,26 +386,18 @@ function ObjAnyWhereCCL_CP(paramJSON) {
 		});
 		
 	};
+	*/
 	
 	function construyeOpciones(data) {
-		$.each(data, function(key3, val3) {
-			$.each(val3, function(key4, val4) {
-				
-				idProducto.push(val4[0].value);
-				nombreProducto.push(val4[1].value);
-					
-				
-			});
-		});
-		var iteradorA = 0;
-		$.each(idProducto, function() {
+		$.grep(data.data, function(obj) {
+			if(obj.quiebre !== null && obj.quiebre !== "") {
+				$("#selectProductoQuebrado_1000").append("<option value='"+obj.id_producto+"' selected>"+obj.producto_desc+"</option>");
 			
-			$("#selectProductoQuebrado_1000").append("<option value='"+idProducto[iteradorA]+"' selected>"+nombreProducto[iteradorA]+"</option>");
-			$("#selectProductoQuebrado_1000 option:eq(0)").prop("selected",true);
-			$("#selectProductoQuebrado_1000").selectmenu('refresh',true);
-			
-			iteradorA = iteradorA + 1;
+			}
 		});
+		 
+		$("#selectProductoQuebrado_1000 option:eq(0)").prop("selected",true);
+		$("#selectProductoQuebrado_1000").selectmenu('refresh',true);
 	}
 	
 	this.getHtml = function() {

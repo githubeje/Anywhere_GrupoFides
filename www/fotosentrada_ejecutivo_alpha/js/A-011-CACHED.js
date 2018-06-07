@@ -30,11 +30,20 @@ createPhotoButton(3,true, true, "Foto a ocultar");
 createPhotoButton(4,true, true, "Foto a ocultar");
 
 var anySaveObject = new AnySave();
+anySaveObject.addListenerGeo(function(lat, long, poin) {
+	console.log(lat, long, poin);
+})
 
 $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 	if(objAnywhere == null) {
 				
-		objAnywhere = new ObjAnyWhereCCL_CP({"disabled1":"no",
+		objAnywhere = new ObjAnyWhereCCL_CP({
+			
+			  								 "hide1":true,
+											 "hide2":true,
+											 "hide3":true,
+				 
+											 "disabled1":"no",
 											 "disabled2":"no",
 											 "disabled3":"no",
 											 
@@ -64,6 +73,7 @@ $('#quiebrestock_principal').bind( 'pagebeforecreate',function(event) {
 $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 	console.log("[pageshow] quiebrestock_promocion.js");
 	objAnywhere.loadClients();
+	/*
 	var geo = new GeoGlobal();
 	geo.refreshGeo(function(lat, lo) {
 		posLatitud = lat;
@@ -100,6 +110,7 @@ $('#quiebrestock_principal').bind( 'pageshow',function(event) {
 	       console.log("error : " + textStatus + "," + errorThrown);
 	    }
 	});
+	*/
 });
 
 
@@ -152,7 +163,7 @@ function saveQuiebre() {
 	 
 	 
 	 var success = function(data) {
-		 console.log(data);
+		 //console.log(data);
 		 
 		 var mensajeSave = "Alerta enviada correctamente";
 		 if(data != null) {
@@ -171,7 +182,7 @@ function saveQuiebre() {
 		 createPhotoButton(3,true, true, "Foto a ocultar");
 		 createPhotoButton(4,true, true, "Foto a ocultar");
 		 
-		 guardaProtocolo();
+		 //guardaProtocolo();
 		 /*
 		 var anySave = new AnywhereManager();
 		 anySave.save(vUrl,  { a1: idUsuario,

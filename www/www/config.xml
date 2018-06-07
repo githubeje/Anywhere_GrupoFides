@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="cl.imasd.anywhere.fides.full" version="6.0.6">    
+	<name>Anywhere - Grupo Fides Test</name>
+	<description>Anywhere - Grupo Fides Test</description>
+	<author href="https://www.ejedigital.cl" email="soporte@ejedigital.cl">Soporte</author>
+	
+	<access origin="http://www.anywhere.cl/fides/ws1"/>
+	<access uri="http://www.anywhere.cl/fides/ws1"/>
+	
+	<access origin="http://www.anywhere.cl/fides/ws2"/>
+	<access uri="http://www.anywhere.cl/fides/ws2"/>
+	
+	<access origin="http://www.anywhere.cl/fides/ws1/dispatcher"/>
+	<access uri="http://www.anywhere.cl/fides/ws1/dispatcher"/>
+	
+	<access origin="http://www.anywhere.cl/fides/ws1/services/p2s/querys/perfilacionlogin"/>
+	<access uri="http://www.anywhere.cl/fides/ws1/services/p2s/querys/perfilacionlogin"/>
+	
+	<access origin="http://www.anywhere.cl/fides/ws1/services/p2s/querys/listadoformulario"/>
+	<access uri="http://www.anywhere.cl/fides/ws1/services/p2s/querys/listadoformulario"/>
+	
+	<access origin="http://www.anywhere.cl/fides/ws1/services/p2s/querys/camposformulario"/>
+	<access uri="http://www.anywhere.cl/fides/ws1/services/p2s/querys/camposformulario"/>
+	
+	<access origin="http://www.anywhere.cl/fides/ws1/services"/>
+	<access uri="http://www.anywhere.cl/fides/ws1/services"/>
+	
+	<access origin="http://www.anywhere.cl/fides/ws1"/>
+	<access uri="http://www.anywhere.cl/fides/ws1"/>
+	
+	<access origin="http://www.anywhere.cl/wsprogestionchilebi"/>
+	<access uri="http://www.anywhere.cl/wsprogestionchilebi"/>
+	
+	<access origin="http://www.anywhere.cl/wsprogestionchilebi2"/>
+	<access uri="http://www.anywhere.cl/wsprogestionchilebi2"/>
+	
+	<access origin="http://www.anywhere.cl/wsprogestionchilebi/dispatcher"/>
+	<access uri="http://www.anywhere.cl/wsprogestionchilebi/dispatcher"/>
+	
+	<access origin="http://www.anywhere.cl/wsprogestionchilebi/services/p2s/querys/perfilacionlogin"/>
+	<access uri="http://www.anywhere.cl/wsprogestionchilebi/services/p2s/querys/perfilacionlogin"/>
+	
+	<access origin="http://www.anywhere.cl/wsprogestionchilebi/services/p2s/querys/listadoformulario"/>
+	<access uri="http://www.anywhere.cl/wsprogestionchilebi/services/p2s/querys/listadoformulario"/>
+	
+	<access origin="http://www.anywhere.cl/wsprogestionchilebi/services/p2s/querys/camposformulario"/>
+	<access uri="http://www.anywhere.cl/wsprogestionchilebi/services/p2s/querys/camposformulario"/>
+	
+	<access origin="http://www.anywhere.cl/wsprogestionchilebi/services"/>
+	<access uri="http://www.anywhere.cl/wsprogestionchilebi/services"/>
+	
+	<access origin="http://www.anywhere.cl/wsprogestionchilebi"/>
+	<access uri="http://www.anywhere.cl/wsprogestionchilebi"/>
+	
+	<access origin="http://www.anywhere.cl/agenda/personal/fullCalendar"/>
+	<access uri="http://www.anywhere.cl/agenda/personal/fullCalendar"/>
+	
+	<access origin="http://www.anywhere.cl/agenda/accion/id"/>
+	<access uri="http://www.anywhere.cl/agenda/accion/id"/>
+	
+	<access origin="http://www.anywhere.cl/agenda/accion/save"/>
+	<access uri="http://www.anywhere.cl/agenda/accion/save"/>
+	
+	<access origin="http://www.anywhere.cl/agenda/accion/pendiente"/>
+	<access uri="http://www.anywhere.cl/agenda/accion/pendiente"/>
+	
+	<access origin="http://www.anywhere.cl/agenda/personal/atrasadas"/>
+	<access uri="http://www.anywhere.cl/agenda/personal/atrasadas"/>
+	
+	<access origin="http://www.anywhere.cl/agenda/personal/cliente"/>
+	<access uri="http://www.anywhere.cl/agenda/personal/cliente"/>
+	
+	<access origin="http://www.anywhere.cl/agenda/admin/list"/>
+	<access uri="http://www.anywhere.cl/agenda/admin/list"/>
+	
+	<access origin="http://www.anywhere.cl/agenda/admin/update"/>
+	<access uri="http://www.anywhere.cl/agenda/admin/update"/>
+	
+	<access origin="http://www.anywhere.cl/agenda/admin/delete"/>
+	<access uri="http://www.anywhere.cl/agenda/admin/delete"/>	
+	
+	<access origin="http://www.anywhere.cl/agenda/file/json"/>
+	<access uri="http://www.anywhere.cl/agenda/file/json"/>
+	
+	<access origin="http://www.anywhere.cl/agenda/file/json"/>
+	<access uri="http://www.anywhere.cl/agenda/file/json"/>
+	
+	<access origin="http://www.anywhere.cl/progestionchilebi/movil/apks/*" launch-external="yes" />
+	<access uri="http://www.anywhere.cl/progestionchilebi/movil/apks/*" launch-external="yes" />
+	
+	<access origin="http://www.anywhere.cl/progestionchilebi/movil/apks/*" />
+	<access uri="http://www.anywhere.cl/progestionchilebi/movil/apks/*" />
+
+	<access origin="http://maps.google.com/maps/api/js"/>
+	<access uri="http://maps.google.com/maps/api/js"/>
+	
+	<access origin="*"  subdomains="true"/>
+    <access uri="*"/>
+		
+	<preference name="phonegap-version" value="cli-7.1.0" />
+	<preference name="orientation"      value="portrait" />
+	<preference name="target-device"    value="universal" />
+	<preference name="fullscreen"       value="true" />
+	<preference name="exit-on-suspend" value="true" />
+	<preference name="android-minSdkVersion" value="14" />
+	<preference name="show-splash-screen-spinner" value="true" />
+	<icon src="icon.png" />
+	<icon src="icons/android/icon_36x36.png" gap:platform="android" gap:density="ldpi" />
+	<icon src="icons/android/icon_48x48.png" gap:platform="android" gap:density="mdpi" />
+	<icon src="icons/android/icon_72x72.png" gap:platform="android" gap:density="hdpi" />
+	<icon src="icons/android/icon_96x96.png" gap:platform="android" gap:density="xhdpi" />	
+	<icon src="icons/ios/icon_57x57.png" gap:platform="ios" width="57" height="57" />
+	<icon src="icons/ios/icon_72x72.png" gap:platform="ios" width="72" height="72" />
+	
+	<feature name="http://api.phonegap.com/1.0/device"/>
+	<feature name="http://api.phonegap.com/1.0/battery"/>
+	<feature name="http://api.phonegap.com/1.0/camera"/>
+	<feature name="http://api.phonegap.com/1.0/contacts"/>
+	<feature name="http://api.phonegap.com/1.0/file"/>
+	<feature name="http://api.phonegap.com/1.0/geolocation"/>
+	<feature name="http://api.phonegap.com/1.0/media"/>
+	<feature name="http://api.phonegap.com/1.0/network"/>
+	<feature name="http://api.phonegap.com/1.0/notification"/>
+	
+	<gap:plugin name="cordova-plugin-camera" 					source="npm" version="4.0.3" />
+	<gap:plugin name="cordova-plugin-pushplugin" 				source="npm" version="2.6.3" /> 
+    <gap:plugin name="cordova-plugin-geolocation" 				source="npm" version="4.0.1"/>
+    <gap:plugin name="cordova-plugin-device" 					source="npm"  />
+	<gap:plugin name="cordova-plugin-appversion"  				source="npm" version="10.0"  />
+	<gap:plugin name="cordova-android-support-gradle-release"  	source="npm" version="14.3" />
+	<gap:plugin name="cordova-plugin-whitelist"  				source="npm" version="1.3.3" />
+		
+	<gap:plugin name="cordova-plugin-whitelist" source="npm"  />
+    		<allow-intent href="http://*/*" />
+    		<allow-intent href="https://*/*" />
+		<allow-navigation href="http://*/*" />
+		<allow-navigation href="https://*/*" />
+	
+	
+	<preference name="showmessageinnotification" value="true" />
+	<preference name="defaultnotificationmessage" value="New message has arrived!" />
+
+	<feature name="PushPlugin" >
+	    <param name="android-package" value="com.amazon.cordova.plugin.PushPlugin"/>
+	</feature>
+
+	<feature name="Device">
+	    <param name="android-package" value="org.apache.cordova.device.Device" />
+	</feature>
+		
+	<feature name="Geolocation">
+    	<param name="android-package" value="org.apache.cordova.geolocation.GeoBroker" />
+	</feature>
+	
+	<!-- 01-06-2018 -->
+	<feature name="Geolocation">
+    	<param name="android-package" value="org.apache.cordova.GeoBroker" />
+	</feature>
+		
+		
+	<gap:splash src="splash/ios/splash_320x480.png" gap:platform="ios" width="320" height="480" />
+	<gap:splash src="splash/ios/splash_480x320.png" gap:platform="ios" width="480" height="320" />
+	<gap:splash src="splash/ios/splash_640x960.png" gap:platform="ios" width="640" height="960" />
+	<gap:splash src="splash/ios/splash_960x640.png" gap:platform="ios" width="960" height="640" />
+	<gap:splash src="splash/ios/splash_640x1136.png" gap:platform="ios" width="640" height="1136" />
+	<gap:splash src="splash/ios/splash_1136x640.png" gap:platform="ios" width="1136" height="640" />
+	<gap:splash src="splash/ios/splash_768x1004.png" gap:platform="ios" width="768" height="1004" />
+	<gap:splash src="splash/ios/splash_1024x768.png" gap:platform="ios" width="1024" height="768" />
+	<gap:splash src="splash/ios/splash_1536x2008.png" gap:platform="ios" width="1536" height="2008" />
+	<gap:splash src="splash/ios/splash_2048x1496.png" gap:platform="ios" width="2048" height="1496" />
+	
+	<gap:splash src="splash/android/splash_320x426.png" gap:platform="android" gap:density="ldpi" />
+	<gap:splash src="splash/android/splash_320x470.png" gap:platform="android" gap:density="mdpi" />
+	<gap:splash src="splash/android/splash_480x640.png" gap:platform="android" gap:density="hdpi" />
+	<gap:splash src="splash/android/splash_720x960.png" gap:platform="android" gap:density="xhdpi" />
+	<gap:splash src="splash/android/splash_720x960.png" gap:platform="android" gap:qualifier="xxhdpi" />
+	<gap:splash src="splash/android/splash_720x960.png" gap:platform="android" gap:qualifier="fr-xxhdpi" />
+
+	
+</widget>

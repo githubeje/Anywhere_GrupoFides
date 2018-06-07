@@ -1,7 +1,7 @@
 var idApp = "8";
-var config = new Config();
+var config = null;
 //var senderId = "714500947627";
-var senderId = config.getIdSender();
+var senderId = null;
 var idUsuario = sessionStorage.getItem("tmp");
 var latitud;
 var longitud;
@@ -16,13 +16,20 @@ var facingImage = "";
 var registred = false;
 
 document.addEventListener("deviceready", onDeviceReady, false);
+ 
+$("#login").live( "pageshow", function() {
+	config = new Config();
+	senderId = config.getIdSender();
+});
+ 
 
 function onDeviceReady() {
 	//registraGCM();
+
 }
 
 function registraGCM() {
-	addLog("[registraGCM]");
+	console.log("[registraGCM]");
 	
 	try { 
 		pushNotification = window.plugins.pushNotification;
@@ -50,7 +57,7 @@ function addLog(msg) {
 }
 
 function onNotificationAPN(e) {
-	addLog("onNotificationAPN");
+	console.log("onNotificationAPN");
 	
 	if (e.alert) {
 		navigator.notification.alert(e.alert);
@@ -65,7 +72,7 @@ function onNotificationAPN(e) {
 }
 
 function onNotificationGCM(e) {
-	addLog("onNotificationGCM:"+e.event);
+	console.log("onNotificationGCM:"+e.event);
 	e["senderId"] = senderId;
 	
 	var login = new Login();
@@ -103,19 +110,19 @@ function onNotificationGCM_wuser_etapa2(any, dev, e, localUsuario) {
 									dataCell: JSON.stringify(dev),
 									event: JSON.stringify(e) };
 							
-							addLog("saveClaseWeb");
+							console.log("saveClaseWeb");
 							any.saveClaseWeb(true, 
 											 "anywhere_movil_restanywhere", 
 											 "EnrolaDevice", 
 											 "upd", 
 											 data, function() {
-								addLog("Enrolement send it");
+								console.log("Enrolement send it");
 							});
 						 
 						} 
 						break;
 				case "message":
-						addLog("onNotificationGCM: message"+JSON.stringify(e));
+						console.log("onNotificationGCM: message"+JSON.stringify(e));
 						
 						$.ajax({ 
 							type: "POST",
@@ -151,7 +158,7 @@ function onNotificationGCM_wuser_etapa2(any, dev, e, localUsuario) {
 			}
 		}
 		catch(e) {
-			addLog(JSON.stringify(e));
+			console.log(JSON.stringify(e));
 		}
 } 
 

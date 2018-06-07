@@ -43,13 +43,18 @@ $("#principal").live("pageshow",function() {
 
 $('#principal').bind( 'pagebeforecreate',function(event) {
 	if(objAnywhere == null) {
-		objAnywhere = new ObjAnyWhereCCL_CP({"disabled1":"no",
-											 "disabled2":"no",
-											 "disabled3":"no",
+		objAnywhere = new ObjAnyWhereCCL_CP({
+											"hide1":true,
+											"hide2":true,
+											"hide3":true,
+			 
+											"disabled1":"no",
+											"disabled2":"no",
+											"disabled3":"no",
 											 
-											 "getCache1":"no",
-											 "getCache2":"no",
-											 "getCache3":"no",
+											 "getCache1":"yes",
+											 "getCache2":"yes",
+											 "getCache3":"yes",
 											 
 											 "system.producto.class":"required",
 											 "system.producto.class":"required",
@@ -64,6 +69,7 @@ $('#principal').bind( 'pagebeforecreate',function(event) {
 $('#principal').bind( 'pageshow',function(event) {
 	objAnywhere.loadClients();
 	var any = new Anywhere();
+	/*
 	$.ajax({ 
 		type: "GET",
 		dataType:"json",
@@ -91,6 +97,7 @@ $('#principal').bind( 'pageshow',function(event) {
 			console.log("error : " + textStatus + "," + errorThrown);
 	    }
 	});
+	*/
 });
 
 
@@ -107,11 +114,7 @@ function checkSiYaIngreso(cambiaEstados) {
 			}
 			evento="2";
 			
-			/*GUARDADO GLOBAL*/
-			var map = new MapSQL("PRESENCIA");
-			map.delAll(function() {
-				map.add("idregistro", registro.idregistro);	
-			})
+ 
 		}
 		else {
 			$("#regHoraIncio").html("");
@@ -152,6 +155,9 @@ $("#save").live("click",function() {
 								estado_gestion: 205	};
 				
 				var succ = function(data,status,jqXHR) { 
+					var inout = new InOutUtils();
+					inout.setOut();
+					
 					checkSiYaIngreso(false);
 					$("#in").addClass("ui-disabled");
 					$("#out").addClass("ui-disabled");
@@ -159,26 +165,32 @@ $("#save").live("click",function() {
 					
 					var popup = new MasterPopup();
 					popup.alertPopup("Registro", "Informaci&oacute;n correctamente guardada.");
+					
+					var act = new Activity();
+					act.getActivityThisVisita("#tablaprotocolo2");
+					
 				};
 				
 				var mng = new AnywhereManager();
 				if(evento == 2) {
-					mng.saveClaseWeb(true,  "anywhere_movil_restanywhere", "Presencia", "upd", params, succ);
+					params["success"] = succ;
+					mng.saveClaseWeb(true,  "anywhere_movil_restanywhere", "Presencia", "upd", params );
 				}
 				else {
-					mng.saveClaseWeb(true,  "anywhere_movil_restanywhere", "Presencia", "add", params, succ);	
+					mng.saveClaseWeb(true,  "anywhere_movil_restanywhere", "Presencia", "add", params );	
 				}
 				
 			});
 		}
-		
+
 	});
+	/*
 	var any = new Anywhere();
 	$.ajax({ 
 		type: "GET",
 		dataType:"json",
 		url: any.getWSAnywhere_context() + "services/p2s/querys/protocoloactual/" + sessionStorage.getItem("rutT") + "/" + objAnywhere.getCliente() + "/" + objAnywhere.getCadena() + "/" + objAnywhere.getLocal() ,
-		/*sessionStorage.getItem("tmp")*/
+//		 sessionStorage.getItem("tmp") 
 		dataType:"json",
 		crossDomain : true,
 		success: function(data,status,jqXHR) {
@@ -231,13 +243,14 @@ $("#save").live("click",function() {
 			console.log(NombreTareaOut);
 			if (data != null){
 				//popup("Mensaje", "Resultados","#lista_protocolo");
-				/*$(location).attr("href","#informe");*/
+//				$(location).attr("href","#informe");
 			}
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			 console.log("error : " + textStatus + "," + errorThrown);
 	    }
 	})
+	*/
 	
 });
 

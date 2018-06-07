@@ -25,23 +25,30 @@
 		</div>
 		<div data-role="content" data-theme="c">
 		  <div data-role="fieldcontain" id="combos">
-			</div>
-		  <form method="post" id="formulario">
-		  	
-		    <ul data-role="listview">
-		      <!-- 
-			  <li><a href="#" id="in"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Registro Ingreso</a></li>
-			  <li><a href="#" id="out"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Registro Salida</a></li>
-			  -->
-			  <li><a href="#" id="in"  onclick="clickIn();" class="ui-disabled"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Tomar imagen de ingreso <b id="regHoraIncio"></b></a></li>
-			  <!-- <li><a href="#" id="out" onclick="clickOut();" class="ui-disabled"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Registro Salida</a></li> -->
-			  <!--  <li><a href="#filtro_presencia" id="presencia" class="ui-disabled"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Informe de Presencias</a></li>  -->						
-			</ul>
-			
-			<input type="hidden" id="direccion" name="direccion" value=""/>
-		  </form>
+		</div>
+		
+		<div data-role="fieldcontain"  >
+			  <form method="post" id="formulario">
+			  	
+			    <ul data-role="listview">
+			      <!-- 
+				  <li><a href="#" id="in"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Registro Ingreso</a></li>
+				  <li><a href="#" id="out"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Registro Salida</a></li>
+				  -->
+				  <li><a href="#" id="in"  onclick="clickIn();" class="ui-disabled"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Tomar imagen de ingreso <br/><b id="regHoraIncio"></b></a></li>
+				  <!-- <li><a href="#" id="out" onclick="clickOut();" class="ui-disabled"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Registro Salida</a></li> -->
+				  <!--  <li><a href="#filtro_presencia" id="presencia" class="ui-disabled"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Informe de Presencias</a></li>  -->						
+				</ul>
+				
+				<input type="hidden" id="direccion" name="direccion" value=""/>
+				 
+			  </form>
+		  </div>
+		  <div data-role="fieldcontain"  >
+		  		<div id="tablaprotocolo" align="center"></div>
+		  </div>
 		  
-		  <div id="tablaprotocolo" align="center"></div>
+		  
 		</div>
 		
 		<div data-role="popup" id="fotografiaFacing">
@@ -51,6 +58,7 @@
 		
 	    <div data-role="footer" data-position="fixed" data-theme="e">
 		  <div data-role="navbar">			
+		  	<!-- <ul><li><a href="javascript:;test();" data-icon="save" data-iconpos="notext" >Test</a></li></ul> -->
 		    <ul><li><a href="#" id="save" data-icon="save" data-iconpos="notext" class="ui-disabled">Registrar</a></li></ul>
 		  </div>
 		</div>

@@ -13,7 +13,7 @@
 	</head>
 	<body>
 	  <div data-role="page" id="principal">
-	    <script  src="../../js/ObjAnyWhereCCL_CP_ComboOculto.js" ></script>
+	    <script  src="../../js/ObjAnyWhereCCL_CP.js" ></script>
 	    <script src="js/control_presencia.js"></script>
 	    
 	    <div data-role="header" data-theme="e">
@@ -22,8 +22,18 @@
 			<a href="../../menu.html" rel="external" data-icon="home" data-iconpos="notext">Home</a>
 		</div>
 		<div data-role="content" data-theme="c">
-		  <form method="post" id="formulario">
-		    <ul data-role="listview">
+		 
+		 <div data-role="fieldcontain" id="combos">
+		  	<form method="post" id="formulario">
+ 			</form>
+ 			
+ 			<input type="hidden" id="direccion" name="direccion" value=""/>
+		 </div>
+			
+		 
+		 
+		 <div data-role="fieldcontain" id="combos">
+		 	<ul data-role="listview">
 		      <!-- 
 			  <li><a href="#" id="in"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Registro Ingreso</a></li>
 			  <li><a href="#" id="out"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Registro Salida</a></li>
@@ -32,13 +42,12 @@
 			  <li><a href="#" id="out" onclick="clickOut();" class="ui-disabled"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Tomar imagen de salida</a></li>
 			  <!--  <li><a href="#filtro_presencia" id="presencia" class="ui-disabled"><img src="" alt="" class="ui-li-icon" data-iconpos="right">Informe de Presencias</a></li> -->						
 			</ul>
-			<div data-role="fieldcontain" id="combos">
-			</div>
-			<input type="hidden" id="direccion" name="direccion" value=""/>
-		  </form>
-		  <div id="tablaprotocolo2" align="center"></div>
-		</div>
+		 </div>	
 		
+		 <div data-role="content" data-theme="c">
+		 	<div id="tablaprotocolo2" align="center"></div>
+		 </div>
+		 
 		<div data-role="popup" id="fotografiaFacing">
 		  <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Cerrar</a>
 		  <img  class="captura" id="captureFacing" alt="Foto Promocion Abierta"/>	
